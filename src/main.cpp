@@ -8,37 +8,59 @@
 #include "openfhe.h"
 
 // Custom auxiliary types and functions
-namespace openfhe_julia
-{
-  struct Parameters {
-    lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS> parameters;
+namespace openfhe_julia {
 
-    Parameters(uint32_t multDepth, uint32_t scaleModSize, uint32_t batchSize);
-  };
+// Parameters
+struct Parameters {
+  lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS> parameters;
 
-  Parameters::Parameters(uint32_t multDepth, uint32_t scaleModSize, uint32_t batchSize) {
-    parameters.SetMultiplicativeDepth(multDepth);
-    parameters.SetScalingModSize(scaleModSize);
-    parameters.SetBatchSize(batchSize);
-  }
+  Parameters(uint32_t multDepth, uint32_t scaleModSize, uint32_t batchSize);
+};
 
-  struct Context {
-    lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc;
+Parameters::Parameters(uint32_t multDepth, uint32_t scaleModSize, uint32_t batchSize) {
+  parameters.SetMultiplicativeDepth(multDepth);
+  parameters.SetScalingModSize(scaleModSize);
+  parameters.SetBatchSize(batchSize);
+}
 
-    Context(Parameters& parameters);
-    auto GetRingDimension();
-  };
+// KeyPair
+struct KeyPair {
+  lbcrypto::KeyPair<lbcrypto::DCRTPoly> kp;
 
-  Context::Context(Parameters& parameters)
-    : cc(lbcrypto::GenCryptoContext(parameters.parameters)) {
-    cc->Enable(lbcrypto::PKE);
-    cc->Enable(lbcrypto::KEYSWITCH);
-    cc->Enable(lbcrypto::LEVELEDSHE);
-  }
+  KeyPair(lbcrypto::KeyPair<lbcrypto::DCRTPoly> key_pair);
+};
 
-  auto Context::GetRingDimension() {
-    return cc->GetRingDimension();
-  }
+KeyPair::KeyPair(lbcrypto::KeyPair<lbcrypto::DCRTPoly> key_pair) : kp(key_pair) {}
+
+// Context
+struct Context {
+  lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc;
+
+  Context(Parameters& parameters);
+  auto GetRingDimension();
+  auto KeyGen();
+  auto EvalMultKeyGen(const KeyPair& key_pair);
+};
+
+Context::Context(Parameters& parameters)
+  : cc(lbcrypto::GenCryptoContext(parameters.parameters)) {
+  cc->Enable(lbcrypto::PKE);
+  cc->Enable(lbcrypto::KEYSWITCH);
+  cc->Enable(lbcrypto::LEVELEDSHE);
+}
+
+auto Context::GetRingDimension() {
+  return cc->GetRingDimension();
+}
+
+auto Context::KeyGen() {
+  return KeyPair(cc->KeyGen());
+}
+
+auto Context::EvalMultKeyGen(const KeyPair& key_pair) {
+  return cc->EvalMultKeyGen(key_pair.kp.secretKey);
+}
+
 }
 
 
@@ -54,9 +76,13 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
   mod.add_type<openfhe_julia::Parameters>("Parameters")
     .constructor<uint32_t, uint32_t, uint32_t>();
 
+  mod.add_type<openfhe_julia::KeyPair>("KeyPair");
+
   mod.add_type<openfhe_julia::Context>("Context")
     .constructor<openfhe_julia::Parameters>()
-    .method("GetRingDimension", &openfhe_julia::Context::GetRingDimension);
+    .method("GetRingDimension", &openfhe_julia::Context::GetRingDimension)
+    .method("KeyGen", &openfhe_julia::Context::KeyGen)
+    .method("EvalMultKeyGen", &openfhe_julia::Context::EvalMultKeyGen);
 
   // // Class: CryptoContextCKKSRNS
   // mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
