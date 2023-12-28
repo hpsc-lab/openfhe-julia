@@ -68,9 +68,16 @@ struct Plaintext {
   lbcrypto::Plaintext pt;
 
   Plaintext(lbcrypto::Plaintext plaintext);
+  std::string to_string();
 };
 
 Plaintext::Plaintext(lbcrypto::Plaintext plaintext) : pt(plaintext) {}
+
+std::string Plaintext::to_string() {
+  std::ostringstream stream;
+  pt->PrintValue(stream);
+  return stream.str();
+}
 
 // Context
 struct Context {
@@ -138,7 +145,9 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
 
   mod.add_type<openfhe_julia::PrivateKey>("PrivateKey");
   mod.add_type<openfhe_julia::PublicKey>("PublicKey");
-  mod.add_type<openfhe_julia::KeyPair>("KeyPair");
+  mod.add_type<openfhe_julia::KeyPair>("KeyPair")
+    .method("private_key", &openfhe_julia::KeyPair::private_key)
+    .method("public_key", &openfhe_julia::KeyPair::public_key);
 
   mod.add_type<openfhe_julia::Context>("Context")
     .constructor<openfhe_julia::Parameters>()
@@ -147,7 +156,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     .method("EvalMultKeyGen", &openfhe_julia::Context::EvalMultKeyGen)
     .method("EvalRotateKeyGen", &openfhe_julia::Context::EvalRotateKeyGen);
 
-  mod.add_type<openfhe_julia::Plaintext>("Plaintext");
+  mod.add_type<openfhe_julia::Plaintext>("Plaintext")
+    .method("to_string", &openfhe_julia::Plaintext::to_string);
 
   // // Class: CryptoContextCKKSRNS
   // mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
