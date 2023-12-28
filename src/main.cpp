@@ -67,16 +67,28 @@ auto KeyPair::public_key() {
 struct Plaintext {
   lbcrypto::Plaintext pt;
 
+  Plaintext();
   Plaintext(lbcrypto::Plaintext plaintext);
   std::string to_string();
+  void SetLength(std::size_t newSize);
+  double GetLogPrecision();
 };
 
+Plaintext::Plaintext() : pt() {}
 Plaintext::Plaintext(lbcrypto::Plaintext plaintext) : pt(plaintext) {}
 
 std::string Plaintext::to_string() {
   std::ostringstream stream;
   pt->PrintValue(stream);
   return stream.str();
+}
+
+void Plaintext::SetLength(std::size_t newSize) {
+  pt->SetLength(newSize);
+}
+
+double Plaintext::GetLogPrecision() {
+  return pt->GetLogPrecision();
 }
 
 // Ciphertext
@@ -101,6 +113,8 @@ struct Context {
   auto MakeCKKSPackedPlaintext(jlcxx::ArrayRef<double> value);
   auto Encrypt(const Plaintext plaintext, const PublicKey public_key);
   auto Encrypt(const PublicKey public_key, Plaintext plaintext);
+  void Decrypt(Ciphertext ciphertext, const PrivateKey private_key, Plaintext* plaintext);
+  void Decrypt(const PrivateKey private_key, Ciphertext ciphertext, Plaintext* plaintext);
 
   auto EvalAdd(Ciphertext ciphertext1, Ciphertext ciphertext2);
   auto EvalAdd(Ciphertext ciphertext, Plaintext plaintext);
@@ -161,10 +175,16 @@ auto Context::MakeCKKSPackedPlaintext(jlcxx::ArrayRef<double> value) {
 }
 
 auto Context::Encrypt(const Plaintext plaintext, const PublicKey public_key) {
-  return cc->Encrypt(plaintext.pt, public_key.pk);
+  return Ciphertext(cc->Encrypt(plaintext.pt, public_key.pk));
 }
 auto Context::Encrypt(const PublicKey public_key, Plaintext plaintext) {
-  return Encrypt(plaintext, public_key);
+  return Ciphertext(cc->Encrypt(public_key.pk, plaintext.pt));
+}
+void Context::Decrypt(Ciphertext ciphertext, const PrivateKey private_key, Plaintext* plaintext) {
+  cc->Decrypt(ciphertext.ct, private_key.pk, &plaintext->pt);
+}
+void Context::Decrypt(const PrivateKey private_key, Ciphertext ciphertext, Plaintext* plaintext) {
+  cc->Decrypt(private_key.pk, ciphertext.ct, &plaintext->pt);
 }
 
 auto Context::EvalAdd(Ciphertext ciphertext1, Ciphertext ciphertext2) {
@@ -241,7 +261,10 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     .method("public_key", &openfhe_julia::KeyPair::public_key);
 
   mod.add_type<openfhe_julia::Plaintext>("Plaintext")
-    .method("to_string", &openfhe_julia::Plaintext::to_string);
+    .constructor<>()
+    .method("to_string", &openfhe_julia::Plaintext::to_string)
+    .method("SetLength", &openfhe_julia::Plaintext::SetLength)
+    .method("GetLogPrecision", &openfhe_julia::Plaintext::GetLogPrecision);
   mod.add_type<openfhe_julia::Ciphertext>("Ciphertext");
 
   mod.add_type<openfhe_julia::Context>("Context")
@@ -251,6 +274,14 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     .method("EvalMultKeyGen", &openfhe_julia::Context::EvalMultKeyGen)
     .method("EvalRotateKeyGen", &openfhe_julia::Context::EvalRotateKeyGen)
     .method("MakeCKKSPackedPlaintext", &openfhe_julia::Context::MakeCKKSPackedPlaintext)
+    .method("Encrypt",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(const openfhe_julia::Plaintext, const openfhe_julia::PublicKey)>(&openfhe_julia::Context::Encrypt))
+    .method("Encrypt",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(const openfhe_julia::PublicKey, const openfhe_julia::Plaintext)>(&openfhe_julia::Context::Encrypt))
+    .method("Decrypt",
+        static_cast<void (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, const openfhe_julia::PrivateKey, openfhe_julia::Plaintext*)>(&openfhe_julia::Context::Decrypt))
+    .method("Decrypt",
+        static_cast<void (openfhe_julia::Context::*)(const openfhe_julia::PrivateKey, openfhe_julia::Ciphertext, openfhe_julia::Plaintext*)>(&openfhe_julia::Context::Decrypt))
     .method("EvalAdd",
         static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalAdd))
     .method("EvalAdd",
