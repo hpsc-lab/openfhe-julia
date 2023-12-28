@@ -79,6 +79,15 @@ std::string Plaintext::to_string() {
   return stream.str();
 }
 
+// Ciphertext
+struct Ciphertext {
+  lbcrypto::Ciphertext<lbcrypto::DCRTPoly> ct;
+
+  Ciphertext(lbcrypto::Ciphertext<lbcrypto::DCRTPoly> ciphertext);
+};
+
+Ciphertext::Ciphertext(lbcrypto::Ciphertext<lbcrypto::DCRTPoly> ciphertext) : ct(ciphertext) {}
+
 // Context
 struct Context {
   lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc;
@@ -88,7 +97,30 @@ struct Context {
   auto KeyGen();
   void EvalMultKeyGen(const PrivateKey private_key);
   void EvalRotateKeyGen(const PrivateKey private_key, jlcxx::ArrayRef<int64_t> index_list);
+
   auto MakeCKKSPackedPlaintext(jlcxx::ArrayRef<double> value);
+  auto Encrypt(const Plaintext plaintext, const PublicKey public_key);
+  auto Encrypt(const PublicKey public_key, Plaintext plaintext);
+
+  auto EvalAdd(Ciphertext ciphertext1, Ciphertext ciphertext2);
+  auto EvalAdd(Ciphertext ciphertext, Plaintext plaintext);
+  auto EvalAdd(Plaintext plaintext, Ciphertext ciphertext);
+  auto EvalAdd(Ciphertext ciphertext, double constant);
+  auto EvalAdd(double constant, Ciphertext ciphertext);
+
+  auto EvalSub(Ciphertext ciphertext1, Ciphertext ciphertext2);
+  auto EvalSub(Ciphertext ciphertext, Plaintext plaintext);
+  auto EvalSub(Plaintext plaintext, Ciphertext ciphertext);
+  auto EvalSub(Ciphertext ciphertext, double constant);
+  auto EvalSub(double constant, Ciphertext ciphertext);
+
+  auto EvalMult(Ciphertext ciphertext1, Ciphertext ciphertext2);
+  auto EvalMult(Ciphertext ciphertext, Plaintext plaintext);
+  auto EvalMult(Plaintext plaintext, Ciphertext ciphertext);
+  auto EvalMult(Ciphertext ciphertext, double constant);
+  auto EvalMult(double constant, Ciphertext ciphertext);
+
+  auto EvalRotate(Ciphertext ciphertext, int32_t index);
 };
 
 Context::Context(Parameters& parameters)
@@ -128,6 +160,65 @@ auto Context::MakeCKKSPackedPlaintext(jlcxx::ArrayRef<double> value) {
   return Plaintext(cc->MakeCKKSPackedPlaintext(value_));
 }
 
+auto Context::Encrypt(const Plaintext plaintext, const PublicKey public_key) {
+  return cc->Encrypt(plaintext.pt, public_key.pk);
+}
+auto Context::Encrypt(const PublicKey public_key, Plaintext plaintext) {
+  return Encrypt(plaintext, public_key);
+}
+
+auto Context::EvalAdd(Ciphertext ciphertext1, Ciphertext ciphertext2) {
+  return Ciphertext(cc->EvalAdd(ciphertext1.ct, ciphertext2.ct));
+}
+auto Context::EvalAdd(Ciphertext ciphertext, Plaintext plaintext) {
+  return Ciphertext(cc->EvalAdd(ciphertext.ct, plaintext.pt));
+}
+auto Context::EvalAdd(Plaintext plaintext, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalAdd(plaintext.pt, ciphertext.ct));
+}
+auto Context::EvalAdd(Ciphertext ciphertext, double constant) {
+  return Ciphertext(cc->EvalAdd(ciphertext.ct, constant));
+}
+auto Context::EvalAdd(double constant, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalAdd(constant, ciphertext.ct));
+}
+
+auto Context::EvalSub(Ciphertext ciphertext1, Ciphertext ciphertext2) {
+  return Ciphertext(cc->EvalSub(ciphertext1.ct, ciphertext2.ct));
+}
+auto Context::EvalSub(Ciphertext ciphertext, Plaintext plaintext) {
+  return Ciphertext(cc->EvalSub(ciphertext.ct, plaintext.pt));
+}
+auto Context::EvalSub(Plaintext plaintext, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalSub(plaintext.pt, ciphertext.ct));
+}
+auto Context::EvalSub(Ciphertext ciphertext, double constant) {
+  return Ciphertext(cc->EvalSub(ciphertext.ct, constant));
+}
+auto Context::EvalSub(double constant, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalSub(constant, ciphertext.ct));
+}
+
+auto Context::EvalMult(Ciphertext ciphertext1, Ciphertext ciphertext2) {
+  return Ciphertext(cc->EvalMult(ciphertext1.ct, ciphertext2.ct));
+}
+auto Context::EvalMult(Ciphertext ciphertext, Plaintext plaintext) {
+  return Ciphertext(cc->EvalMult(ciphertext.ct, plaintext.pt));
+}
+auto Context::EvalMult(Plaintext plaintext, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalMult(plaintext.pt, ciphertext.ct));
+}
+auto Context::EvalMult(Ciphertext ciphertext, double constant) {
+  return Ciphertext(cc->EvalMult(ciphertext.ct, constant));
+}
+auto Context::EvalMult(double constant, Ciphertext ciphertext) {
+  return Ciphertext(cc->EvalMult(constant, ciphertext.ct));
+}
+
+auto Context::EvalRotate(Ciphertext ciphertext, int32_t index) {
+  return Ciphertext(cc->EvalRotate(ciphertext.ct, index));
+}
+
 }
 
 
@@ -149,15 +240,48 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     .method("private_key", &openfhe_julia::KeyPair::private_key)
     .method("public_key", &openfhe_julia::KeyPair::public_key);
 
+  mod.add_type<openfhe_julia::Plaintext>("Plaintext")
+    .method("to_string", &openfhe_julia::Plaintext::to_string);
+  mod.add_type<openfhe_julia::Ciphertext>("Ciphertext");
+
   mod.add_type<openfhe_julia::Context>("Context")
     .constructor<openfhe_julia::Parameters>()
     .method("GetRingDimension", &openfhe_julia::Context::GetRingDimension)
     .method("KeyGen", &openfhe_julia::Context::KeyGen)
     .method("EvalMultKeyGen", &openfhe_julia::Context::EvalMultKeyGen)
-    .method("EvalRotateKeyGen", &openfhe_julia::Context::EvalRotateKeyGen);
-
-  mod.add_type<openfhe_julia::Plaintext>("Plaintext")
-    .method("to_string", &openfhe_julia::Plaintext::to_string);
+    .method("EvalRotateKeyGen", &openfhe_julia::Context::EvalRotateKeyGen)
+    .method("MakeCKKSPackedPlaintext", &openfhe_julia::Context::MakeCKKSPackedPlaintext)
+    .method("EvalAdd",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalAdd))
+    .method("EvalAdd",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Plaintext)>(&openfhe_julia::Context::EvalAdd))
+    .method("EvalAdd",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Plaintext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalAdd))
+    .method("EvalAdd",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, double)>(&openfhe_julia::Context::EvalAdd))
+    .method("EvalAdd",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(double, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalAdd))
+    .method("EvalSub",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalSub))
+    .method("EvalSub",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Plaintext)>(&openfhe_julia::Context::EvalSub))
+    .method("EvalSub",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Plaintext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalSub))
+    .method("EvalSub",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, double)>(&openfhe_julia::Context::EvalSub))
+    .method("EvalSub",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(double, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalSub))
+    .method("EvalMult",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalMult))
+    .method("EvalMult",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, openfhe_julia::Plaintext)>(&openfhe_julia::Context::EvalMult))
+    .method("EvalMult",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Plaintext, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalMult))
+    .method("EvalMult",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(openfhe_julia::Ciphertext, double)>(&openfhe_julia::Context::EvalMult))
+    .method("EvalMult",
+        static_cast<openfhe_julia::Ciphertext (openfhe_julia::Context::*)(double, openfhe_julia::Ciphertext)>(&openfhe_julia::Context::EvalMult))
+    .method("EvalRotate", &openfhe_julia::Context::EvalRotate);
 
   // // Class: CryptoContextCKKSRNS
   // mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
