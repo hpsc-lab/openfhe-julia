@@ -72,6 +72,7 @@ struct Plaintext {
   std::string to_string();
   void SetLength(std::size_t newSize);
   double GetLogPrecision();
+  std::vector<double> GetRealPackedValue();
 };
 
 Plaintext::Plaintext() : pt() {}
@@ -89,6 +90,10 @@ void Plaintext::SetLength(std::size_t newSize) {
 
 double Plaintext::GetLogPrecision() {
   return pt->GetLogPrecision();
+}
+
+std::vector<double> Plaintext::GetRealPackedValue() {
+  return pt->GetRealPackedValue();
 }
 
 // Ciphertext
@@ -264,7 +269,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     .constructor<>()
     .method("to_string", &openfhe_julia::Plaintext::to_string)
     .method("SetLength", &openfhe_julia::Plaintext::SetLength)
-    .method("GetLogPrecision", &openfhe_julia::Plaintext::GetLogPrecision);
+    .method("GetLogPrecision", &openfhe_julia::Plaintext::GetLogPrecision)
+    .method("GetRealPackedValue", &openfhe_julia::Plaintext::GetRealPackedValue);
   mod.add_type<openfhe_julia::Ciphertext>("Ciphertext");
 
   mod.add_type<openfhe_julia::Context>("Context")
@@ -328,21 +334,3 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
   // mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CCParams", jlcxx::julia_base_type<lbcrypto::Params>())
   //   .apply<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>>([](auto wrapped) {});
 }
-
-// C++ def
-//
-// struct World
-// {
-//   World(const std::string& message = "default hello") : msg(message){}
-//   void set(const std::string& msg) { this->msg = msg; }
-//   std::string greet() { return msg; }
-//   std::string msg;
-//   ~World() { std::cout << "Destroying World with message " << msg << std::endl; }
-// };
-
-// CxxWrap'ed
-//
-// types.add_type<World>("World")
-//   .constructor<const std::string&>()
-//   .method("set", &World::set)
-//   .method("greet", &World::greet);
