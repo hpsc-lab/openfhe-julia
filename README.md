@@ -1,5 +1,9 @@
 # openfhe-julia
-Julia wrapper for OpenFHE
+Julia wrapper for [OpenFHE](https://github.com/openfheorg/openfhe-development) based on
+[CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl). This repository is mainly
+interested for those who want to extend the set of OpenFHE features that are available in
+Julia. If you just want to use OpenFHE in Julia, please have a look at
+[OpenFHE.jl](https://github.com/sloede/OpenFHE.jl).
 
 ## Installation
 
@@ -25,3 +29,14 @@ Julia wrapper for OpenFHE
    cmake .. -DJlCxx_DIR=$(pwd)/../../libcxxwrap-julia/build/
    make -j 4
    ```
+
+
+## Authors
+OpenFHE-julia was initiated by [Michael Schlottke-Lakemper](https://lakemper.eu) (RWTH
+Aachen University/High-Performance Computing Center Stuttgart (HLRS), Germany), who is also
+its principal maintainer.
+
+## License
+OpenFHE-julia is available under the BSD 2-Clause license (see [LICENSE.md](LICENSE.md)).
+[OpenFHE](https://github.com/openfheorg/openfhe-development) itself is also available under
+the BSD 2-Clause license.
