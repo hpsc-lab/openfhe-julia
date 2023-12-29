@@ -41,6 +41,37 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   mod.set_const("FHE", lbcrypto::FHE);
   mod.set_const("SCHEMESWITCH", lbcrypto::SCHEMESWITCH);
 
+  // Enum: ScalingTechnique
+  mod.add_bits<lbcrypto::ScalingTechnique>("ScalingTechnique", jlcxx::julia_type("CppEnum"));
+  mod.set_const("FIXEDMANUAL", lbcrypto::FIXEDMANUAL);
+  mod.set_const("FIXEDAUTO", lbcrypto::FIXEDAUTO);
+  mod.set_const("FLEXIBLEAUTO", lbcrypto::FLEXIBLEAUTO);
+  mod.set_const("FLEXIBLEAUTOEXT", lbcrypto::FLEXIBLEAUTOEXT);
+  mod.set_const("NORESCALE", lbcrypto::NORESCALE);
+  mod.set_const("INVALID_RS_TECHNIQUE", lbcrypto::INVALID_RS_TECHNIQUE);
+
+  // Enum: SecretKeyDist
+  mod.add_bits<lbcrypto::SecretKeyDist>("SecretKeyDist", jlcxx::julia_type("CppEnum"));
+  mod.set_const("GAUSSIAN", lbcrypto::GAUSSIAN);
+  mod.set_const("UNIFORM_TERNARY", lbcrypto::UNIFORM_TERNARY);
+  mod.set_const("SPARSE_TERNARY", lbcrypto::SPARSE_TERNARY);
+
+  // Enum: DistributionType
+  mod.add_bits<lbcrypto::DistributionType>("DistributionType", jlcxx::julia_type("CppEnum"));
+  mod.set_const("HEStd_uniform", lbcrypto::HEStd_uniform);
+  mod.set_const("HEStd_error", lbcrypto::HEStd_error);
+  mod.set_const("HEStd_ternary", lbcrypto::HEStd_ternary);
+
+  // Enum: SecurityLevel
+  mod.add_bits<lbcrypto::SecurityLevel>("SecurityLevel", jlcxx::julia_type("CppEnum"));
+  mod.set_const("HEStd_128_classic", lbcrypto::HEStd_128_classic);
+  mod.set_const("HEStd_192_classic", lbcrypto::HEStd_192_classic);
+  mod.set_const("HEStd_256_classic", lbcrypto::HEStd_256_classic);
+  mod.set_const("HEStd_128_quantum", lbcrypto::HEStd_128_quantum);
+  mod.set_const("HEStd_192_quantum", lbcrypto::HEStd_192_quantum);
+  mod.set_const("HEStd_256_quantum", lbcrypto::HEStd_256_quantum);
+  mod.set_const("HEStd_NotSet", lbcrypto::HEStd_NotSet);
+
   // Class: Serializable
   mod.add_type<lbcrypto::Serializable>("Serializable");
 
