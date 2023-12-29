@@ -16,21 +16,7 @@ namespace jlcxx
 }
 
 
-JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
-  // Class: CryptoContextCKKSRNS
-  mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
-
-  // Class: Params
-  mod.add_type<lbcrypto::Params>("Params")
-    .method("SetMultiplicativeDepth", &lbcrypto::Params::SetMultiplicativeDepth)
-    .method("SetScalingModSize", &lbcrypto::Params::SetScalingModSize)
-    .method("SetBatchSize", &lbcrypto::Params::SetBatchSize);
-
-  // Class: CCParams
-  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CCParams", jlcxx::julia_base_type<lbcrypto::Params>())
-    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>>([](auto wrapped) {});
-
-  // Enum: PKESchemeFeature
+void wrap_PKESchemeFeature(jlcxx::Module& mod) {
   mod.add_bits<lbcrypto::PKESchemeFeature>("PKESchemeFeature", jlcxx::julia_type("CppEnum"));
   mod.set_const("PKE", lbcrypto::PKE);
   mod.set_const("KEYSWITCH", lbcrypto::KEYSWITCH);
@@ -40,8 +26,9 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   mod.set_const("MULTIPARTY", lbcrypto::MULTIPARTY);
   mod.set_const("FHE", lbcrypto::FHE);
   mod.set_const("SCHEMESWITCH", lbcrypto::SCHEMESWITCH);
+}
 
-  // Enum: ScalingTechnique
+void wrap_ScalingTechnique(jlcxx::Module& mod) {
   mod.add_bits<lbcrypto::ScalingTechnique>("ScalingTechnique", jlcxx::julia_type("CppEnum"));
   mod.set_const("FIXEDMANUAL", lbcrypto::FIXEDMANUAL);
   mod.set_const("FIXEDAUTO", lbcrypto::FIXEDAUTO);
@@ -49,20 +36,23 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   mod.set_const("FLEXIBLEAUTOEXT", lbcrypto::FLEXIBLEAUTOEXT);
   mod.set_const("NORESCALE", lbcrypto::NORESCALE);
   mod.set_const("INVALID_RS_TECHNIQUE", lbcrypto::INVALID_RS_TECHNIQUE);
+}
 
-  // Enum: SecretKeyDist
+void wrap_SecretKeyDist(jlcxx::Module& mod) {
   mod.add_bits<lbcrypto::SecretKeyDist>("SecretKeyDist", jlcxx::julia_type("CppEnum"));
   mod.set_const("GAUSSIAN", lbcrypto::GAUSSIAN);
   mod.set_const("UNIFORM_TERNARY", lbcrypto::UNIFORM_TERNARY);
   mod.set_const("SPARSE_TERNARY", lbcrypto::SPARSE_TERNARY);
+}
 
-  // Enum: DistributionType
+void wrap_DistributionType(jlcxx::Module& mod) {
   mod.add_bits<lbcrypto::DistributionType>("DistributionType", jlcxx::julia_type("CppEnum"));
   mod.set_const("HEStd_uniform", lbcrypto::HEStd_uniform);
   mod.set_const("HEStd_error", lbcrypto::HEStd_error);
   mod.set_const("HEStd_ternary", lbcrypto::HEStd_ternary);
+}
 
-  // Enum: SecurityLevel
+void wrap_SecurityLevel(jlcxx::Module& mod) {
   mod.add_bits<lbcrypto::SecurityLevel>("SecurityLevel", jlcxx::julia_type("CppEnum"));
   mod.set_const("HEStd_128_classic", lbcrypto::HEStd_128_classic);
   mod.set_const("HEStd_192_classic", lbcrypto::HEStd_192_classic);
@@ -71,22 +61,43 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   mod.set_const("HEStd_192_quantum", lbcrypto::HEStd_192_quantum);
   mod.set_const("HEStd_256_quantum", lbcrypto::HEStd_256_quantum);
   mod.set_const("HEStd_NotSet", lbcrypto::HEStd_NotSet);
+}
 
-  // Class: Serializable
+void wrap_CryptoContextCKKSRNS(jlcxx::Module& mod) {
+  mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
+}
+
+void wrap_Params(jlcxx::Module& mod) {
+  mod.add_type<lbcrypto::Params>("Params")
+    .method("SetMultiplicativeDepth", &lbcrypto::Params::SetMultiplicativeDepth)
+    .method("SetScalingModSize", &lbcrypto::Params::SetScalingModSize)
+    .method("SetBatchSize", &lbcrypto::Params::SetBatchSize);
+}
+
+void wrap_CCParams(jlcxx::Module& mod) {
+  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CCParams", jlcxx::julia_base_type<lbcrypto::Params>())
+    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>>([](auto wrapped) {});
+}
+
+void wrap_Serializable(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::Serializable>("Serializable");
+}
 
-  // Class: DCRTPoly
+void wrap_DCRTPoly(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::DCRTPoly>("DCRTPoly");
+}
 
-  // Class: PrivateKeyImpl
+void wrap_PrivateKeyImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("PrivateKeyImpl")
     .apply<lbcrypto::PrivateKeyImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+}
 
-  // Class: PublicKeyImpl
+void wrap_PublicKeyImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("PublicKeyImpl")
     .apply<lbcrypto::PublicKeyImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+}
 
-  // Class: KeyPair
+void wrap_KeyPair(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("KeyPair")
     .apply<lbcrypto::KeyPair<lbcrypto::DCRTPoly>>([](auto wrapped) {
         typedef typename decltype(wrapped)::type WrappedT;
@@ -94,13 +105,16 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
         wrapped.module().method("private_key", [](WrappedT& w) { return w.secretKey; });
         wrapped.module().method("public_key", [](WrappedT& w) { return w.publicKey; });
       });
+}
 
-  // Class: PlaintextImpl
+void wrap_PlaintextImpl(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::PlaintextImpl>("PlaintextImpl")
     .method("SetLength", &lbcrypto::PlaintextImpl::SetLength)
     .method("GetLogPrecision", &lbcrypto::PlaintextImpl::GetLogPrecision)
     .method("GetRealPackedValue", &lbcrypto::PlaintextImpl::GetRealPackedValue);
+}
 
+void wrap_Plaintext(jlcxx::Module& mod) {
   // `Plaintext`s need to be creatable
   mod.method("Plaintext", []() { return lbcrypto::Plaintext(); });
   // Helper function for getting the text representation
@@ -109,15 +123,18 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
       pt->PrintValue(stream);
       return stream.str();
     });
+}
 
-  // Class: CiphertextImpl
+void wrap_CiphertextImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CiphertextImpl")
     .apply<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+}
 
-  // Class: DecryptResult
+void wrap_DecryptResult(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::DecryptResult>("DecryptResult");
+}
 
-  // Class: CryptoContextImpl
+void wrap_CryptoContextImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextImpl", jlcxx::julia_base_type<lbcrypto::Serializable>())
     .apply<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
         typedef typename decltype(wrapped)::type WrappedT;
@@ -146,23 +163,68 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
             return w.MakeCKKSPackedPlaintext(value);
           });
         wrapped.method("Encrypt",
-            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly> (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>, lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
         wrapped.method("EvalAdd",
-            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly> (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalAdd));
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalAdd));
         wrapped.method("EvalSub",
-            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly> (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
         wrapped.method("EvalMult",
-            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly> (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
         wrapped.method("EvalMult",
-            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly> (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, double) const>(&WrappedT::EvalMult));
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      double) const>(&WrappedT::EvalMult));
         wrapped.method("EvalRotate", &WrappedT::EvalRotate);
         wrapped.method("Decrypt",
-            static_cast<lbcrypto::DecryptResult (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>, lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+            static_cast<lbcrypto::DecryptResult
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
         wrapped.method("Decrypt",
-            static_cast<lbcrypto::DecryptResult (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>, lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>, lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+            static_cast<lbcrypto::DecryptResult
+                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
       });
+}
 
-  // Function: GenCryptoContext
+void wrap_GenCryptoContext(jlcxx::Module& mod) {
   mod.method("GenCryptoContext",
       &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextCKKSRNS>);
+}
+
+
+JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
+  // Enums
+  wrap_PKESchemeFeature(mod);
+  wrap_ScalingTechnique(mod);
+  wrap_SecretKeyDist(mod);
+  wrap_DistributionType(mod);
+  wrap_SecurityLevel(mod);
+
+  // Classes
+  wrap_CryptoContextCKKSRNS(mod);
+  wrap_Params(mod);
+  wrap_CCParams(mod);
+  wrap_Serializable(mod);
+  wrap_DCRTPoly(mod);
+  wrap_PrivateKeyImpl(mod);
+  wrap_PublicKeyImpl(mod);
+  wrap_KeyPair(mod);
+  wrap_PlaintextImpl(mod);
+  wrap_Plaintext(mod);
+  wrap_CiphertextImpl(mod);
+  wrap_DecryptResult(mod);
+  wrap_CryptoContextImpl(mod);
+
+  // Functions
+  wrap_GenCryptoContext(mod);
 }
