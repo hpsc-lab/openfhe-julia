@@ -64,7 +64,7 @@ jobs:
           mkdir -p ~/openfhe-development
           cd ~/openfhe-development
           git clone https://github.com/openfheorg/openfhe-development.git .
-          git co v$OPENFHE_VERSION
+          git checkout v$OPENFHE_VERSION
           mkdir build
           cd build
           ccmake .. -DWITH_BE2=ON -DWITH_BE4=ON -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
@@ -81,7 +81,7 @@ jobs:
           mkdir -p ~/libcxxwrap-julia
           cd ~/libcxxwrap-julia
           git clone https://github.com/JuliaInterop/libcxxwrap-julia.git .
-          git co v$LIBCXXWRAP_JULIA_VERSION
+          git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
           ccmake ..
