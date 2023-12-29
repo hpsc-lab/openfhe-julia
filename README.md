@@ -1,4 +1,8 @@
 # openfhe-julia
+
+[![Build Status](https://github.com/sloede/openfhe-julia/workflows/CI/badge.svg)](https://github.com/sloede/openfhe-julia/actions?query=workflow%3ACI)
+[![License: BSD 2-Clause](https://img.shields.io/badge/License-BSD_2--Clause-success.svg)](https://opensource.org/license/bsd-2-clause/)
+
 Julia wrapper for [OpenFHE](https://github.com/openfheorg/openfhe-development) based on
 [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl). This repository is mainly
 interested for those who want to extend the set of OpenFHE features that are available in
