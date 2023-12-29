@@ -63,7 +63,7 @@ jobs:
           rm -rf ~/openfhe-development
           mkdir -p ~/openfhe-development
           cd ~/openfhe-development
-          git clone git@github.com:openfheorg/openfhe-development.git .
+          git clone https://github.com/openfheorg/openfhe-development.git .
           git co v$OPENFHE_VERSION
           mkdir build
           cd build
@@ -80,7 +80,7 @@ jobs:
           rm -rf ~/libcxxwrap-julia
           mkdir -p ~/libcxxwrap-julia
           cd ~/libcxxwrap-julia
-          git clone git@github.com:JuliaInterop/libcxxwrap-julia.git .
+          git clone https://github.com/JuliaInterop/libcxxwrap-julia.git .
           git co v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
