@@ -23,6 +23,10 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
    make -j 4
    make install
    ```
+   Note that sometimes it might be necessary to explicitly enable the `BE2` and `BE4`
+   backends by providing `-DWITH_BE2=ON -DWITH_BE4=ON` to CMake. In case you experience
+   problems with building the benchmarks and/or unit tests but do not actually need them,
+   you can disable them by adding `-DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF`.
 2. Locally build [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia).
    Do *not* remove the build directory, since it contains CMake files needed later. For
    example on Linux:
