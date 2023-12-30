@@ -37,13 +37,10 @@ jobs:
           # Linux
           - os: ubuntu-latest
             shell: bash
-            arch: x86
           - os: macos-latest
             shell: bash
-            arch: x86
           - os: windows-latest
             shell: 'msys2 {0}'
-            arch: x86
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -59,7 +56,6 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ env.JULIA_VERSION }}
-          arch: ${{ matrix.arch }}
           show-versioninfo: true
       - uses: actions/cache@v3
         id: cache-openfhe
