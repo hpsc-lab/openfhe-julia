@@ -102,10 +102,16 @@ jobs:
       - name: Build openfhe-julia
         run: |
           mkdir build && cd build
+          JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/build/)
+          OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
           echo "pwd: $(pwd)"
+          echo "JlCxx_DIR: $JlCxx_DIR"
+          ls -la $JlCxx_DIR
+          echo "OpenFHE_DIR: $OpenFHE_DIR"
+          ls -la $OpenFHE_DIR
           cmake .. \
-            -DJlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/build/) \
-            -DOpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
+            -DJlCxx_DIR=$JlCxx_DIR \
+            -DOpenFHE_DIR=$OpenFHE_DIR
           make -j 2
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
