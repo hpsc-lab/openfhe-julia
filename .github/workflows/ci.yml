@@ -64,13 +64,10 @@ jobs:
           mkdir -p ~/openfhe-development
           cd ~/openfhe-development
           git clone https://github.com/openfheorg/openfhe-development.git .
-          ls -la
-          pwd
           git checkout v$OPENFHE_VERSION
-          echo "wololo"
           mkdir build
           cd build
-          ccmake .. -DWITH_BE2=ON -DWITH_BE4=ON -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
+          cmake .. -DWITH_BE2=ON -DWITH_BE4=ON -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
           make -j 2
       - uses: actions/cache@v3
         id: cache-libcxxwrap-julia
@@ -87,7 +84,7 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          ccmake ..
+          cmake ..
           make -j 2
       - name: Build
         run: |
