@@ -67,11 +67,27 @@ void wrap_CryptoContextCKKSRNS(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::CryptoContextCKKSRNS>("CryptoContextCKKSRNS");
 }
 
+void wrap_FHECKKSRNS(jlcxx::Module& mod) {
+  mod.method("GetBootstrapDepth",
+      static_cast<uint32_t
+                  (*)(const std::vector<uint32_t>&,
+                  lbcrypto::SecretKeyDist)>(&lbcrypto::FHECKKSRNS::GetBootstrapDepth));
+}
+
 void wrap_Params(jlcxx::Module& mod) {
+  // Source: <OpenFHE>/src/pke/include/scheme/gen-cryptocontext-params.h
   mod.add_type<lbcrypto::Params>("Params")
     .method("SetMultiplicativeDepth", &lbcrypto::Params::SetMultiplicativeDepth)
     .method("SetScalingModSize", &lbcrypto::Params::SetScalingModSize)
-    .method("SetBatchSize", &lbcrypto::Params::SetBatchSize);
+    .method("SetBatchSize", &lbcrypto::Params::SetBatchSize)
+    .method("SetSecretKeyDist", &lbcrypto::Params::SetSecretKeyDist)
+    .method("SetSecurityLevel", &lbcrypto::Params::SetSecurityLevel)
+    .method("SetRingDim", &lbcrypto::Params::SetRingDim)
+    .method("SetScalingTechnique", &lbcrypto::Params::SetScalingTechnique)
+    .method("SetFirstModSize", &lbcrypto::Params::SetFirstModSize)
+    .method("SetMultiplicativeDepth", &lbcrypto::Params::SetMultiplicativeDepth)
+    .method("SetNumLargeDigits", &lbcrypto::Params::SetNumLargeDigits)
+    .method("SetKeySwitchTechnique", &lbcrypto::Params::SetKeySwitchTechnique);
 }
 
 void wrap_CCParams(jlcxx::Module& mod) {
@@ -135,6 +151,7 @@ void wrap_DecryptResult(jlcxx::Module& mod) {
 }
 
 void wrap_CryptoContextImpl(jlcxx::Module& mod) {
+  // Source: <OpenFHE>/src/pke/include/cryptocontext.h
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextImpl", jlcxx::julia_base_type<lbcrypto::Serializable>())
     .apply<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
         typedef typename decltype(wrapped)::type WrappedT;
@@ -155,7 +172,9 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
           });
         // Note: one should also wrap actual `MakeCKKSPackedPlaintext` (omitted due to laziness)
         wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
-                                                              jlcxx::ArrayRef<double> value_ref) {
+                                                              jlcxx::ArrayRef<double> value_ref,
+                                                              size_t scaleDeg = 1,
+                                                              uint32_t level = 0) {
             std::vector<double> value(value_ref.size());
             for (std::size_t i = 0; i < value_ref.size(); i++) {
               value[i] = value_ref[i];
@@ -193,6 +212,9 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                         (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
                                       lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+        wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
+        wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
+        wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
       });
 }
 
@@ -212,6 +234,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
 
   // Classes
   wrap_CryptoContextCKKSRNS(mod);
+  wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
   wrap_CCParams(mod);
   wrap_Serializable(mod);
