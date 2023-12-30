@@ -23,6 +23,7 @@ env:
   # anywhere else!
   OPENFHE_VERSION: 1.1.2
   LIBCXXWRAP_JULIA_VERSION: 0.11.2
+  JULIA_VERSION: 1.9
 
 jobs:
   test:
@@ -36,10 +37,13 @@ jobs:
           # Linux
           - os: ubuntu-latest
             shell: bash
+            arch: x86
           - os: macos-latest
             shell: bash
+            arch: x86
           - os: windows-latest
             shell: 'msys2 {0}'
+            arch: x86
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -52,6 +56,11 @@ jobs:
         with:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ env.JULIA_VERSION }}
+          arch: ${{ matrix.arch }}
+          show-versioninfo: true
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
@@ -73,7 +82,7 @@ jobs:
         id: cache-libcxxwrap-julia
         with:
           path: ~/libcxxwrap-julia
-          key: ${{ matrix.os }}-${{ env.LIBCXXWRAP_JULIA_VERSION }}
+          key: ${{ matrix.os }}-${{ env.LIBCXXWRAP_JULIA_VERSION }}-${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
@@ -89,12 +98,9 @@ jobs:
       - name: Build openfhe-julia
         run: |
           mkdir build && cd build
-          ls -la ~/
-          ls -la ~/libcxxwrap-julia/build/
-          ls -la ~/openfhe-development/build/
           cmake .. \
-            -DJlCxx_DIR=~/libcxxwrap-julia/build/
-            -DOpenFHE_DIR=~/openfhe-development/build/
+            -DJlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/build/)
+            -DOpenFHE_DIR=$(readlink -e ~/openfhe-development/build/)
           make -j 2
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
