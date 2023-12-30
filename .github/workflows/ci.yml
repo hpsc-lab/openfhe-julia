@@ -61,7 +61,7 @@ jobs:
         id: cache-openfhe
         with:
           path: ~/openfhe-development
-          key: ${{ matrix.os }}-${{ env.OPENFHE_VERSION }}
+          key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
       - name: Install OpenFHE
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
