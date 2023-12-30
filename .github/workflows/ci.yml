@@ -80,6 +80,7 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF
           make -j 2
+          make install
       - uses: actions/cache@v3
         id: cache-libcxxwrap-julia
         with:
@@ -108,7 +109,6 @@ jobs:
           make -j 2
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
-        if: ${{ always() }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
