@@ -1,22 +1,21 @@
 cmake_minimum_required (VERSION 3.5.1)
 
-### To use gcc/g++ on a Macintosh, you must set the Compilers
-### here, not inside the project
-##if(APPLE)
-##       set(CMAKE_C_COMPILER "/usr/local/bin/gcc-7")
-##       set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-7")
-##endif()
-### TODO: for now, we use CLang for Mac
-###
-### In order to create OpenFHE's static libraries you should enable
-### the BUILD_STATIC option. For that, you run "cmake .. -DBUILD_STATIC=ON".
-### After having your link completed you will find static libs
-### with the suffix "_static" in ./build/libs/.
-### Examples: OPENFHEpke_static.a, OPENFHEcore_static.a, etc.
-### After you run "make install" in your build directory, you can build your custom application.
-### If you need your application to be linked statically, then run "cmake .. -DBUILD_STATIC=ON"
+# Get project version from `VERSION` file
+file(READ "${CMAKE_SOURCE_DIR}/VERSION" version_file)
+# Parse string
+if (${version_file} MATCHES "(([0-9]+)\\.([0-9]+)\\.([0-9]+)([+-]([A-Za-z0-9_-]+))?)")
+  set(OPENFHE_JULIA_VERSION ${CMAKE_MATCH_1})
+  set(OPENFHE_JULIA_VERSION_MAJOR ${CMAKE_MATCH_2})
+  set(OPENFHE_JULIA_VERSION_MINOR ${CMAKE_MATCH_3})
+  set(OPENFHE_JULIA_VERSION_PATCH ${CMAKE_MATCH_4})
+  set(OPENFHE_JULIA_VERSION_PRERELEASE ${CMAKE_MATCH_6})
+else()
+  message(FATAL_ERROR "Unable to parse version from `VERSION` file")
+endif()
 
-project(openfhe_julia CXX)
+project(openfhe_julia
+        VERSION ${OPENFHE_JULIA_VERSION_MAJOR}.${OPENFHE_JULIA_VERSION_MINOR}.${OPENFHE_JULIA_VERSION_PATCH}
+        LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
