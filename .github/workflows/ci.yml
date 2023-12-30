@@ -74,7 +74,7 @@ jobs:
         with:
           path: ~/libcxxwrap-julia
           key: ${{ matrix.os }}-${{ env.LIBCXXWRAP_JULIA_VERSION }}
-      - name: Install OpenFHE
+      - name: Install libcxxwrap-julia
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf ~/libcxxwrap-julia
@@ -86,9 +86,12 @@ jobs:
           cd build
           cmake ..
           make -j 2
-      - name: Build
+      - name: Build openfhe-julia
         run: |
           mkdir build && cd build
+          ls -la ~/
+          ls -la ~/libcxxwrap-julia/build/
+          ls -la ~/openfhe-development/build/
           cmake .. \
             -DJlCxx_DIR=~/libcxxwrap-julia/build/
             -DOpenFHE_DIR=~/openfhe-development/build/
