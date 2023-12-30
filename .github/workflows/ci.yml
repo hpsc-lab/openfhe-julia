@@ -73,7 +73,12 @@ jobs:
           mkdir build
           cd build
           echo "pwd: $(pwd)"
-          cmake .. -DWITH_BE2=ON -DWITH_BE4=ON -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DWITH_BE2=ON \
+            -DWITH_BE4=ON \
+            -DBUILD_BENCHMARKS=OFF \
+            -DBUILD_UNITTESTS=OFF
           make -j 2
       - uses: actions/cache@v3
         id: cache-libcxxwrap-julia
@@ -99,11 +104,10 @@ jobs:
           echo "pwd: $(pwd)"
           cmake .. \
             -DJlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/build/) \
-            -DOpenFHE_DIR=$(readlink -e ~/openfhe-development/build/)
+            -DOpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
           make -j 2
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
-        if: ${{ always() }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15

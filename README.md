@@ -14,13 +14,14 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
 
 
 ## Installation
-1. Locally build (and optionally install) `openfhe-development`. For example on Linux:
+1. Locally build and install `openfhe-development`. For example on Linux:
    ```shell
    git clone git@github.com:openfheorg/openfhe-development.git
    cd openfhe-development
    mkdir build && cd build
-   cmake ..
+   cmake .. -DCMAKE_INSTALL_PREFIX=../install
    make -j 4
+   make install
    ```
 2. Locally build [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia).
    Do *not* remove the build directory, since it contains CMake files needed later. For
@@ -37,14 +38,14 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
    git clone git@github.com:sloede/openfhe-julia.git
    ```
 4. Create a build directory and switch to it. Then call CMake with `JlCxx_DIR` set to the
-   `libcxxwrap-julia` build directory and `OpenFHE_DIR` set to the OpenFHE build or install
+   `libcxxwrap-julia` build directory and `OpenFHE_DIR` set to the OpenFHE install
    directory, e.g.:
    ```shell
    cd openfhe-julia
    mkdir build && cd build
    cmake .. \
      -DJlCxx_DIR=$(pwd)/../../libcxxwrap-julia/build/
-     -DOpenFHE_DIR=$(pwd)/../../openfhe-development/build/
+     -DOpenFHE_DIR=$(pwd)/../../openfhe-development/install/
    make -j 4
    ```
 
