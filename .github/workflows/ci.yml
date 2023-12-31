@@ -72,7 +72,6 @@ jobs:
           git checkout v$OPENFHE_VERSION
           mkdir build
           cd build
-          echo "pwd: $(pwd)"
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
             -DWITH_BE2=ON \
@@ -85,7 +84,7 @@ jobs:
         id: cache-libcxxwrap-julia
         with:
           path: ~/libcxxwrap-julia
-          key: ${{ matrix.os }}-${{ env.LIBCXXWRAP_JULIA_VERSION }}-${{ env.JULIA_VERSION }}
+          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
@@ -96,22 +95,17 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          echo "pwd: $(pwd)"
-          cmake ..
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install
           make -j 2
       - name: Build openfhe-julia
         run: |
           mkdir build && cd build
-          JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/build/)
+          JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/install/)
           OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
-          echo "pwd: $(pwd)"
-          echo "JlCxx_DIR: $JlCxx_DIR"
-          ls -la $JlCxx_DIR
-          echo "OpenFHE_DIR: $OpenFHE_DIR"
-          ls -la $OpenFHE_DIR
           cmake .. \
-            -DJlCxx_DIR=$JlCxx_DIR \
-            -DOpenFHE_DIR=$OpenFHE_DIR
+            -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
+            # -DJlCxx_DIR=$JlCxx_DIR \
+            # -DOpenFHE_DIR=$OpenFHE_DIR
           make -j 2
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
