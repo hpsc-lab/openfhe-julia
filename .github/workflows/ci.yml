@@ -87,7 +87,7 @@ jobs:
           path: ~/libcxxwrap-julia
           key: ${{ matrix.os }}-${{ env.LIBCXXWRAP_JULIA_VERSION }}-${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
-        if: steps.cache-openfhe.outputs.cache-hit != 'true'
+        if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
           rm -rf ~/libcxxwrap-julia
           mkdir -p ~/libcxxwrap-julia
