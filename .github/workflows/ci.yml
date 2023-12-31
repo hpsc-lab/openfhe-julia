@@ -36,11 +36,10 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-          # TODO: Enable tests on other supported platforms
-          # - os: macos-latest
-          #   shell: bash
-          # - os: windows-latest
-          #   shell: 'msys2 {0}'
+          - os: macos-latest
+            shell: bash
+          - os: windows-latest
+            shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -95,7 +94,8 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install
+          julia_exec="$(julia -e 'println(joinpath(Sys.BINDIR, Base.julia_exename()))')"
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_EXECUTABLE="$julia_exec"
           make -j 2
           make install
       - name: Build openfhe-julia
