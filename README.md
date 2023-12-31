@@ -14,7 +14,8 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
 
 
 ## Installation
-1. Locally build and install `openfhe-development`. For example on Linux:
+1. Locally build and install [OpenFHE](https://github.com/openfheorg/openfhe-development).
+   For example on Linux:
    ```shell
    git clone git@github.com:openfheorg/openfhe-development.git
    cd openfhe-development
@@ -27,29 +28,28 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
    backends by providing `-DWITH_BE2=ON -DWITH_BE4=ON` to CMake. In case you experience
    problems with building the benchmarks and/or unit tests but do not actually need them,
    you can disable them by adding `-DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF`.
-2. Locally build [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia).
-   Do *not* remove the build directory, since it contains CMake files needed later. For
-   example on Linux:
+2. Locally build and install
+   [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia). For example on
+   Linux:
    ```shell
    git clone git@github.com:JuliaInterop/libcxxwrap-julia.git
    cd libcxxwrap-julia
    mkdir build && cd build
-   cmake ..
+   cmake .. -DCMAKE_INSTALL_PREFIX=../install
    make -j 4
+   make install
    ```
 3. Clone this repository:
    ```shell
    git clone git@github.com:sloede/openfhe-julia.git
    ```
-4. Create a build directory and switch to it. Then call CMake with `JlCxx_DIR` set to the
-   `libcxxwrap-julia` build directory and `OpenFHE_DIR` set to the OpenFHE install
-   directory, e.g.:
+4. Create a build directory and switch to it. Then call CMake with the `CMAKE_PREFIX_PATH`
+   set to a colon-separated list of install prefixes for the dependencies, e.g.:
    ```shell
    cd openfhe-julia
    mkdir build && cd build
-   cmake .. \
-     -DJlCxx_DIR=$(pwd)/../../libcxxwrap-julia/build/
-     -DOpenFHE_DIR=$(pwd)/../../openfhe-development/install/
+   prefix_path="$(pwd)/../../libcxxwrap-julia/install/;$(pwd)/../../openfhe-development/install/"
+   cmake .. -DCMAKE_PREFIX_PATH="$prefix_path"
    make -j 4
    ```
 
