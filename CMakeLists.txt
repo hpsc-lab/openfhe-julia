@@ -19,6 +19,7 @@ project(openfhe_julia
 set(CMAKE_CXX_STANDARD 17)
 option( BUILD_STATIC "Set to ON to include static versions of the library" OFF)
 
+# Dependency: OpenFHE
 find_package(OpenFHE CONFIG REQUIRED)
 if (OpenFHE_FOUND)
     message(STATUS "FOUND PACKAGE OpenFHE")
@@ -52,7 +53,7 @@ else()
 endif()
 
 
-### libcxxwrap-julia
+### Dependency: libcxxwrap-julia
 set(CMAKE_MACOSX_RPATH 1)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 
@@ -63,6 +64,11 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${JlCxx_location}")
 
 message(STATUS "Found JlCxx at ${JlCxx_location}")
 
+# openfhe-julia
 add_library(openfhe_julia SHARED ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp)
-
 target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION
+                      ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
+
+install(TARGETS ${PROJECT_NAME})
