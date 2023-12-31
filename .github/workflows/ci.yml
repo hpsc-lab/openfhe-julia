@@ -103,7 +103,7 @@ jobs:
           mkdir build && cd build
           JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/install/)
           OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
-          cmake .. -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
           make -j 2
           make install
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
