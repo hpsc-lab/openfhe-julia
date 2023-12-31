@@ -105,6 +105,7 @@ jobs:
           OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
           cmake .. -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
           make -j 2
+          make install
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
