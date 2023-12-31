@@ -12,6 +12,7 @@ namespace jlcxx
 {
   template<> struct IsMirroredType<lbcrypto::CryptoContextCKKSRNS> : std::false_type { };
   template<> struct SuperType<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>> { typedef lbcrypto::Params type; };
+  template<> struct SuperType<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>> { typedef lbcrypto::CryptoObject<lbcrypto::DCRTPoly> type; };
   template<> struct SuperType<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>> { typedef lbcrypto::Serializable type; };
 }
 
@@ -26,6 +27,13 @@ void wrap_PKESchemeFeature(jlcxx::Module& mod) {
   mod.set_const("MULTIPARTY", lbcrypto::MULTIPARTY);
   mod.set_const("FHE", lbcrypto::FHE);
   mod.set_const("SCHEMESWITCH", lbcrypto::SCHEMESWITCH);
+}
+
+void wrap_KeySwitchTechnique(jlcxx::Module& mod) {
+  mod.add_bits<lbcrypto::KeySwitchTechnique>("KeySwitchTechnique", jlcxx::julia_type("CppEnum"));
+  mod.set_const("INVALID_KS_TECH", lbcrypto::INVALID_KS_TECH);
+  mod.set_const("BV", lbcrypto::BV);
+  mod.set_const("HYBRID", lbcrypto::HYBRID);
 }
 
 void wrap_ScalingTechnique(jlcxx::Module& mod) {
@@ -85,7 +93,6 @@ void wrap_Params(jlcxx::Module& mod) {
     .method("SetRingDim", &lbcrypto::Params::SetRingDim)
     .method("SetScalingTechnique", &lbcrypto::Params::SetScalingTechnique)
     .method("SetFirstModSize", &lbcrypto::Params::SetFirstModSize)
-    .method("SetMultiplicativeDepth", &lbcrypto::Params::SetMultiplicativeDepth)
     .method("SetNumLargeDigits", &lbcrypto::Params::SetNumLargeDigits)
     .method("SetKeySwitchTechnique", &lbcrypto::Params::SetKeySwitchTechnique);
 }
@@ -141,9 +148,17 @@ void wrap_Plaintext(jlcxx::Module& mod) {
     });
 }
 
+void wrap_CryptoObject(jlcxx::Module& mod) {
+  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoObject")
+    .apply<lbcrypto::CryptoObject<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+}
+
 void wrap_CiphertextImpl(jlcxx::Module& mod) {
-  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CiphertextImpl")
-    .apply<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CiphertextImpl", jlcxx::julia_base_type<lbcrypto::CryptoObject<lbcrypto::DCRTPoly>>())
+    .apply<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
+        // typedef typename decltype(wrapped)::type WrappedT;
+        // wrapped.method("GetCryptoContext", &WrappedT::GetCryptoContext);
+      });
 }
 
 void wrap_DecryptResult(jlcxx::Module& mod) {
@@ -172,9 +187,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
           });
         // Note: one should also wrap actual `MakeCKKSPackedPlaintext` (omitted due to laziness)
         wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
-                                                              jlcxx::ArrayRef<double> value_ref,
-                                                              size_t scaleDeg = 1,
-                                                              uint32_t level = 0) {
+                                                              jlcxx::ArrayRef<double> value_ref) {
             std::vector<double> value(value_ref.size());
             for (std::size_t i = 0; i < value_ref.size(); i++) {
               value[i] = value_ref[i];
@@ -227,6 +240,7 @@ void wrap_GenCryptoContext(jlcxx::Module& mod) {
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   // Enums
   wrap_PKESchemeFeature(mod);
+  wrap_KeySwitchTechnique(mod);
   wrap_ScalingTechnique(mod);
   wrap_SecretKeyDist(mod);
   wrap_DistributionType(mod);
@@ -244,6 +258,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_KeyPair(mod);
   wrap_PlaintextImpl(mod);
   wrap_Plaintext(mod);
+  wrap_CryptoObject(mod);
   wrap_CiphertextImpl(mod);
   wrap_DecryptResult(mod);
   wrap_CryptoContextImpl(mod);
