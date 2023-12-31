@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'LICENSE.md'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - 'LICENSE.md'
+      - 'README.md'
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+
+env:
+  # Modify these variables for upstream package versions - do NOT hardcode the version
+  # anywhere else!
+  OPENFHE_VERSION: 1.1.2
+  LIBCXXWRAP_JULIA_VERSION: 0.11.2
+  JULIA_VERSION: 1.9
+
+jobs:
+  test:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    name: ${{ matrix.os }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            shell: bash
+          # TODO: Enable tests on other supported platforms
+          # - os: macos-latest
+          #   shell: bash
+          # - os: windows-latest
+          #   shell: 'msys2 {0}'
+    # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        if: ${{ matrix.os == 'windows-latest' }}
+        with:
+          update: true
+          install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ env.JULIA_VERSION }}
+          show-versioninfo: true
+      - uses: actions/cache@v3
+        id: cache-openfhe
+        with:
+          path: ~/openfhe-development
+          key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
+      - name: Install OpenFHE
+        if: steps.cache-openfhe.outputs.cache-hit != 'true'
+        run: |
+          rm -rf ~/openfhe-development
+          mkdir -p ~/openfhe-development
+          cd ~/openfhe-development
+          git clone https://github.com/openfheorg/openfhe-development.git .
+          git checkout v$OPENFHE_VERSION
+          mkdir build
+          cd build
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DWITH_BE2=ON \
+            -DWITH_BE4=ON \
+            -DBUILD_BENCHMARKS=OFF \
+            -DBUILD_UNITTESTS=OFF
+          make -j 2
+          make install
+      - uses: actions/cache@v3
+        id: cache-libcxxwrap-julia
+        with:
+          path: ~/libcxxwrap-julia
+          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
+      - name: Install libcxxwrap-julia
+        if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
+        run: |
+          rm -rf ~/libcxxwrap-julia
+          mkdir -p ~/libcxxwrap-julia
+          cd ~/libcxxwrap-julia
+          git clone https://github.com/JuliaInterop/libcxxwrap-julia.git .
+          git checkout v$LIBCXXWRAP_JULIA_VERSION
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install
+          make -j 2
+          make install
+      - name: Build openfhe-julia
+        run: |
+          mkdir build && cd build
+          JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/install/)
+          OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
+          cmake .. -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
+          make -j 2
+      # Enable tmate debugging of manually-triggered workflows if the input option was provided
+      - name: Setup tmate session for debugging
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 15
