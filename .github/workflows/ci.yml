@@ -36,9 +36,8 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-          # TODO: Enable tests on other supported platforms
-          # - os: macos-latest
-          #   shell: bash
+          - os: macos-latest
+            shell: bash
           # - os: windows-latest
           #   shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
@@ -54,6 +53,7 @@ jobs:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
       - uses: julia-actions/setup-julia@v1
+        id: setup-julia
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
@@ -95,14 +95,15 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install
+          julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
           make -j 2
           make install
       - name: Build openfhe-julia
         run: |
           mkdir build && cd build
-          JlCxx_DIR=$(readlink -e ~/libcxxwrap-julia/install/)
-          OpenFHE_DIR=$(readlink -e ~/openfhe-development/install/)
+          JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
+          OpenFHE_DIR="$HOME/openfhe-development/install/"
           cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
           make -j 2
           make install
