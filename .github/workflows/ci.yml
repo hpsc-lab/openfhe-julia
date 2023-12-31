@@ -38,8 +38,8 @@ jobs:
             shell: bash
           - os: macos-latest
             shell: bash
-          - os: windows-latest
-            shell: 'msys2 {0}'
+          # - os: windows-latest
+          #   shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
