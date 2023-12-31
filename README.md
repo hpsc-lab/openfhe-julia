@@ -49,8 +49,9 @@ limited subset of OpenFHE to Julia. Community contributions welcome!**
    cd openfhe-julia
    mkdir build && cd build
    prefix_path="$(pwd)/../../libcxxwrap-julia/install/;$(pwd)/../../openfhe-development/install/"
-   cmake .. -DCMAKE_PREFIX_PATH="$prefix_path"
+   cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_PREFIX_PATH="$prefix_path"
    make -j 4
+   make install
    ```
 
 
