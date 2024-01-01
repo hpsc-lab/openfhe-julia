@@ -153,8 +153,8 @@ namespace openfhe_julia {
   // types that are mutually dependent, which is the case here:
   // 1) `CryptoObject` defines a method `GetCryptoContext` that returns the
   //    `CryptoContextImpl`.
-  // 2) `CiphertextImpl` inherits from `CrytoObject`, thus upon wrapping it with CxxWrap.jl,
-  //    the return type `CryptoContextImpl` had the be wrapped before.
+  // 2) `CiphertextImpl` inherits from `CryptoObject`, thus upon wrapping it with
+  //    CxxWrap.jl, the return type `CryptoContextImpl` had the be wrapped before.
   // 3) `CryptoContextImpl` has methods that return `CiphertextImpl` object, thus
   //    `CiphertextImpl` needs to have been wrapped before.
   //
