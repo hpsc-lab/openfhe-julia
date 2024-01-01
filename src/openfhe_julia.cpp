@@ -148,17 +148,51 @@ void wrap_Plaintext(jlcxx::Module& mod) {
     });
 }
 
+namespace openfhe_julia {
+  // Note: Due to limitations of CxxWrap.jl, it is currently not possible to wrap template
+  // types that are mutually dependent, which is the case here:
+  // 1) `CryptoObject` defines a method `GetCryptoContext` that returns the
+  //    `CryptoContextImpl`.
+  // 2) `CiphertextImpl` inherits from `CrytoObject`, thus upon wrapping it with CxxWrap.jl,
+  //    the return type `CryptoContextImpl` had the be wrapped before.
+  // 3) `CryptoContextImpl` has methods that return `CiphertextImpl` object, thus
+  //    `CiphertextImpl` needs to have been wrapped before.
+  //
+  // Since 2) and 3) are contradictory, we use the following non-template proxy class for an
+  // additional level of indirection. With this, it is possible to first wrap the type
+  // alone, and then add the methods later once the other template types have been wrapped.
+  struct CryptoContextProxy {
+    using CC = lbcrypto::CryptoContext<lbcrypto::DCRTPoly>;
+    CC context;
+    CryptoContextProxy(CC cc) : context(cc) {}
+    CC GetCryptoContext() { return context; }
+  };
+}
+
+auto wrap_CryptoContextProxy_type(jlcxx::Module& mod) {
+  return mod.add_type<openfhe_julia::CryptoContextProxy>("CryptoContextProxy");
+}
+
+template <typename T>
+void wrap_CryptoContextProxy_methods(T& wrapped) {
+  wrapped.method("GetCryptoContext", [](openfhe_julia::CryptoContextProxy& ccp) {
+      return ccp.context;
+    });
+}
+
 void wrap_CryptoObject(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoObject")
-    .apply<lbcrypto::CryptoObject<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+    .apply<lbcrypto::CryptoObject<lbcrypto::DCRTPoly>>([](auto wrapped) {
+        typedef typename decltype(wrapped)::type WrappedT;
+        wrapped.method("GetCryptoContextProxy", [](WrappedT& w) {
+            return openfhe_julia::CryptoContextProxy(w.GetCryptoContext());
+          });
+      });
 }
 
 void wrap_CiphertextImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CiphertextImpl", jlcxx::julia_base_type<lbcrypto::CryptoObject<lbcrypto::DCRTPoly>>())
-    .apply<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
-        // typedef typename decltype(wrapped)::type WrappedT;
-        // wrapped.method("GetCryptoContext", &WrappedT::GetCryptoContext);
-      });
+    .apply<lbcrypto::CiphertextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
 }
 
 void wrap_DecryptResult(jlcxx::Module& mod) {
@@ -258,10 +292,12 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_KeyPair(mod);
   wrap_PlaintextImpl(mod);
   wrap_Plaintext(mod);
+  auto CryptoContextProxy_type = wrap_CryptoContextProxy_type(mod);
   wrap_CryptoObject(mod);
   wrap_CiphertextImpl(mod);
   wrap_DecryptResult(mod);
   wrap_CryptoContextImpl(mod);
+  wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 
   // Functions
   wrap_GenCryptoContext(mod);
