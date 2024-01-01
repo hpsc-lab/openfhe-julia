@@ -65,8 +65,27 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${JlCxx_location}")
 message(STATUS "Found JlCxx at ${JlCxx_location}")
 
 # openfhe-julia
-add_library(openfhe_julia SHARED ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp)
+add_library(openfhe_julia SHARED
+  ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp
+  ${CMAKE_SOURCE_DIR}/src/enums.cpp
+  ${CMAKE_SOURCE_DIR}/src/cryptocontextckksrns.cpp
+  ${CMAKE_SOURCE_DIR}/src/fheckksrns.cpp
+  ${CMAKE_SOURCE_DIR}/src/params.cpp
+  ${CMAKE_SOURCE_DIR}/src/ccparams.cpp
+  ${CMAKE_SOURCE_DIR}/src/serializable.cpp
+  ${CMAKE_SOURCE_DIR}/src/dcrtpoly.cpp
+  ${CMAKE_SOURCE_DIR}/src/privatekeyimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/publickeyimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/keypair.cpp
+  ${CMAKE_SOURCE_DIR}/src/plaintextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/plaintext.cpp
+  ${CMAKE_SOURCE_DIR}/src/cryptoobject.cpp
+  ${CMAKE_SOURCE_DIR}/src/ciphertextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/decryptresult.cpp
+  ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
+)
 target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
+target_include_directories(openfhe_julia PRIVATE ${CMAKE_SOURCE_DIR}/include)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION
                       ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
