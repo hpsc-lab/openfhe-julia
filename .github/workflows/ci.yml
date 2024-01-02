@@ -57,23 +57,10 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
-      - name: Julia test 5
-        if: ${{ matrix.os == 'windows-latest' && always() }}
+      - name: Store Julia BINDIR
         run: |
-          julia_exec = joinpath(Sys.BINDIR, Base.julia_exename())
-          @show julia_exec
-          write("julia_exec", julia_exec)
+          write("julia_bindir", Sys.BINDIR)
         shell: julia --color=yes {0}
-      - name: Julia test 5a
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          julia_exec="$(cat julia_exec)"
-          echo $julia_exec
-          eval "$julia_exec -e 'println(\"wololo\")'"
-      - name: Setup tmate session for debugging
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 15
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
@@ -112,7 +99,9 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $(cat julia_bindir))"
+          echo $julia_prefix
           cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
           make -j 2
           make install
