@@ -6,7 +6,7 @@
 Julia bindings for the homomorphic encryption library
 [OpenFHE](https://github.com/openfheorg/openfhe-development) based on
 [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl). This repository is mainly
-interested for those who want to extend the set of OpenFHE features that are available in
+interesting for those who want to extend the set of OpenFHE features that are available in
 Julia. If you just want to use OpenFHE in Julia, please have a look at
 [OpenFHE.jl](https://github.com/sloede/OpenFHE.jl).
 
