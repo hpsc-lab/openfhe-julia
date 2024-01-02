@@ -92,6 +92,9 @@ jobs:
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
+          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $(cat julia_bindir))"
+          echo $julia_prefix
           rm -rf ~/libcxxwrap-julia
           mkdir -p ~/libcxxwrap-julia
           cd ~/libcxxwrap-julia
@@ -99,8 +102,6 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
-          julia_prefix="$(dirname $(cat julia_bindir))"
           echo $julia_prefix
           cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
           make -j 2
