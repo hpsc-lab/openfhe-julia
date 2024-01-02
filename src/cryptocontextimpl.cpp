@@ -30,33 +30,6 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                                                           uint32_t,
                                                           const std::shared_ptr<ParmType>,
                                                           usint) const>(&WrappedT::MakeCKKSPackedPlaintext));
-        wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
-                                                              jlcxx::ArrayRef<double> value_ref) {
-            std::vector<double> value(value_ref.size());
-            for (std::size_t i = 0; i < value_ref.size(); i++) {
-              value[i] = value_ref[i];
-            }
-            return w.MakeCKKSPackedPlaintext(value);
-          });
-        wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
-                                                              jlcxx::ArrayRef<double> value_ref,
-                                                              size_t scaleDeg) {
-            std::vector<double> value(value_ref.size());
-            for (std::size_t i = 0; i < value_ref.size(); i++) {
-              value[i] = value_ref[i];
-            }
-            return w.MakeCKKSPackedPlaintext(value, scaleDeg);
-          });
-        wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
-                                                              jlcxx::ArrayRef<double> value_ref,
-                                                              size_t scaleDeg,
-                                                              uint32_t level) {
-            std::vector<double> value(value_ref.size());
-            for (std::size_t i = 0; i < value_ref.size(); i++) {
-              value[i] = value_ref[i];
-            }
-            return w.MakeCKKSPackedPlaintext(value, scaleDeg, level);
-          });
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>,
