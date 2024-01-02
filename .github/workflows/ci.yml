@@ -67,7 +67,7 @@ jobs:
       - name: Julia test 5a
         if: ${{ matrix.os == 'windows-latest' && always() }}
         run: |
-          julia_exec = "$(cat julia_exec)"
+          julia_exec="$(cat julia_exec)"
           echo $julia_exec
           eval "$julia_exec -e 'println(\"wololo\")'"
       - name: Setup tmate session for debugging
