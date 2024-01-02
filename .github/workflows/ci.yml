@@ -57,45 +57,19 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
-      - name: Julia test 1
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          println("wololo 1")
-        shell: julia --color=yes {0}
-      - name: Julia test 2
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          julia -e 'println("wololo 2")'
-      - name: Julia test 3
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          which julia
-          which julia.exe
-      - name: Julia test 4
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          which julia
-          which julia.exe
-        shell: bash
       - name: Julia test 5
         if: ${{ matrix.os == 'windows-latest' && always() }}
         run: |
-          @show Sys.BINDIR
-          write("julia_bash_profile", "export PATH=\"\$PATH:$(Sys.BINDIR)\"")
+          julia_exec = joinpath(Sys.BINDIR, Base.julia_exename())
+          @show julia_exec
+          write("julia_exec", julia_exec)
         shell: julia --color=yes {0}
       - name: Julia test 5a
         if: ${{ matrix.os == 'windows-latest' && always() }}
         run: |
-          cat julia_bash_profile
-          mv julia_bash_profile ~/.bash_profile
-      - name: Julia test 6
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          julia -e 'println("wololo")'
-      - name: Julia test 7
-        if: ${{ matrix.os == 'windows-latest' && always() }}
-        run: |
-          julia.exe -e 'println("wololo")'
+          julia_exec = "$(cat julia_exec)"
+          echo $julia_exec
+          eval "$julia_exec -e 'println(\"wololo\")'"
       - name: Setup tmate session for debugging
         if: ${{ matrix.os == 'windows-latest' && always() }}
         uses: mxschmitt/action-tmate@v3
