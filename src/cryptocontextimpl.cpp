@@ -14,15 +14,6 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("KeyGen", &WrappedT::KeyGen);
         wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
         wrapped.method("EvalRotateKeyGen", &WrappedT::EvalRotateKeyGen);
-        wrapped.module().method("EvalRotateKeyGen", [](WrappedT& w,
-                                                       const lbcrypto::PrivateKey<lbcrypto::DCRTPoly> privateKey,
-                                                       jlcxx::ArrayRef<int64_t> index_list_ref) {
-            std::vector<int32_t> index_list(index_list_ref.size());
-            for (std::size_t i = 0; i < index_list_ref.size(); i++) {
-              index_list[i] = index_list_ref[i];
-            }
-            w.EvalRotateKeyGen(privateKey, index_list);
-          });
         using ParmType = lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> >;
         wrapped.method("MakeCKKSPackedPlaintext",
             static_cast<lbcrypto::Plaintext (WrappedT::*)(const std::vector<double>&,
