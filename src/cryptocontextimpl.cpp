@@ -23,7 +23,13 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
             }
             w.EvalRotateKeyGen(privateKey, index_list);
           });
-        // Note: one should also wrap actual `MakeCKKSPackedPlaintext` (omitted due to laziness)
+        using ParmType = lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> >;
+        wrapped.method("MakeCKKSPackedPlaintext",
+            static_cast<lbcrypto::Plaintext (WrappedT::*)(const std::vector<double>&,
+                                                          size_t,
+                                                          uint32_t,
+                                                          const std::shared_ptr<ParmType>,
+                                                          usint) const>(&WrappedT::MakeCKKSPackedPlaintext));
         wrapped.module().method("MakeCKKSPackedPlaintext", [](WrappedT& w,
                                                               jlcxx::ArrayRef<double> value_ref) {
             std::vector<double> value(value_ref.size());
