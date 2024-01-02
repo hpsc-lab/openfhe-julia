@@ -38,8 +38,8 @@ jobs:
             shell: bash
           - os: macos-latest
             shell: bash
-          # - os: windows-latest
-          #   shell: 'msys2 {0}'
+          - os: windows-latest
+            shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -57,6 +57,21 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
+      - name: Julia test 1
+        run: |
+          println("wololo 1")
+        shell: julia --color=yes {0}
+      - name: Julia test 2
+        run: |
+          julia -e 'println("wololo 2")'
+      - name: Julia test 3
+        run: |
+          which julia
+          which julia.exe
+      - name: Setup tmate session for debugging
+        if: ${{ matrix.os == 'windows-latest' && always() }}
+        uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 15
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
