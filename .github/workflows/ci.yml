@@ -115,6 +115,7 @@ jobs:
           make -j 2
           make install
       - name: Build openfhe-julia
+        if: ${{ matrix.os != 'windows-latest' }}
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
           # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
@@ -122,6 +123,10 @@ jobs:
           mkdir build && cd build
           JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
           OpenFHE_DIR="$HOME/openfhe-development/install/"
+          echo "JlCxx_DIR: $JlCxx_DIR"
+          ls -la $JlCxx_DIR
+          echo "OpenFHE_DIR:$OpenFHE_DIR"
+          ls -la $OpenFHE_DIR
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
@@ -131,7 +136,7 @@ jobs:
           make install
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
-        if: ${{ always() }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        # if: ${{ matrix.os == 'windows-latest' && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
