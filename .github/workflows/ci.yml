@@ -125,8 +125,8 @@ jobs:
           # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
           julia_prefix="$(dirname $(cat julia_bindir))"
           mkdir build && cd build
-          JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
-          OpenFHE_DIR="$HOME/openfhe-development/install/"
+          JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
+          OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
           echo "JlCxx_DIR: $JlCxx_DIR"
           ls -la $JlCxx_DIR
           echo "OpenFHE_DIR:$OpenFHE_DIR"
