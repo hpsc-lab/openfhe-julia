@@ -36,12 +36,10 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-          # macOS disabled due to inexplicable compilation error related to GitHub Actions
-          # - os: macos-latest
-          #   shell: bash
-          # Windows disabled due to build failures related to GitHub Actions
-          # - os: windows-latest
-          #   shell: 'msys2 {0}'
+          - os: macos-latest
+            shell: bash
+          - os: windows-latest
+            shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -59,6 +57,13 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
+      - name: Store Julia BINDIR in temporary file (needed mainly for Windows builds)
+        # Note: The problem is here that the PATH variable of the OS (specifically, Windows)
+        # is not propagated to the MSYS2 environment. Thus just calling `julia` will not
+        # found the Julia installation. This step here is a crude workaround.
+        run: |
+          write("julia_bindir", Sys.BINDIR)
+        shell: julia --color=yes {0}
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
@@ -90,6 +95,9 @@ jobs:
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
+          # The following line does somehow not work properly on GitHub Actions under Windows
+          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $(cat julia_bindir))"
           rm -rf ~/libcxxwrap-julia
           mkdir -p ~/libcxxwrap-julia
           cd ~/libcxxwrap-julia
@@ -97,20 +105,33 @@ jobs:
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DJulia_PREFIX="$julia_prefix" \
+            -G "Unix Makefiles" \
+            -DJLCXX_BUILD_EXAMPLES=OFF \
+            -DJLCXX_BUILD_TESTS=OFF
+          ls -la
           make -j 2
           make install
       - name: Build openfhe-julia
         run: |
+          # The following line does somehow not work properly on GitHub Actions under Windows
+          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $(cat julia_bindir))"
           mkdir build && cd build
           JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
           OpenFHE_DIR="$HOME/openfhe-development/install/"
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
+            -DJulia_PREFIX="$julia_prefix" \
+            -G "Unix Makefiles"
           make -j 2
           make install
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        if: ${{ always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
