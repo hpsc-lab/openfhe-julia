@@ -36,8 +36,10 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-          - os: macos-latest
-            shell: bash
+          # macOS disabled due to inexplicable compilation error related to GitHub Actions
+          # - os: macos-latest
+          #   shell: bash
+          # Windows disabled due to build failures related to GitHub Actions
           # - os: windows-latest
           #   shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
