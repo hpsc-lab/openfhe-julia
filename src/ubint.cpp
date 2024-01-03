@@ -5,6 +5,6 @@
 
 void wrap_ubint(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("ubint")
-    .apply<bigintdyn::ubint<long unsigned int>>([](auto wrapped) {});
+    .apply<bigintdyn::ubint<expdtype>>([](auto wrapped) {});
 }
 
