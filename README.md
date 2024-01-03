@@ -71,7 +71,7 @@ C++ functions or types from OpenFHE, proceed roughly as follows:
 If you use OpenFHE-julia in your own research, please cite this repository as follows:
 ```bibtex
 @misc{schlottkelakemper2024openfhejulia,
-  title={openfhe-julia: {J}ulia bindings for the homomorphic encryption library {O}pen{FHE}},
+  title={{O}pen{FHE}-julia: {J}ulia bindings for the homomorphic encryption library {O}pen{FHE}},
   author={Schlottke-Lakemper, Michael},
   year={2024},
   howpublished={\url{https://github.com/sloede/openfhe-julia}},

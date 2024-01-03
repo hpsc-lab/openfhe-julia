@@ -1,5 +1,5 @@
 {
-    "title": "openfhe-julia",
+    "title": "OpenFHE-Julia",
     "description": "Julia bindings for the homomorphic encryption library OpenFHE",
     "license": "BSD-2-Clause",
     "upload_type": "software",
