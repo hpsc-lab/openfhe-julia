@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/sloede/openfhe-julia/workflows/CI/badge.svg)](https://github.com/sloede/openfhe-julia/actions?query=workflow%3ACI)
 [![License: BSD 2-Clause](https://img.shields.io/badge/License-BSD_2--Clause-success.svg)](https://opensource.org/license/bsd-2-clause/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10456858.svg)](https://doi.org/10.5281/zenodo.10456858)
 
 Julia bindings for the homomorphic encryption library
 [OpenFHE](https://github.com/openfheorg/openfhe-development) based on
@@ -64,6 +65,19 @@ C++ functions or types from OpenFHE, proceed roughly as follows:
    figure out where your addition might fit.
 3. If it is not clear how to properly wrap your new addition, consult the `README.md` for
    [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl).
+
+
+## Referencing
+If you use OpenFHE-julia in your own research, please cite this repository as follows:
+```bibtex
+@misc{schlottkelakemper2024openfhejulia,
+  title={openfhe-julia: {J}ulia bindings for the homomorphic encryption library {O}pen{FHE}},
+  author={Schlottke-Lakemper, Michael},
+  year={2024},
+  howpublished={\url{https://github.com/sloede/openfhe-julia}},
+  doi={10.5281/zenodo.10456858}
+}
+```
 
 
 ## Authors
