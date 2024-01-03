@@ -36,16 +36,10 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-            cc: gcc
-            cxx: g++
           - os: macos-latest
             shell: bash
-            cc: gcc-12
-            cxx: g++-12
           - os: windows-latest
             shell: 'msys2 {0}'
-            cc: gcc
-            cxx: g++
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -128,8 +122,6 @@ jobs:
           mkdir build && cd build
           JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
           OpenFHE_DIR="$HOME/openfhe-development/install/"
-          export CC=${{ matrix.cc }}
-          export CXX=${{ matrix.cxx }}
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
