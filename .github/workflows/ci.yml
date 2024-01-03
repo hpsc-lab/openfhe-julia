@@ -5,12 +5,16 @@ on:
     branches:
       - main
     paths-ignore:
+      - 'CITATION.bib'
       - 'LICENSE.md'
       - 'README.md'
+      - '.zenodo.json'
   pull_request:
     paths-ignore:
+      - 'CITATION.bib'
       - 'LICENSE.md'
       - 'README.md'
+      - '.zenodo.json'
   workflow_dispatch:
     inputs:
       debug_enabled:
