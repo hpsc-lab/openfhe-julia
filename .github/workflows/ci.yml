@@ -71,14 +71,14 @@ jobs:
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
-          path: ~/openfhe-development
+          path: openfhe-development/
           key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
       - name: Install OpenFHE
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
-          rm -rf ~/openfhe-development
-          mkdir -p ~/openfhe-development
-          cd ~/openfhe-development
+          rm -rf openfhe-development
+          mkdir -p openfhe-development
+          cd openfhe-development
           git clone https://github.com/openfheorg/openfhe-development.git .
           git checkout v$OPENFHE_VERSION
           mkdir build
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/cache@v3
         id: cache-libcxxwrap-julia
         with:
-          path: ~/libcxxwrap-julia
+          path: libcxxwrap-julia/
           key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
@@ -102,9 +102,9 @@ jobs:
           # The following line does somehow not work properly on GitHub Actions under Windows
           # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
           julia_prefix="$(dirname $(cat julia_bindir))"
-          rm -rf ~/libcxxwrap-julia
-          mkdir -p ~/libcxxwrap-julia
-          cd ~/libcxxwrap-julia
+          rm -rf libcxxwrap-julia
+          mkdir -p libcxxwrap-julia
+          cd libcxxwrap-julia
           git clone https://github.com/JuliaInterop/libcxxwrap-julia.git .
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build

@@ -1,2 +1,6 @@
 build/
 install/
+
+# Ignore checked out upstream dependencies during CI builds
+libcxxwrap-julia/
+openfhe-development/
