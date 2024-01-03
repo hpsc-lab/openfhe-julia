@@ -94,7 +94,6 @@ jobs:
         run: |
           # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
           julia_prefix="$(dirname $(cat julia_bindir))"
-          echo $julia_prefix
           rm -rf ~/libcxxwrap-julia
           mkdir -p ~/libcxxwrap-julia
           cd ~/libcxxwrap-julia
@@ -103,7 +102,8 @@ jobs:
           mkdir build
           cd build
           echo $julia_prefix
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix" -G "Unix Makefiles"
+          ls -la
           make -j 2
           make install
       - name: Build openfhe-julia
