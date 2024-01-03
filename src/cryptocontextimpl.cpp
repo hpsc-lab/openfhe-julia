@@ -14,12 +14,12 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("KeyGen", &WrappedT::KeyGen);
         wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
         wrapped.method("EvalRotateKeyGen", &WrappedT::EvalRotateKeyGen);
-        using ParmType = lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> >;
+        using ParamType = lbcrypto::ILDCRTParams<bigintdyn::ubint<long unsigned int> >;
         wrapped.method("MakeCKKSPackedPlaintext",
             static_cast<lbcrypto::Plaintext (WrappedT::*)(const std::vector<double>&,
                                                           size_t,
                                                           uint32_t,
-                                                          const std::shared_ptr<ParmType>,
+                                                          const std::shared_ptr<ParamType>,
                                                           usint) const>(&WrappedT::MakeCKKSPackedPlaintext));
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
