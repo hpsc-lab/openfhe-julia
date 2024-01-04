@@ -129,5 +129,3 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
-        env:
-          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
