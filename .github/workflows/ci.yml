@@ -42,9 +42,8 @@ jobs:
             shell: bash
           - os: macos-latest
             shell: bash
-          # Windows disabled due to build failures related to GitHub Actions
-          # - os: windows-latest
-          #   shell: 'msys2 {0}'
+          - os: windows-latest
+            shell: 'msys2 {0}'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -65,14 +64,14 @@ jobs:
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
-          path: ~/openfhe-development
+          path: openfhe-development/
           key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
       - name: Install OpenFHE
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
-          rm -rf ~/openfhe-development
-          mkdir -p ~/openfhe-development
-          cd ~/openfhe-development
+          rm -rf openfhe-development
+          mkdir -p openfhe-development
+          cd openfhe-development
           git clone https://github.com/openfheorg/openfhe-development.git .
           git checkout v$OPENFHE_VERSION
           mkdir build
@@ -88,30 +87,43 @@ jobs:
       - uses: actions/cache@v3
         id: cache-libcxxwrap-julia
         with:
-          path: ~/libcxxwrap-julia
+          path: libcxxwrap-julia/
           key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
-          rm -rf ~/libcxxwrap-julia
-          mkdir -p ~/libcxxwrap-julia
-          cd ~/libcxxwrap-julia
+          # The following line does somehow not work properly on GitHub Actions under Windows
+          rm -rf libcxxwrap-julia
+          mkdir -p libcxxwrap-julia
+          cd libcxxwrap-julia
           git clone https://github.com/JuliaInterop/libcxxwrap-julia.git .
           git checkout v$LIBCXXWRAP_JULIA_VERSION
           mkdir build
           cd build
-          julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DJulia_PREFIX="$julia_prefix"
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
+            -G "Unix Makefiles" \
+            -DJLCXX_BUILD_EXAMPLES=OFF \
+            -DJLCXX_BUILD_TESTS=OFF
           make -j 2
           make install
+        env:
+          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       - name: Build openfhe-julia
         run: |
           mkdir build && cd build
-          JlCxx_DIR="$HOME/libcxxwrap-julia/install/"
-          OpenFHE_DIR="$HOME/openfhe-development/install/"
-          cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR"
+          JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
+          OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
+          cmake .. \
+            -DCMAKE_INSTALL_PREFIX=../install \
+            -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
+            -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
+            -G "Unix Makefiles"
           make -j 2
           make install
+        env:
+          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
