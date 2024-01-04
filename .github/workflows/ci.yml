@@ -136,7 +136,11 @@ jobs:
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
           # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $JULIA_BINDIR)"
+          echo $julia_prefix
           julia_prefix="$(dirname $(cat julia_bindir))"
+          echo $julia_prefix
+          julia_prefix="$JULIA_PREFIX"
           mkdir build && cd build
           JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
           OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
@@ -147,6 +151,9 @@ jobs:
             -G "Unix Makefiles"
           make -j 2
           make install
+        env:
+          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
+          JULIA_PREFIX: ${{ steps.julia-prefix.outputs.path }}
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
