@@ -61,22 +61,6 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
-      - name: Store Julia binary directory in output (needed for Windows builds)
-        # Note: The problem is here that the PATH variable of the OS (Windows)
-        # is not propagated to the MSYS2 environment. Just calling `julia` will thus not
-        # find the Julia installation. This step here is a crude workaround:
-        # We store the Julia binary directory in a file and reuse it later
-        id: julia-prefix
-        run: |
-          output_file = ENV["GITHUB_OUTPUT"]
-          output = "dir=$(dirname(Sys.BINDIR))\n"
-          @show output_file
-          @show output
-          open(output_file; append = true) do io
-              write(io, output)
-          end
-          write("julia_bindir", Sys.BINDIR)
-        shell: julia --color=yes {0}
       - uses: actions/cache@v3
         id: cache-openfhe
         with:
@@ -109,11 +93,6 @@ jobs:
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
-          julia_prefix="$(dirname $JULIA_BINDIR)"
-          echo $julia_prefix
-          julia_prefix="$(dirname $(cat julia_bindir))"
-          echo $julia_prefix
-          julia_prefix="$JULIA_PREFIX"
           rm -rf libcxxwrap-julia
           mkdir -p libcxxwrap-julia
           cd libcxxwrap-julia
@@ -123,7 +102,7 @@ jobs:
           cd build
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
-            -DJulia_PREFIX="$julia_prefix" \
+            -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
             -DJLCXX_BUILD_TESTS=OFF
@@ -131,31 +110,25 @@ jobs:
           make install
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
-          JULIA_PREFIX: ${{ steps.julia-prefix.outputs.path }}
       - name: Build openfhe-julia
         run: |
-          # The following line does somehow not work properly on GitHub Actions under Windows
-          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
-          julia_prefix="$(dirname $JULIA_BINDIR)"
-          echo $julia_prefix
-          julia_prefix="$(dirname $(cat julia_bindir))"
-          echo $julia_prefix
-          julia_prefix="$JULIA_PREFIX"
           mkdir build && cd build
           JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
           OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
-            -DJulia_PREFIX="$julia_prefix" \
+            -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles"
           make -j 2
           make install
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
-          JULIA_PREFIX: ${{ steps.julia-prefix.outputs.path }}
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        if: ${{ matrix.os == 'windows-latest' && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
+        env:
+          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
