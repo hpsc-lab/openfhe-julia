@@ -61,11 +61,20 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
-      - name: Store Julia BINDIR in temporary file (needed mainly for Windows builds)
-        # Note: The problem is here that the PATH variable of the OS (specifically, Windows)
-        # is not propagated to the MSYS2 environment. Thus just calling `julia` will not
-        # found the Julia installation. This step here is a crude workaround.
+      - name: Store Julia binary directory in output (needed for Windows builds)
+        # Note: The problem is here that the PATH variable of the OS (Windows)
+        # is not propagated to the MSYS2 environment. Just calling `julia` will thus not
+        # find the Julia installation. This step here is a crude workaround:
+        # We store the Julia binary directory in a file and reuse it later
+        id: julia-prefix
         run: |
+          output_file = ENV["GITHUB_OUTPUT"]
+          output = "dir=$(dirname(Sys.BINDIR))\n"
+          @show output_file
+          @show output
+          open(output_file; append = true) do io
+              write(io, output)
+          end
           write("julia_bindir", Sys.BINDIR)
         shell: julia --color=yes {0}
       - uses: actions/cache@v3
@@ -100,8 +109,11 @@ jobs:
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
-          # julia_prefix="$(dirname ${{ steps.setup-julia.outputs.julia-bindir }})"
+          julia_prefix="$(dirname $JULIA_BINDIR)"
+          echo $julia_prefix
           julia_prefix="$(dirname $(cat julia_bindir))"
+          echo $julia_prefix
+          julia_prefix="$JULIA_PREFIX"
           rm -rf libcxxwrap-julia
           mkdir -p libcxxwrap-julia
           cd libcxxwrap-julia
@@ -117,6 +129,9 @@ jobs:
             -DJLCXX_BUILD_TESTS=OFF
           make -j 2
           make install
+        env:
+          JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
+          JULIA_PREFIX: ${{ steps.julia-prefix.outputs.path }}
       - name: Build openfhe-julia
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
