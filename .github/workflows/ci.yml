@@ -115,7 +115,6 @@ jobs:
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
             -DJLCXX_BUILD_TESTS=OFF
-          ls -la
           make -j 2
           make install
       - name: Build openfhe-julia
@@ -126,10 +125,6 @@ jobs:
           mkdir build && cd build
           JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
           OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
-          echo "JlCxx_DIR: $JlCxx_DIR"
-          ls -la $JlCxx_DIR
-          echo "OpenFHE_DIR:$OpenFHE_DIR"
-          ls -la $OpenFHE_DIR
           cmake .. \
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
@@ -139,7 +134,6 @@ jobs:
           make install
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
-        if: ${{ matrix.os == 'windows-latest' && always() }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
