@@ -78,13 +78,13 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/publickeyimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/keypair.cpp
   ${CMAKE_SOURCE_DIR}/src/plaintextimpl.cpp
-  ${CMAKE_SOURCE_DIR}/src/plaintext.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptoobject.cpp
   ${CMAKE_SOURCE_DIR}/src/ciphertextimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/decryptresult.cpp
   ${CMAKE_SOURCE_DIR}/src/ubint.cpp
   ${CMAKE_SOURCE_DIR}/src/ildcrtparams.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/auxiliary.cpp
 )
 target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
 target_include_directories(openfhe_julia PRIVATE ${CMAKE_SOURCE_DIR}/include)

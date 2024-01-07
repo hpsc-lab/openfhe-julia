@@ -15,7 +15,6 @@
 #include "openfhe_julia/publickeyimpl.h"
 #include "openfhe_julia/keypair.h"
 #include "openfhe_julia/plaintextimpl.h"
-#include "openfhe_julia/plaintext.h"
 #include "openfhe_julia/cryptocontextproxy.h"
 #include "openfhe_julia/cryptoobject.h"
 #include "openfhe_julia/ciphertextimpl.h"
@@ -23,6 +22,7 @@
 #include "openfhe_julia/ubint.h"
 #include "openfhe_julia/ildcrtparams.h"
 #include "openfhe_julia/cryptocontextimpl.h"
+#include "openfhe_julia/auxiliary.h"
 
 
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
@@ -45,7 +45,6 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_PublicKeyImpl(mod);
   wrap_KeyPair(mod);
   wrap_PlaintextImpl(mod);
-  wrap_Plaintext(mod);
   auto CryptoContextProxy_type = wrap_CryptoContextProxy_type(mod);
   wrap_CryptoObject(mod);
   wrap_CiphertextImpl(mod);
@@ -57,5 +56,6 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
 
   // Functions
   wrap_GenCryptoContext(mod);
+  wrap_auxiliary(mod);
 }
 
