@@ -33,14 +33,34 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
+
+        // EvalMult
+        // ConstCiphertext * ConstCiphertext
         wrapped.method("EvalMult",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
+        // ConstCiphertext * ConstPlaintext
+        wrapped.method("EvalMult",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstPlaintext) const>(&WrappedT::EvalMult));
+        // ConstPlaintext * ConstCiphertext
+        wrapped.method("EvalMult",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstPlaintext,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
+        // ConstCiphertext * double
         wrapped.method("EvalMult",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
                                       double) const>(&WrappedT::EvalMult));
+        // double * ConstCiphertext
+        wrapped.method("EvalMult",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(double,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
+
         wrapped.method("EvalRotate", &WrappedT::EvalRotate);
         wrapped.method("Decrypt",
             static_cast<lbcrypto::DecryptResult
