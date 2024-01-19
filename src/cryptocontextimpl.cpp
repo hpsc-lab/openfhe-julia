@@ -52,9 +52,32 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(double,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalAdd));
+
+        // EvalSub
+        // ConstCiphertext - ConstCiphertext
         wrapped.method("EvalSub",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
+        // ConstCiphertext - ConstPlaintext
+        wrapped.method("EvalSub",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstPlaintext) const>(&WrappedT::EvalSub));
+        // ConstPlaintext - ConstCiphertext
+        wrapped.method("EvalSub",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstPlaintext,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
+        // ConstCiphertext - double
+        wrapped.method("EvalSub",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      double) const>(&WrappedT::EvalSub));
+        // double - ConstCiphertext
+        wrapped.method("EvalSub",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(double,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
 
         // EvalMult
