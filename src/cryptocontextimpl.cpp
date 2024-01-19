@@ -107,6 +107,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                         (WrappedT::*)(double,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
 
+        wrapped.method("EvalNegate", &WrappedT::EvalNegate);
         wrapped.method("EvalRotate", &WrappedT::EvalRotate);
         wrapped.method("Decrypt",
             static_cast<lbcrypto::DecryptResult
