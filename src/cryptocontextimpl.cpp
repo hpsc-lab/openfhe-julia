@@ -8,12 +8,22 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextImpl", jlcxx::julia_base_type<lbcrypto::Serializable>())
     .apply<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
         typedef typename decltype(wrapped)::type WrappedT;
+
+        // Enable
         wrapped.method("Enable",
             static_cast<void (WrappedT::*)(lbcrypto::PKESchemeFeature)>(&WrappedT::Enable));
+
+        // Key generation level
+        wrapped.method("GetKeyGenLevel", &WrappedT::GetKeyGenLevel);
+        wrapped.method("SetKeyGenLevel", &WrappedT::SetKeyGenLevel);
+
+        wrapped.method("GetCyclotomicOrder", &WrappedT::GetCyclotomicOrder);
         wrapped.method("GetRingDimension", &WrappedT::GetRingDimension);
+        wrapped.method("GetModulus", &WrappedT::GetModulus);
+        wrapped.method("GetRootOfUnity", &WrappedT::GetRootOfUnity);
+
         wrapped.method("KeyGen", &WrappedT::KeyGen);
-        wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
-        wrapped.method("EvalRotateKeyGen", &WrappedT::EvalRotateKeyGen);
+
         using ParamType = lbcrypto::ILDCRTParams<bigintdyn::ubint<expdtype> >;
         wrapped.method("MakeCKKSPackedPlaintext",
             static_cast<lbcrypto::Plaintext (WrappedT::*)(const std::vector<double>&,
@@ -21,10 +31,39 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                                                           uint32_t,
                                                           const std::shared_ptr<ParamType>,
                                                           usint) const>(&WrappedT::MakeCKKSPackedPlaintext));
+
+        // Encrypt
+        wrapped.method("Encrypt",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(const lbcrypto::Plaintext&,
+                                      const lbcrypto::PublicKey<lbcrypto::DCRTPoly>) const>(&WrappedT::Encrypt));
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>,
                                       lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
+        wrapped.method("Encrypt",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(const lbcrypto::Plaintext&,
+                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>) const>(&WrappedT::Encrypt));
+        wrapped.method("Encrypt",
+            static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
+                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
+
+        // Decrypt
+        wrapped.method("Decrypt",
+            static_cast<lbcrypto::DecryptResult
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+        wrapped.method("Decrypt",
+            static_cast<lbcrypto::DecryptResult
+                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+
+        // EvalNegate
+        wrapped.method("EvalNegate", &WrappedT::EvalNegate);
 
         // EvalAdd
         // ConstCiphertext + ConstCiphertext
@@ -80,6 +119,8 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                         (WrappedT::*)(double,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
 
+        wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
+
         // EvalMult
         // ConstCiphertext * ConstCiphertext
         wrapped.method("EvalMult",
@@ -107,18 +148,29 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                         (WrappedT::*)(double,
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalMult));
 
-        wrapped.method("EvalNegate", &WrappedT::EvalNegate);
+        wrapped.method("EvalSquare", &WrappedT::EvalSquare);
+
+        wrapped.method("EvalMultNoRelin", &WrappedT::EvalMultNoRelin);
+        wrapped.method("Relinearize", &WrappedT::Relinearize);
+        wrapped.method("RelinearizeInPlace", &WrappedT::RelinearizeInPlace);
+
         wrapped.method("EvalRotate", &WrappedT::EvalRotate);
-        wrapped.method("Decrypt",
-            static_cast<lbcrypto::DecryptResult
-                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
-                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
-                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
-        wrapped.method("Decrypt",
-            static_cast<lbcrypto::DecryptResult
-                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
-                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
-                                      lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
+        wrapped.method("EvalRotateKeyGen", &WrappedT::EvalRotateKeyGen);
+
+        wrapped.method("ComposedEvalMult", &WrappedT::ComposedEvalMult);
+        wrapped.method("Rescale", &WrappedT::Rescale);
+        wrapped.method("RescaleInPlace", &WrappedT::RescaleInPlace);
+        wrapped.method("ModReduce", &WrappedT::ModReduce);
+        wrapped.method("ModReduceInPlace", &WrappedT::ModReduceInPlace);
+
+        wrapped.method("EvalSin", &WrappedT::EvalSin);
+        wrapped.method("EvalCos", &WrappedT::EvalCos);
+        wrapped.method("EvalLogistic", &WrappedT::EvalSin);
+        wrapped.method("EvalDivide", &WrappedT::EvalDivide);
+
+        wrapped.method("EvalSumKeyGen", &WrappedT::EvalSumKeyGen);
+        wrapped.method("EvalSum", &WrappedT::EvalSum);
+
         wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
         wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
         wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
