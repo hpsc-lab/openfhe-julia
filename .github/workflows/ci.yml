@@ -61,7 +61,7 @@ jobs:
         with:
           version: ${{ env.JULIA_VERSION }}
           show-versioninfo: true
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: cache-openfhe
         with:
           path: openfhe-development/
@@ -84,7 +84,7 @@ jobs:
             -DBUILD_UNITTESTS=OFF
           make -j 2
           make install
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: cache-libcxxwrap-julia
         with:
           path: libcxxwrap-julia/
