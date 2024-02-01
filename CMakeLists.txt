@@ -84,6 +84,7 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/ubint.cpp
   ${CMAKE_SOURCE_DIR}/src/ildcrtparams.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/encodingparamsimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/auxiliary.cpp
 )
 target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
