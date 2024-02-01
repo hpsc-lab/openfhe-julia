@@ -1,0 +1,8 @@
+name = "MyOpenFHE"
+uuid = "0400532b-4f9e-4a67-a074-ecdbc0230e40"
+authors = ["Michael Schlottke-Lakemper <michael@sloede.com>"]
+version = "0.1.0"
+
+[deps]
+CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
+Preferences = "21216c6a-2e73-6563-6e65-726566657250"
