@@ -18,6 +18,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("GetKeyGenLevel", &WrappedT::GetKeyGenLevel);
         wrapped.method("SetKeyGenLevel", &WrappedT::SetKeyGenLevel);
 
+        wrapped.method("GetEncodingParams", &WrappedT::GetEncodingParams);
         wrapped.method("GetCyclotomicOrder", &WrappedT::GetCyclotomicOrder);
         wrapped.method("GetRingDimension", &WrappedT::GetRingDimension);
         wrapped.method("GetModulus", &WrappedT::GetModulus);
