@@ -22,8 +22,8 @@
 #include "openfhe_julia/decryptresult.h"
 #include "openfhe_julia/ubint.h"
 #include "openfhe_julia/ildcrtparams.h"
-#include "openfhe_julia/cryptocontextimpl.h"
 #include "openfhe_julia/encodingparamsimpl.h"
+#include "openfhe_julia/cryptocontextimpl.h"
 #include "openfhe_julia/auxiliary.h"
 
 
@@ -54,9 +54,9 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ubint(mod);
   wrap_ILDCRTParams(mod);
+  wrap_EncodingParamsImpl(mod);
   wrap_CryptoContextImpl(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
-  wrap_EncodingParamsImpl(mod);
 
   // Functions
   wrap_GenCryptoContext(mod);
