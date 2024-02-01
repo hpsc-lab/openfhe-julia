@@ -122,8 +122,21 @@ jobs:
             -G "Unix Makefiles"
           make -j 2
           make install
+          libopenfhe_julia_path="$(dirname $(pwd))/install/lib/libopenfhe_julia.so"
+          echo "LIBOPENFHE_JULIA_PATH=$libopenfhe_julia_path" >> "$GITHUB_ENV"
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
+      - name: Initialize Julia tests
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          cd test
+          julia --color=yes init.jl $LIBOPENFHE_JULIA_PATH
+      - name: Run Julia tests
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          julia --color=yes --project=test test/test.jl
+        env:
+          LD_LIBRARY_PATH: ${{ github.workspace }}/openfhe-development/install/lib
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
