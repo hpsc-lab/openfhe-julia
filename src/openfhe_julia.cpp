@@ -5,6 +5,7 @@
 
 #include "openfhe_julia/jlcxx_parameters.h"
 #include "openfhe_julia/enums.h"
+#include "openfhe_julia/nativeinteger.h"
 #include "openfhe_julia/cryptocontextckksrns.h"
 #include "openfhe_julia/fheckksrns.h"
 #include "openfhe_julia/params.h"
@@ -36,6 +37,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_SecurityLevel(mod);
 
   // Classes
+  wrap_NativeInteger(mod);
   wrap_CryptoContextCKKSRNS(mod);
   wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
