@@ -5,7 +5,8 @@
 
 void wrap_CryptoContextImpl(jlcxx::Module& mod) {
   // Source: <OpenFHE>/src/pke/include/cryptocontext.h
-  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextImpl", jlcxx::julia_base_type<lbcrypto::Serializable>())
+  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextImpl",
+      jlcxx::julia_base_type<lbcrypto::Serializable>())
     .apply<lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
         typedef typename decltype(wrapped)::type WrappedT;
 
@@ -17,6 +18,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("GetKeyGenLevel", &WrappedT::GetKeyGenLevel);
         wrapped.method("SetKeyGenLevel", &WrappedT::SetKeyGenLevel);
 
+        wrapped.method("GetEncodingParams", &WrappedT::GetEncodingParams);
         wrapped.method("GetCyclotomicOrder", &WrappedT::GetCyclotomicOrder);
         wrapped.method("GetRingDimension", &WrappedT::GetRingDimension);
         wrapped.method("GetModulus", &WrappedT::GetModulus);

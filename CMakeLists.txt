@@ -68,6 +68,7 @@ message(STATUS "Found JlCxx at ${JlCxx_location}")
 add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp
   ${CMAKE_SOURCE_DIR}/src/enums.cpp
+  ${CMAKE_SOURCE_DIR}/src/nativeinteger.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextckksrns.cpp
   ${CMAKE_SOURCE_DIR}/src/fheckksrns.cpp
   ${CMAKE_SOURCE_DIR}/src/params.cpp
@@ -84,6 +85,7 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/ubint.cpp
   ${CMAKE_SOURCE_DIR}/src/ildcrtparams.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/encodingparamsimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/auxiliary.cpp
 )
 target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
