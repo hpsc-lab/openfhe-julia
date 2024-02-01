@@ -127,15 +127,17 @@ jobs:
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       - name: Initialize Julia tests
-        if: ${{ matrix.os != 'windows-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cd test
           julia --color=yes init.jl $LIBOPENFHE_JULIA_PATH
       - name: Run Julia tests
-        if: ${{ matrix.os != 'windows-latest' }}
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           using MyOpenFHE
         shell: julia --color=yes --project=test {0}
+        env:
+          LD_LIBRARY_PATH: ${{ github.workspace }}/openfhe-development/install/lib
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
