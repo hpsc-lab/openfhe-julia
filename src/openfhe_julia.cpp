@@ -5,6 +5,7 @@
 
 #include "openfhe_julia/jlcxx_parameters.h"
 #include "openfhe_julia/enums.h"
+#include "openfhe_julia/nativeinteger.h"
 #include "openfhe_julia/cryptocontextckksrns.h"
 #include "openfhe_julia/fheckksrns.h"
 #include "openfhe_julia/params.h"
@@ -21,6 +22,7 @@
 #include "openfhe_julia/decryptresult.h"
 #include "openfhe_julia/ubint.h"
 #include "openfhe_julia/ildcrtparams.h"
+#include "openfhe_julia/encodingparamsimpl.h"
 #include "openfhe_julia/cryptocontextimpl.h"
 #include "openfhe_julia/auxiliary.h"
 
@@ -35,6 +37,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_SecurityLevel(mod);
 
   // Classes
+  wrap_NativeInteger(mod);
   wrap_CryptoContextCKKSRNS(mod);
   wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
@@ -51,6 +54,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ubint(mod);
   wrap_ILDCRTParams(mod);
+  wrap_EncodingParamsImpl(mod);
   wrap_CryptoContextImpl(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 
