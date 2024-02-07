@@ -137,6 +137,7 @@ jobs:
           julia --color=yes --project=test test/test.jl
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        # if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        if: ${{ always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
