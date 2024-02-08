@@ -47,6 +47,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_PrivateKeyImpl(mod);
   wrap_PublicKeyImpl(mod);
   wrap_KeyPair(mod);
+  wrap_EncodingParamsImpl(mod);
   wrap_PlaintextImpl(mod);
   auto CryptoContextProxy_type = wrap_CryptoContextProxy_type(mod);
   wrap_CryptoObject(mod);
@@ -54,7 +55,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ubint(mod);
   wrap_ILDCRTParams(mod);
-  wrap_EncodingParamsImpl(mod);
+  //wrap_EncodingParamsImpl(mod);
   wrap_CryptoContextImpl(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 

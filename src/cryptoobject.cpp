@@ -2,7 +2,6 @@
 #include "openfhe.h"
 
 #include "openfhe_julia/cryptocontextproxy.h"
-#include "openfhe_julia/jlcxx_parameters.h"
 
 void wrap_CryptoObject(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoObject")

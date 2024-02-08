@@ -1,8 +1,6 @@
 #include "jlcxx/jlcxx.hpp"
 #include "openfhe.h"
 
-#include "openfhe_julia/jlcxx_parameters.h"
-
 void wrap_PlaintextImpl(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::PlaintextImpl>("PlaintextImpl")
     .method("GetScalingFactor", &lbcrypto::PlaintextImpl::GetScalingFactor)
