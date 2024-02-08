@@ -18,5 +18,4 @@ using Test
     @show batch_size = Int(MyOpenFHE.GetBatchSize(ep[]))
 
     @test batch_size == 8192
-
 end
