@@ -6,6 +6,7 @@ void wrap_PlaintextImpl(jlcxx::Module& mod) {
     .method("GetScalingFactor", &lbcrypto::PlaintextImpl::GetScalingFactor)
     .method("SetScalingFactor", &lbcrypto::PlaintextImpl::SetScalingFactor)
     .method("IsEncoded", &lbcrypto::PlaintextImpl::IsEncoded)
+    .method("GetEncodingParams", &lbcrypto::PlaintextImpl::GetEncodingParams)
     .method("GetElementRingDimension", &lbcrypto::PlaintextImpl::GetElementRingDimension)
     .method("GetLength", &lbcrypto::PlaintextImpl::GetLength)
     .method("SetLength", &lbcrypto::PlaintextImpl::SetLength)
