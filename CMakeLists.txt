@@ -27,6 +27,8 @@ if (OpenFHE_FOUND)
     message(STATUS "OpenFHE installed as shared libraries: ${OpenFHE_SHARED}")
     message(STATUS "OpenFHE include files location: ${OpenFHE_INCLUDE}")
     message(STATUS "OpenFHE lib files location: ${OpenFHE_LIBDIR}")
+    message(STATUS "OpenFHE shared libraries: ${OpenFHE_SHARED_LIBRARIES}")
+    message(STATUS "OpenFHE static libraries: ${OpenFHE_STATIC_LIBRARIES}")
     message(STATUS "OpenFHE Native Backend size: ${OpenFHE_NATIVE_SIZE}")
 else()
     message(FATAL_ERROR "PACKAGE OpenFHE NOT FOUND")
@@ -54,17 +56,17 @@ endif()
 
 
 ### Dependency: libcxxwrap-julia
-set(CMAKE_MACOSX_RPATH 1)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-
 find_package(JlCxx)
 get_target_property(JlCxx_location JlCxx::cxxwrap_julia LOCATION)
 get_filename_component(JlCxx_location ${JlCxx_location} DIRECTORY)
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${JlCxx_location}")
 
 message(STATUS "Found JlCxx at ${JlCxx_location}")
 
 # openfhe-julia
+set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${JlCxx_location};${OpenFHE_LIBDIR}")
+
 add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp
   ${CMAKE_SOURCE_DIR}/src/enums.cpp
