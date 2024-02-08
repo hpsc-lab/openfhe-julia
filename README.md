@@ -91,6 +91,9 @@ OpenFHE-julia was initiated by [Michael Schlottke-Lakemper](https://lakemper.eu)
 Aachen University/High-Performance Computing Center Stuttgart (HLRS), Germany), who is also
 its principal maintainer.
 
+Further contributions to OpenFHE-julia have been made by the following people:
+* [Arseniy Kholod](https://www.github.com/ArseniyKholod) (RWTH Aachen University, Germany)
+
 
 ## License and contributing
 OpenFHE-julia is available under the BSD 2-Clause license (see [LICENSE.md](LICENSE.md)).
