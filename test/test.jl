@@ -15,7 +15,7 @@ using Test
         0)
     @show MyOpenFHE.SetLength(ptxt[], length(x))
     @show ep = MyOpenFHE.GetEncodingParams(ptxt[])
-    @show batch_size= Int(MyOpenFHE.GetBatchSize(ep[]))
+    @show batch_size = Int(MyOpenFHE.GetBatchSize(ep[]))
 
     @test batch_size == 8192
 
