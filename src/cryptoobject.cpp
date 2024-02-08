@@ -10,6 +10,6 @@ void wrap_CryptoObject(jlcxx::Module& mod) {
         wrapped.method("GetCryptoContextProxy", [](WrappedT& w) {
             return openfhe_julia::CryptoContextProxy(w.GetCryptoContext());
           });
-	wrapped.method("GetEncodingParameters", &WrappedT::GetEncodingParameters);
+	    wrapped.method("GetEncodingParameters", &WrappedT::GetEncodingParameters);
       });
 }
