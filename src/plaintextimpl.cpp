@@ -1,11 +1,14 @@
 #include "jlcxx/jlcxx.hpp"
 #include "openfhe.h"
 
+#include "openfhe_julia/jlcxx_parameters.h"
+
 void wrap_PlaintextImpl(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::PlaintextImpl>("PlaintextImpl")
     .method("GetScalingFactor", &lbcrypto::PlaintextImpl::GetScalingFactor)
     .method("SetScalingFactor", &lbcrypto::PlaintextImpl::SetScalingFactor)
     .method("IsEncoded", &lbcrypto::PlaintextImpl::IsEncoded)
+    .method("GetEncodingParams", &lbcrypto::PlaintextImpl::GetEncodingParams)
     .method("GetElementRingDimension", &lbcrypto::PlaintextImpl::GetElementRingDimension)
     .method("GetLength", &lbcrypto::PlaintextImpl::GetLength)
     .method("SetLength", &lbcrypto::PlaintextImpl::SetLength)
