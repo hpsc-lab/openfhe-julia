@@ -19,25 +19,37 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
    git clone git@github.com:openfheorg/openfhe-development.git
    cd openfhe-development
    mkdir build && cd build
-   cmake .. -DCMAKE_INSTALL_PREFIX=../install
+   cmake .. -DCMAKE_INSTALL_PREFIX=../install \
+       -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF \
+       -DLIBINSTALL="$(dirname $(pwd))/install/lib"
    make -j 4
    make install
    ```
-   Note that sometimes it might be necessary to explicitly enable the `BE2` and `BE4`
-   backends by providing `-DWITH_BE2=ON -DWITH_BE4=ON` to CMake. In case you experience
-   problems with building the benchmarks and/or unit tests but do not actually need them,
-   you can disable them by adding `-DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF`.
+   Sometimes it might be necessary to explicitly enable the `BE2` and `BE4`
+   backends by providing `-DWITH_BE2=ON -DWITH_BE4=ON` to CMake. In case you would like to
+   include the benchmarks and/or unit tests, you can enable them again by removing the
+   respective flag that disables them.
+
+   Note: The argument `-DLIBINSTALL=...` may be removed once
+   [this issue](https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071)
+   has been resolved upstream.
 2. Locally build and install
    [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia). For example on
    Linux:
    ```shell
    git clone git@github.com:JuliaInterop/libcxxwrap-julia.git
    cd libcxxwrap-julia
+   git checkout v0.11.2
    mkdir build && cd build
    cmake .. -DCMAKE_INSTALL_PREFIX=../install
    make -j 4
    make install
    ```
+   The version tag in the line  `git checkout <version>` should be updated to the latest
+   `libcxxwrap-julia` version that is compatible with the current release of CxxWrap.jl
+   release (see
+   [here](https://github.com/JuliaInterop/libcxxwrap-julia#using-libcxxwrap-julia-as-a-dependency-for-downstream-packages)
+   for further information).
 3. Clone this repository:
    ```shell
    git clone git@github.com:sloede/openfhe-julia.git

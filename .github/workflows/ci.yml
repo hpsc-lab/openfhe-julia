@@ -135,6 +135,9 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           julia --color=yes --project=test test/test.jl
+        # The following env setting is required until
+        # https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071
+        # is fixed
         env:
           LD_LIBRARY_PATH: ${{ github.workspace }}/openfhe-development/install/lib
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
