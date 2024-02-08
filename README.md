@@ -55,13 +55,8 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
 
 
 ## Development
-Unfortunately, there is not much documentation available at the moment. To wrap additional
-C++ functions or types from OpenFHE, proceed roughly as follows:
-1. Check the sources of OpenFHE for the type/function you want to make available in Julia.
-2. Open [`src/openfhe_julia.cpp`](src/openfhe_julia.cpp) and check the file structure to
-   figure out where your addition might fit.
-3. If it is not clear how to properly wrap your new addition, consult the `README.md` for
-   [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl).
+Unfortunately, there is not much documentation for developers available at the moment. The
+little we have can be found in [`development.md`](development.md).
 
 
 ## Referencing
