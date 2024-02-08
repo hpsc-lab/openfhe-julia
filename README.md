@@ -19,14 +19,20 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
    git clone git@github.com:openfheorg/openfhe-development.git
    cd openfhe-development
    mkdir build && cd build
-   cmake .. -DCMAKE_INSTALL_PREFIX=../install -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
+   cmake .. -DCMAKE_INSTALL_PREFIX=../install \
+       -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF \
+       -DLIBINSTALL="$(dirname $(pwd))/install/lib"
    make -j 4
    make install
    ```
-   Note that sometimes it might be necessary to explicitly enable the `BE2` and `BE4`
+   Sometimes it might be necessary to explicitly enable the `BE2` and `BE4`
    backends by providing `-DWITH_BE2=ON -DWITH_BE4=ON` to CMake. In case you would like to
    include the benchmarks and/or unit tests, you can enable them again by removing the
    respective flag that disables them.
+
+   Note: The argument `-DLIBINSTALL=...` may be removed once
+   [this issue](https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071)
+   has been resolved upstream.
 2. Locally build and install
    [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia). For example on
    Linux:
