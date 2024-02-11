@@ -1,3 +1,4 @@
 Manifest.toml
 Project.toml
 LocalPreferences.toml
+OpenFHE.jl
