@@ -156,9 +156,10 @@ jobs:
         shell: julia --color=yes --project=test/OpenFHE.jl {0}
         run: |
           using OpenFHE
-          @show OpenFHE.libopenfhe_julia_path
           using Pkg
+
           Pkg.instantiate()
+          @show OpenFHE.libopenfhe_julia_path
           Pkg.test(coverage=false)
         # The following env setting is required until
         # https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071
