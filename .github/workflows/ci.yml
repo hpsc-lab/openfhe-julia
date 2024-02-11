@@ -155,6 +155,8 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: julia --color=yes --project=test/OpenFHE.jl {0}
         run: |
+          using OpenFHE
+          @show OpenFHE.libopenfhe_julia_path
           using Pkg
           Pkg.instantiate()
           Pkg.test(coverage=false)
