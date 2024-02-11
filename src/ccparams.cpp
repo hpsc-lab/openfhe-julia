@@ -5,6 +5,6 @@
 
 void wrap_CCParams(jlcxx::Module& mod) {
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CCParams", jlcxx::julia_base_type<lbcrypto::Params>())
-    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>>([](auto wrapped) {})
-    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextBFVRNS>>([](auto wrapped) {});
+    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextBFVRNS>>([](auto wrapped) {})
+    .apply<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>>([](auto wrapped) {});
 }
