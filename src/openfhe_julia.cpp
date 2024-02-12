@@ -32,11 +32,22 @@
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   // Enums
   wrap_PKESchemeFeature(mod);
-  wrap_KeySwitchTechnique(mod);
   wrap_ScalingTechnique(mod);
+  wrap_ProxyReEncryptionMode(mod);
+  wrap_MultipartyMode(mod);
+  wrap_ExecutionMode(mod);
+  wrap_DecryptionNoiseMode(mod);
+  wrap_KeySwitchTechnique(mod);
+  wrap_EncryptionTechnique(mod);
+  wrap_MultiplicationTechnique(mod);
+  wrap_PlaintextEncodings(mod);
+  wrap_LargeScalingFactorConstants(mod);
+  wrap_NOISE_FLOODING(mod);
+  wrap_COMPRESSION_LEVEL(mod);
   wrap_SecretKeyDist(mod);
   wrap_DistributionType(mod);
   wrap_SecurityLevel(mod);
+  wrap_SCHEME(mod);
 
   // Classes
   wrap_NativeInteger(mod);
