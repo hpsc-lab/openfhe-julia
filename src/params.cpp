@@ -3,7 +3,9 @@
 
 void wrap_Params(jlcxx::Module& mod) {
   // Source: <OpenFHE>/src/pke/include/scheme/gen-cryptocontext-params.h
-  // Note: This wraps all non-constructor/destructor methods (except where commented)
+  // Note: This file alreay contains all functions (except constructors) that are defined
+  //       in OpenFHE. For feature completeness, one only needs to implement the currently
+  //       commented functions.
   mod.add_type<lbcrypto::Params>("Params")
     // .method("GetScheme", &lbcrypto::Params::GetScheme) // missing types
     .method("GetPlaintextModulus", &lbcrypto::Params::GetPlaintextModulus)
