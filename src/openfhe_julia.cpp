@@ -7,6 +7,7 @@
 #include "openfhe_julia/enums.h"
 #include "openfhe_julia/nativeinteger.h"
 #include "openfhe_julia/cryptocontextbfvrns.h"
+#include "openfhe_julia/cryptocontextbgvrns.h"
 #include "openfhe_julia/cryptocontextckksrns.h"
 #include "openfhe_julia/fheckksrns.h"
 #include "openfhe_julia/params.h"
@@ -40,6 +41,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   // Classes
   wrap_NativeInteger(mod);
   wrap_CryptoContextBFVRNS(mod);
+  wrap_CryptoContextBGVRNS(mod);
   wrap_CryptoContextCKKSRNS(mod);
   wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
