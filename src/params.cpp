@@ -3,7 +3,7 @@
 
 void wrap_Params(jlcxx::Module& mod) {
   // Source: <OpenFHE>/src/pke/include/scheme/gen-cryptocontext-params.h
-  // Note: This file alreay contains all functions (except constructors) that are defined
+  // Note: This file already contains all functions (except constructors) that are defined
   //       in OpenFHE. For feature completeness, one only needs to implement the currently
   //       commented functions.
   mod.add_type<lbcrypto::Params>("Params")
