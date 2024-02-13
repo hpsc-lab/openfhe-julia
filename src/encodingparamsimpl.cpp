@@ -4,6 +4,8 @@
 #include "openfhe_julia/jlcxx_parameters.h"
 
 void wrap_EncodingParamsImpl(jlcxx::Module& mod) {
+  // Source: <OpenFHE>/src/pke/include/encoding/encodingparams.h
+  // Note: This file wraps all functions (except constructors) that are defined in OpenFHE
   mod.add_type<lbcrypto::EncodingParamsImpl>("EncodingParamsImpl",
       jlcxx::julia_base_type<lbcrypto::Serializable>())
     .method("GetPlaintextModulus", &lbcrypto::EncodingParamsImpl::GetPlaintextModulus)
