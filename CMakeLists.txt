@@ -70,6 +70,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib;${JlCxx_location};${OpenFHE
 add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp
   ${CMAKE_SOURCE_DIR}/src/enums.cpp
+  ${CMAKE_SOURCE_DIR}/src/biginteger.cpp
   ${CMAKE_SOURCE_DIR}/src/nativeinteger.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbfvrns.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbgvrns.cpp

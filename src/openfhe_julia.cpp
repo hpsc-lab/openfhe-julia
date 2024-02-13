@@ -5,6 +5,7 @@
 
 #include "openfhe_julia/jlcxx_parameters.h"
 #include "openfhe_julia/enums.h"
+#include "openfhe_julia/biginteger.h"
 #include "openfhe_julia/nativeinteger.h"
 #include "openfhe_julia/cryptocontextbfvrns.h"
 #include "openfhe_julia/cryptocontextbgvrns.h"
@@ -50,6 +51,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_SCHEME(mod);
 
   // Classes
+  wrap_BigInteger(mod);
   wrap_NativeInteger(mod);
   wrap_CryptoContextBFVRNS(mod);
   wrap_CryptoContextBGVRNS(mod);
