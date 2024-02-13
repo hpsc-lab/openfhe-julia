@@ -2,6 +2,21 @@
 #include "openfhe.h"
 
 void wrap_PublicKeyImpl(jlcxx::Module& mod) {
+  // Source: <OpenFHE>/src/pke/include/key/publickey.h
+  // Note: This file already contains all functions (except constructors) that are defined
+  //       in OpenFHE. For feature completeness, one only needs to implement the currently
+  //       commented functions.
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("PublicKeyImpl")
-    .apply<lbcrypto::PublicKeyImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {});
+    .apply<lbcrypto::PublicKeyImpl<lbcrypto::DCRTPoly>>([](auto wrapped) {
+        typedef typename decltype(wrapped)::type WrappedT;
+        // wrapped.method("GetPublicElements", &WrappedT::GetPublicElements);
+        // wrapped.method("SetPublicElements", &WrappedT::SetPublicElements);
+        // wrapped.method("SetPublicElementAtIndex", &WrappedT::SetPublicElementAtIndex);
+        wrapped.method("operator==", &WrappedT::operator==);
+        wrapped.method("operator!=", &WrappedT::operator!=);
+        // wrapped.method("save", &WrappedT::save);
+        // wrapped.method("load", &WrappedT::load);
+        wrapped.method("SerializedObjectName", &WrappedT::SerializedObjectName);
+        wrapped.method("PublicKeyImpl__SerializedVersion", &WrappedT::SerializedVersion);
+      });
 }
