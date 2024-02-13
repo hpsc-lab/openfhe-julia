@@ -183,7 +183,9 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
 
 void wrap_GenCryptoContext(jlcxx::Module& mod) {
   mod.method("GenCryptoContext",
-      &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextCKKSRNS>);
-  mod.method("GenCryptoContext",
       &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextBFVRNS>);
+  mod.method("GenCryptoContext",
+      &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextBGVRNS>);
+  mod.method("GenCryptoContext",
+      &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextCKKSRNS>);
 }
