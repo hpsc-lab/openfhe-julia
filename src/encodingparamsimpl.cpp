@@ -19,6 +19,8 @@ void wrap_EncodingParamsImpl(jlcxx::Module& mod) {
     .method("GetPlaintextGenerator", &lbcrypto::EncodingParamsImpl::GetPlaintextGenerator)
     .method("SetPlaintextGenerator", &lbcrypto::EncodingParamsImpl::SetPlaintextGenerator)
     .method("GetBatchSize", &lbcrypto::EncodingParamsImpl::GetBatchSize)
-    .method("SetBatchSize", &lbcrypto::EncodingParamsImpl::SetBatchSize);
+    .method("SetBatchSize", &lbcrypto::EncodingParamsImpl::SetBatchSize)
+    .method("operator==", &lbcrypto::EncodingParamsImpl::operator==)
+    .method("operator!=", &lbcrypto::EncodingParamsImpl::operator!=);
 }
 
