@@ -71,6 +71,7 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/openfhe_julia.cpp
   ${CMAKE_SOURCE_DIR}/src/enums.cpp
   ${CMAKE_SOURCE_DIR}/src/nativeinteger.cpp
+  ${CMAKE_SOURCE_DIR}/src/ubint.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbfvrns.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbgvrns.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextckksrns.cpp
@@ -86,7 +87,6 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/cryptoobject.cpp
   ${CMAKE_SOURCE_DIR}/src/ciphertextimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/decryptresult.cpp
-  ${CMAKE_SOURCE_DIR}/src/ubint.cpp
   ${CMAKE_SOURCE_DIR}/src/ildcrtparams.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/encodingparamsimpl.cpp

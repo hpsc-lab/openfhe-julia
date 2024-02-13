@@ -3,20 +3,18 @@
 
 void wrap_Params(jlcxx::Module& mod) {
   // Source: <OpenFHE>/src/pke/include/scheme/gen-cryptocontext-params.h
-  // Note: This file already contains all functions (except constructors) that are defined
-  //       in OpenFHE. For feature completeness, one only needs to implement the currently
-  //       commented functions.
+  // Note: This file wraps all functions (except constructors) that are defined in OpenFHE
   mod.add_type<lbcrypto::Params>("Params")
-    // .method("GetScheme", &lbcrypto::Params::GetScheme) // missing types
+    .method("GetScheme", &lbcrypto::Params::GetScheme)
     .method("GetPlaintextModulus", &lbcrypto::Params::GetPlaintextModulus)
     .method("GetDigitSize", &lbcrypto::Params::GetDigitSize)
     .method("GetStandardDeviation", &lbcrypto::Params::GetStandardDeviation)
     .method("GetSecretKeyDist", &lbcrypto::Params::GetSecretKeyDist)
     .method("GetMaxRelinSkDeg", &lbcrypto::Params::GetMaxRelinSkDeg)
-    // .method("GetPREMode", &lbcrypto::Params::GetPREMode) // missing types
-    // .method("GetMultipartyMode", &lbcrypto::Params::GetMultipartyMode) // missing types
-    // .method("GetExecutionMode", &lbcrypto::Params::GetExecutionMode // missing types)
-    // .method("GetDecryptionNoiseMode", &lbcrypto::Params::GetDecryptionNoiseMode) // missing types
+    .method("GetPREMode", &lbcrypto::Params::GetPREMode)
+    .method("GetMultipartyMode", &lbcrypto::Params::GetMultipartyMode)
+    .method("GetExecutionMode", &lbcrypto::Params::GetExecutionMode)
+    .method("GetDecryptionNoiseMode", &lbcrypto::Params::GetDecryptionNoiseMode)
     .method("GetNoiseEstimate", &lbcrypto::Params::GetNoiseEstimate)
     .method("GetDesiredPrecision", &lbcrypto::Params::GetDesiredPrecision)
     .method("GetStatisticalSecurity", &lbcrypto::Params::GetStatisticalSecurity)
@@ -33,21 +31,20 @@ void wrap_Params(jlcxx::Module& mod) {
     .method("GetRingDim", &lbcrypto::Params::GetRingDim)
     .method("GetEvalAddCount", &lbcrypto::Params::GetEvalAddCount)
     .method("GetKeySwitchCount", &lbcrypto::Params::GetKeySwitchCount)
-    // .method("GetEncryptionTechnique", &lbcrypto::Params::GetEncryptionTechnique) // missing types
-    // .method("GetMultiplicationTechnique", &lbcrypto::Params::GetMultiplicationTechnique) // missing types
+    .method("GetEncryptionTechnique", &lbcrypto::Params::GetEncryptionTechnique)
+    .method("GetMultiplicationTechnique", &lbcrypto::Params::GetMultiplicationTechnique)
     .method("GetMultiHopModSize", &lbcrypto::Params::GetMultiHopModSize)
-    // .method("GetInteractiveBootCompressionLevel", &lbcrypto::Params::GetInteractiveBootCompressionLevel) // missing types
+    .method("GetInteractiveBootCompressionLevel", &lbcrypto::Params::GetInteractiveBootCompressionLevel)
 
-    // .method("SetScheme", &lbcrypto::Params::SetScheme) // missing types
     .method("SetPlaintextModulus", &lbcrypto::Params::SetPlaintextModulus)
     .method("SetDigitSize", &lbcrypto::Params::SetDigitSize)
     .method("SetStandardDeviation", &lbcrypto::Params::SetStandardDeviation)
     .method("SetSecretKeyDist", &lbcrypto::Params::SetSecretKeyDist)
     .method("SetMaxRelinSkDeg", &lbcrypto::Params::SetMaxRelinSkDeg)
-    // .method("SetPREMode", &lbcrypto::Params::SetPREMode) // missing types
-    // .method("SetMultipartyMode", &lbcrypto::Params::SetMultipartyMode) // missing types
-    // .method("SetExecutionMode", &lbcrypto::Params::SetExecutionMode // missing types)
-    // .method("SetDecryptionNoiseMode", &lbcrypto::Params::SetDecryptionNoiseMode) // missing types
+    .method("SetPREMode", &lbcrypto::Params::SetPREMode)
+    .method("SetMultipartyMode", &lbcrypto::Params::SetMultipartyMode)
+    .method("SetExecutionMode", &lbcrypto::Params::SetExecutionMode)
+    .method("SetDecryptionNoiseMode", &lbcrypto::Params::SetDecryptionNoiseMode)
     .method("SetNoiseEstimate", &lbcrypto::Params::SetNoiseEstimate)
     .method("SetDesiredPrecision", &lbcrypto::Params::SetDesiredPrecision)
     .method("SetStatisticalSecurity", &lbcrypto::Params::SetStatisticalSecurity)
@@ -64,8 +61,8 @@ void wrap_Params(jlcxx::Module& mod) {
     .method("SetRingDim", &lbcrypto::Params::SetRingDim)
     .method("SetEvalAddCount", &lbcrypto::Params::SetEvalAddCount)
     .method("SetKeySwitchCount", &lbcrypto::Params::SetKeySwitchCount)
-    // .method("SetEncryptionTechnique", &lbcrypto::Params::SetEncryptionTechnique) // missing types
-    // .method("SetMultiplicationTechnique", &lbcrypto::Params::SetMultiplicationTechnique) // missing types
-    .method("SetMultiHopModSize", &lbcrypto::Params::SetMultiHopModSize);
-    // .method("SetInteractiveBootCompressionLevel", &lbcrypto::Params::SetInteractiveBootCompressionLevel) // missing types
+    .method("SetEncryptionTechnique", &lbcrypto::Params::SetEncryptionTechnique)
+    .method("SetMultiplicationTechnique", &lbcrypto::Params::SetMultiplicationTechnique)
+    .method("SetMultiHopModSize", &lbcrypto::Params::SetMultiHopModSize)
+    .method("SetInteractiveBootCompressionLevel", &lbcrypto::Params::SetInteractiveBootCompressionLevel);
 }
