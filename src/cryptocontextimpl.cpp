@@ -26,6 +26,8 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
 
         wrapped.method("KeyGen", &WrappedT::KeyGen);
 
+        wrapped.method("MakePackedPlaintext", &WrappedT::MakePackedPlaintext);
+
         using ParamType = lbcrypto::ILDCRTParams<bigintdyn::ubint<expdtype> >;
         wrapped.method("MakeCKKSPackedPlaintext",
             static_cast<lbcrypto::Plaintext (WrappedT::*)(const std::vector<double>&,
@@ -180,6 +182,10 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
 }
 
 void wrap_GenCryptoContext(jlcxx::Module& mod) {
+  mod.method("GenCryptoContext",
+      &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextBFVRNS>);
+  mod.method("GenCryptoContext",
+      &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextBGVRNS>);
   mod.method("GenCryptoContext",
       &lbcrypto::GenCryptoContext<lbcrypto::CryptoContextCKKSRNS>);
 }

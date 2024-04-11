@@ -2,5 +2,8 @@
 #include "openfhe.h"
 
 void wrap_Serializable(jlcxx::Module& mod) {
-  mod.add_type<lbcrypto::Serializable>("Serializable");
+  // Source: <OpenFHE>/src/core/include/utils/serializable.h
+  // Note: This file wraps all functions (except constructors) that are defined in OpenFHE
+  mod.add_type<lbcrypto::Serializable>("Serializable")
+    .method("SerializedObjectName", &lbcrypto::Serializable::SerializedObjectName);
 }
