@@ -17,6 +17,6 @@ void wrap_PublicKeyImpl(jlcxx::Module& mod) {
         // wrapped.method("save", &WrappedT::save);
         // wrapped.method("load", &WrappedT::load);
         wrapped.method("SerializedObjectName", &WrappedT::SerializedObjectName);
-        wrapped.method("PublicKeyImpl__SerializedVersion", &WrappedT::SerializedVersion);
+        wrapped.module().method("PublicKeyImpl__SerializedVersion", &WrappedT::SerializedVersion);
       });
 }
