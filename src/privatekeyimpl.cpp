@@ -16,6 +16,6 @@ void wrap_PrivateKeyImpl(jlcxx::Module& mod) {
         // wrapped.method("save", &WrappedT::save);
         // wrapped.method("load", &WrappedT::load);
         wrapped.method("SerializedObjectName", &WrappedT::SerializedObjectName);
-        wrapped.method("PrivateKeyImpl__SerializedVersion", &WrappedT::SerializedVersion);
+        wrapped.module().method("PrivateKeyImpl__SerializedVersion", &WrappedT::SerializedVersion);
       });
 }
