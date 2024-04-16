@@ -153,7 +153,7 @@ jobs:
           cp test/LocalPreferences.toml test/OpenFHE.jl/LocalPreferences.toml
           sed -i "s/MyOpenFHE/OpenFHE/" test/OpenFHE.jl/LocalPreferences.toml
           if [ -n "$FORCE_CXXWRAP_JL_VERSION" ]; then
-            sed -i "s/CxxWrap = \"[^\"]*\"/CxxWrap = \"=$FORCE_CXXWRAP_JL_VERSION\"/" test/OpenFHE.jl/Project.toml
+            sed -i "s/CxxWrap = \"0[^\"]*\"/CxxWrap = \"=$FORCE_CXXWRAP_JL_VERSION\"/" test/OpenFHE.jl/Project.toml
           fi
       - name: Run downstream Julia tests
         if: ${{ matrix.os == 'ubuntu-latest' }}
