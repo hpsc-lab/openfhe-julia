@@ -25,9 +25,10 @@ on:
 env:
   # Modify these variables for upstream package versions - do NOT hardcode the version
   # anywhere else!
-  OPENFHE_VERSION: 1.1.4
-  LIBCXXWRAP_JULIA_VERSION: 0.12.2
-  JULIA_VERSION: 1.9
+  OPENFHE_VERSION: '1.1.4'
+  LIBCXXWRAP_JULIA_VERSION: '0.12.2'
+  JULIA_VERSION: '1.9'
+  FORCE_CXXWRAP_JL_VERSION: '0.15' # Use only briefly during transition (default: '')
 
 jobs:
   test:
@@ -151,6 +152,9 @@ jobs:
         run: |
           cp test/LocalPreferences.toml test/OpenFHE.jl/LocalPreferences.toml
           sed -i "s/MyOpenFHE/OpenFHE/" test/OpenFHE.jl/LocalPreferences.toml
+          if [ -n "$FORCE_CXXWRAP_JL_VERSION" ]; then
+            sed -i "s/CxxWrap = \"[^\"]*\"/CxxWrap = \"=$FORCE_CXXWRAP_JL_VERSION\"/" test/OpenFHE.jl/Project.toml
+          fi
       - name: Run downstream Julia tests
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: julia --color=yes --project=test/OpenFHE.jl {0}
