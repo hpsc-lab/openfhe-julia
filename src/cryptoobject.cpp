@@ -23,6 +23,6 @@ void wrap_CryptoObject(jlcxx::Module& mod) {
         // wrapped.method("save", &WrappedT::save);
         // wrapped.method("load", &WrappedT::load);
         wrapped.method("SerializedObjectName", &WrappedT::SerializedObjectName);
-        wrapped.method("CryptoObject__SerializedVersion", &WrappedT::SerializedVersion);
+        wrapped.module().method("CryptoObject__SerializedVersion", &WrappedT::SerializedVersion);
       });
 }
