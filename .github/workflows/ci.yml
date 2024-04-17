@@ -154,6 +154,7 @@ jobs:
           sed -i "s/MyOpenFHE/OpenFHE/" test/OpenFHE.jl/LocalPreferences.toml
           if [ -n "$FORCE_CXXWRAP_JL_VERSION" ]; then
             sed -i "s/CxxWrap = \"0[^\"]*\"/CxxWrap = \"=$FORCE_CXXWRAP_JL_VERSION\"/" test/OpenFHE.jl/Project.toml
+            # TODO: the following two lines are a workaround for using an incompatible JLL package
             sed -i "s/using openfhe_julia_jll: libopenfhe_julia/#using openfhe_julia_jll: libopenfhe_julia/" test/OpenFHE.jl/src/OpenFHE.jl
             sed -i "s/const libopenfhe_julia_path = @load_preference(\"libopenfhe_julia\", libopenfhe_julia)/const libopenfhe_julia_path = @load_preference(\"libopenfhe_julia\")#, libopenfhe_julia)/" test/OpenFHE.jl/src/OpenFHE.jl
           fi
