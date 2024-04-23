@@ -2,5 +2,5 @@
 #include "openfhe.h"
 
 void wrap_FHECKKSRNS(jlcxx::Module& mod) {
-  mod.add_type<lbcrypto::FHECKKSRNS>("FHECKKSRNS");
+    mod.method("GetBootstrapDepth", &lbcrypto::FHECKKSRNS::GetBootstrapDepth);
 }
