@@ -1,6 +1,8 @@
 #include <string>
+#include <complex>
 
 #include "jlcxx/jlcxx.hpp"
+#include "jlcxx/stl.hpp"
 #include "openfhe.h"
 
 #include "openfhe_julia/jlcxx_parameters.h"
@@ -70,6 +72,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ILDCRTParams(mod);
   wrap_CryptoContextImpl(mod);
+  jlcxx::stl::apply_stl<lbcrypto::ConstPlaintext>(mod);
+  jlcxx::stl::apply_stl<std::complex<double>>(mod);
   wrap_FHECKKSRNS(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 
