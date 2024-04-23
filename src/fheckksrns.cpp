@@ -3,8 +3,13 @@
 
 void wrap_FHECKKSRNS(jlcxx::Module& mod) {
   mod.add_type<lbcrypto::FHECKKSRNS>("FHECKKSRNS")
-    .method("EvalBootstrapSetup", &lbcrypto::FHECKKSRNS::EvalBootstrapSetup)
-    .method("EvalLinearTransformPrecompute", &lbcrypto::FHECKKSRNS::EvalLinearTransformPrecompute)
-    .method("EvalLinearTransform", &lbcrypto::FHECKKSRNS::EvalLinearTransform)
-    .module().method("GetBootstrapDepth", &lbcrypto::FHECKKSRNS::GetBootstrapDepth);
+    .method("EvalBootstrapSetup", 
+            static_cast<void 
+                        (*)(const lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly>& cc, std::vector<uint32_t> levelBudget,
+                                    std::vector<uint32_t> dim1, uint32_t numSlots, uint32_t correctionFactor,
+                                    bool precompute)>(&lbcrypto::FHECKKSRNS::EvalBootstrapSetup))
+    .method("GetBootstrapDepth", 
+            static_cast<uint32_t 
+                        (*)(const std::vector<uint32_t>&,
+                            lbcrypto::SecretKeyDist)>(&lbcrypto::FHECKKSRNS::GetBootstrapDepth));
 }
