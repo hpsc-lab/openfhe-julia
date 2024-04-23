@@ -55,7 +55,6 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_CryptoContextBFVRNS(mod);
   wrap_CryptoContextBGVRNS(mod);
   wrap_CryptoContextCKKSRNS(mod);
-  wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
   wrap_CCParams(mod);
   wrap_Serializable(mod);
@@ -71,6 +70,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ILDCRTParams(mod);
   wrap_CryptoContextImpl(mod);
+  wrap_FHECKKSRNS(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 
   // Functions
