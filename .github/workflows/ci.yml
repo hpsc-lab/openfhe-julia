@@ -41,7 +41,7 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-          - os: macos-latest
+          - os: macos-12
             shell: bash
           - os: windows-latest
             shell: 'msys2 {0}'
@@ -67,12 +67,12 @@ jobs:
         with:
           path: openfhe-development/
           key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
-      - name: Install OpenMP
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: |
-          brew install libomp
+      # - name: Install OpenMP
+      #   if: ${{ matrix.os == 'macos-latest' }}
+      #   run: |
+      #     brew install libomp
       - name: Install OpenFHE
-        #if: steps.cache-openfhe.outputs.cache-hit != 'true'
+        if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf openfhe-development
           mkdir -p openfhe-development
@@ -95,7 +95,7 @@ jobs:
           path: libcxxwrap-julia/
           key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
-        #if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
+        if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
           rm -rf libcxxwrap-julia
