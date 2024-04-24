@@ -7,3 +7,4 @@ void wrap_FHECKKSRNS(jlcxx::Module& mod) {
                   (*)(const std::vector<uint32_t>&,
                   lbcrypto::SecretKeyDist)>(&lbcrypto::FHECKKSRNS::GetBootstrapDepth));
 }
+
