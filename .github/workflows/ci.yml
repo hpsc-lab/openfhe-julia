@@ -72,7 +72,7 @@ jobs:
         run: |
           brew list libomp || brew install libomp
       - name: Install OpenFHE
-        if: steps.cache-openfhe.outputs.cache-hit != 'true'
+        #if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf openfhe-development
           mkdir -p openfhe-development
