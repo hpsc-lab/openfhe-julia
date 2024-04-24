@@ -70,11 +70,9 @@ jobs:
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install libomp
-          export OPENMP_LIBRARIES="/opt/homebrew/opt/libomp/lib"
-          export OPENMP_INCLUDES="/opt/homebrew/opt/libomp/include"
+          sudo port install libomp
       - name: Install OpenFHE
-        #if: steps.cache-openfhe.outputs.cache-hit != 'true'
+        if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf openfhe-development
           mkdir -p openfhe-development
@@ -97,7 +95,7 @@ jobs:
           path: libcxxwrap-julia/
           key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
       - name: Install libcxxwrap-julia
-        #if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
+        if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
           # The following line does somehow not work properly on GitHub Actions under Windows
           rm -rf libcxxwrap-julia
