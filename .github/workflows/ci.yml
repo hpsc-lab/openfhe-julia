@@ -70,7 +70,9 @@ jobs:
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          sudo port install libomp
+          brew install libomp
+          export OPENMP_LIBRARIES="/opt/homebrew/opt/libomp/lib"
+          export OPENMP_INCLUDES="/opt/homebrew/opt/libomp/include"
       - name: Install OpenFHE
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
