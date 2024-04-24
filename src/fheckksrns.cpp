@@ -21,4 +21,4 @@ void wrap_FHECKKSRNS(jlcxx::Module& mod) {
       static_cast<uint32_t
                   (*)(const std::vector<uint32_t>&,
                   lbcrypto::SecretKeyDist)>(&lbcrypto::FHECKKSRNS::GetBootstrapDepth));
-}
+} 
