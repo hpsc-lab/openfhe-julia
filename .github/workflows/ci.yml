@@ -41,6 +41,8 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
+          - os: macos-latest
+            shell: bash
           - os: macos-12
             shell: bash
           - os: windows-latest
@@ -57,6 +59,11 @@ jobs:
         with:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - name: Install OpenMP
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          brew install libomp
+          echo "DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix libomp)/lib" >> "${GITHUB_ENV}"
       - uses: julia-actions/setup-julia@v1
         id: setup-julia
         with:
