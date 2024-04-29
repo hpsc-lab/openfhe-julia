@@ -27,13 +27,12 @@ env:
   # anywhere else!
   OPENFHE_VERSION: '1.1.4'
   LIBCXXWRAP_JULIA_VERSION: '0.12.2'
-  JULIA_VERSION: '1.9'
   FORCE_CXXWRAP_JL_VERSION: '0.15' # Use only briefly during transition (default: '')
 
 jobs:
   test:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
-    name: ${{ matrix.os }} - ${{ github.event_name }}
+    name: ${{ matrix.os }} - Julia v${{ matrix.julia_version }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -41,10 +40,22 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
+            julia_version: '1.9'
           - os: macos-latest
             shell: bash
+            julia_version: '1.9'
           - os: windows-latest
             shell: 'msys2 {0}'
+            julia_version: '1.9'
+          - os: ubuntu-latest
+            shell: bash
+            julia_version: '1.10'
+          - os: macos-latest
+            shell: bash
+            julia_version: '1.10'
+          - os: windows-latest
+            shell: 'msys2 {0}'
+            julia_version: '1.10'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -69,7 +80,7 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         id: setup-julia
         with:
-          version: ${{ env.JULIA_VERSION }}
+          version: ${{ matrix.julia_version }}
           show-versioninfo: true
       - uses: actions/cache@v4
         id: cache-openfhe
@@ -98,7 +109,7 @@ jobs:
         id: cache-libcxxwrap-julia
         with:
           path: libcxxwrap-julia/
-          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ env.JULIA_VERSION }}
+          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ matrix.julia_version }}
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
