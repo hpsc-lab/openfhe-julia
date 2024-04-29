@@ -32,7 +32,7 @@ env:
 jobs:
   test:
     if: "!contains(github.event.head_commit.message, 'skip ci')"
-    name: ${{ matrix.os }} - ${{ github.event_name }}
+    name: ${{ matrix.os }} - Julia v${{ matrix.julia_version }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
