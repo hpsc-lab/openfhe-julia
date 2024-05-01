@@ -77,7 +77,7 @@ jobs:
           echo "DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix libomp)/lib" >> "${GITHUB_ENV}"
           echo "LDFLAGS='-L/opt/homebrew/opt/libomp/lib'" >> "${GITHUB_ENV}"
           echo "CPPFLAGS='-I/opt/homebrew/opt/libomp/include'" >> "${GITHUB_ENV}"
-      - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/setup-julia@v2
         id: setup-julia
         with:
           version: ${{ matrix.julia_version }}
