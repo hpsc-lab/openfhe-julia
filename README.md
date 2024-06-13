@@ -87,9 +87,8 @@ OpenFHE.jl.
 
 
 ## Authors
-OpenFHE-julia was initiated by [Michael Schlottke-Lakemper](https://lakemper.eu) (RWTH
-Aachen University/High-Performance Computing Center Stuttgart (HLRS), Germany), who is also
-its principal maintainer.
+OpenFHE-julia was initiated by [Michael Schlottke-Lakemper](https://www.uni-augsburg.de/fakultaet/mntf/math/prof/hpsc)
+(University of Augsburg, Germany), who is also its principal maintainer.
 
 Further contributions to OpenFHE-julia have been made by the following people:
 * [Arseniy Kholod](https://www.github.com/ArseniyKholod) (RWTH Aachen University, Germany)
