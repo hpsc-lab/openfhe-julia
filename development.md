@@ -13,7 +13,7 @@ To create a new release for OpenFHE-julia, perform the following steps:
 1) Make sure that all PRs and changes that you want to go into the release are merged to
    `main` and that the latest commit on `main` has passed all CI tests.
 2) Determine the currently released version of OpenFHE-julia, e.g., on the
-   [release page](https://github.com/sloede/openfhe-julia/releases). For this manual,
+   [release page](https://github.com/hpsc-lab/openfhe-julia/releases). For this manual,
    we will assume that the latest release was `v0.2.4`.
 3) Decide on the next version number. We follow [semantic versioning](https://semver.org/),
    thus each version is of the form `vX.Y.Z` where `X` is the major version, `Y` the minor
@@ -26,12 +26,12 @@ To create a new release for OpenFHE-julia, perform the following steps:
      version is kept as-is and the *patch* version is increased by one. In our example, the
      new version should thus be `v0.2.5`.
 4) Edit the string in the
-   [`VERSION`](https://github.com/sloede/openfhe-julia/blob/main/VERSION)
+   [`VERSION`](https://github.com/hpsc-lab/openfhe-julia/blob/main/VERSION)
    file and set it to the new version. Push/merge this change to `main`.
 5) Go to GitHub and create a new release, either by going to the
-   [release page](https://github.com/sloede/openfhe-julia/releases) and clicking on "Draft
+   [release page](https://github.com/hpsc-lab/openfhe-julia/releases) and clicking on "Draft
    a new release" or by directly following
-   [this link](https://github.com/sloede/openfhe-julia/releases/new).
+   [this link](https://github.com/hpsc-lab/openfhe-julia/releases/new).
    * Click on "Choose a tag", enter the new version (e.g., `v0.2.5`, *including* the `v`
      prefix), and select "Create a new tag".
    * Click on "Generate release notes".
@@ -45,7 +45,7 @@ To create a new release for OpenFHE-julia, perform the following steps:
    version should be `v0.2.6-dev`.
 
 The primary purpose of OpenFHE-julia is to be the backend for the Julia package
-[OpenFHE.jl](https://github.com/sloede/OpenFHE.jl). For this purpose, it is
+[OpenFHE.jl](https://github.com/hpsc-lab/OpenFHE.jl). For this purpose, it is
 automatically built and distributed as a Julia JLL package. Therefore, after each release of
 OpenFHE-julia, you should also update the corresponding build recipe in the
 [Yggdrasil](https://github.com/JuliaPackaging/Yggdrasil) repository:
@@ -59,7 +59,7 @@ OpenFHE-julia, you should also update the corresponding build recipe in the
      [here](https://github.com/JuliaPackaging/Yggdrasil/blob/414237372f5bac40fc3cd8045727def18388a1d7/O/openfhe_julia/build_tarballs.jl#L11)
      the existing OpenFHE-julia version is `v0.2.4`)
    * Get the commit hash of the current OpenFHE-julia release, e.g., by going to the
-     [latest release](https://github.com/sloede/openfhe-julia/releases/latest) and then
+     [latest release](https://github.com/hpsc-lab/openfhe-julia/releases/latest) and then
      clicking on the short commit hash, then copying it from the browser URL.
    * Change the existing commit hash in `build_tarballs.jl` to the commit hash you just
      obtained (e.g.,
