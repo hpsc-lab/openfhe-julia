@@ -165,7 +165,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/checkout@v4
         with:
-          repository: sloede/OpenFHE.jl
+          repository: hpsc-lab/OpenFHE.jl
           path: test/OpenFHE.jl
       - name: Initialize downstream Julia tests
         if: ${{ matrix.os == 'ubuntu-latest' }}
