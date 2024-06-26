@@ -26,8 +26,8 @@ env:
   # Modify these variables for upstream package versions - do NOT hardcode the version
   # anywhere else!
   OPENFHE_VERSION: '1.2.0'
-  LIBCXXWRAP_JULIA_VERSION: '0.12.2'
-  FORCE_CXXWRAP_JL_VERSION: '0.15' # Use only briefly during transition (default: '')
+  LIBCXXWRAP_JULIA_VERSION: '0.13.0'
+  FORCE_CXXWRAP_JL_VERSION: '0.16' # Use only briefly during transition (default: '')
 
 jobs:
   test:
@@ -44,6 +44,7 @@ jobs:
           - os: macos-latest
             shell: bash
             julia_version: '1.9'
+            compiler: clang-14.0.0
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.9'
@@ -53,6 +54,7 @@ jobs:
           - os: macos-latest
             shell: bash
             julia_version: '1.10'
+            compiler: clang-14.0.0
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.10'
