@@ -41,7 +41,6 @@ jobs:
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.9'
-            compiler: [clang-15, clang++-15]
           - os: macos-latest
             shell: bash
             julia_version: '1.9'
@@ -51,7 +50,6 @@ jobs:
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.10'
-            compiler: [clang-15, clang++-15]
           - os: macos-latest
             shell: bash
             julia_version: '1.10'
