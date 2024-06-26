@@ -47,8 +47,6 @@ jobs:
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.9'
-            compiler: gcc
-            gcc: 13
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.10'
@@ -58,8 +56,6 @@ jobs:
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.10'
-            compiler: gcc
-            gcc: 13
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
@@ -67,11 +63,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - uses: msys2/setup-msys2@v2
+      - uses: msys2/setup-msys2@v2.22.0
         if: ${{ matrix.os == 'windows-latest' }}
-        env:
-          CC: gcc-${{ matrix.gcc }}
-          CXX: g++-${{ matrix.gcc }} 
         with:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
