@@ -77,4 +77,3 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_GenCryptoContext(mod);
   wrap_auxiliary(mod);
 }
-
