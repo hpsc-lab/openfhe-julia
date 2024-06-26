@@ -66,7 +66,7 @@ jobs:
       - uses: msys2/setup-msys2@v2.22.0
         if: ${{ matrix.os == 'windows-latest' }}
         with:
-          update: true
+          update: false
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
@@ -88,6 +88,7 @@ jobs:
           path: openfhe-development/
           key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
       - name: Install OpenFHE
+        if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf openfhe-development
           mkdir -p openfhe-development
