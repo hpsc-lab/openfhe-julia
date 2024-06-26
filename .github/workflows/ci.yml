@@ -41,20 +41,20 @@ jobs:
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.9'
+            compiler: [clang-15, clang++-15]
           - os: macos-latest
             shell: bash
             julia_version: '1.9'
-            compiler: clang-14.0.0
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.9'
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.10'
+            compiler: [clang-15, clang++-15]
           - os: macos-latest
             shell: bash
             julia_version: '1.10'
-            compiler: clang-14.0.0
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.10'
