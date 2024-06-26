@@ -36,7 +36,7 @@ endif ()
 
 set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
 # TODO: remove next line, ones https://github.com/openfheorg/openfhe-development/issues/825 gets solved
-string(REPLACE " -Werror" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-delete-non-abstract-non-virtual-dtor")
 
 include_directories( ${OPENMP_INCLUDES} )
 include_directories( ${OpenFHE_INCLUDE} )
