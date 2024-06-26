@@ -33,7 +33,7 @@ void wrap_Params(jlcxx::Module& mod) {
     .method("GetKeySwitchCount", &lbcrypto::Params::GetKeySwitchCount)
     .method("GetEncryptionTechnique", &lbcrypto::Params::GetEncryptionTechnique)
     .method("GetMultiplicationTechnique", &lbcrypto::Params::GetMultiplicationTechnique)
-    .method("GetMultiHopModSize", &lbcrypto::Params::GetMultiHopModSize)
+    .method("GetPRENumHops", &lbcrypto::Params::GetPRENumHops)
     .method("GetInteractiveBootCompressionLevel", &lbcrypto::Params::GetInteractiveBootCompressionLevel)
 
     .method("SetPlaintextModulus", &lbcrypto::Params::SetPlaintextModulus)
@@ -63,6 +63,6 @@ void wrap_Params(jlcxx::Module& mod) {
     .method("SetKeySwitchCount", &lbcrypto::Params::SetKeySwitchCount)
     .method("SetEncryptionTechnique", &lbcrypto::Params::SetEncryptionTechnique)
     .method("SetMultiplicationTechnique", &lbcrypto::Params::SetMultiplicationTechnique)
-    .method("SetMultiHopModSize", &lbcrypto::Params::SetMultiHopModSize)
+    .method("SetPRENumHops", &lbcrypto::Params::SetPRENumHops)
     .method("SetInteractiveBootCompressionLevel", &lbcrypto::Params::SetInteractiveBootCompressionLevel);
 }
