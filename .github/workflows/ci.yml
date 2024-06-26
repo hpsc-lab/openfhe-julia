@@ -63,10 +63,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - uses: msys2/setup-msys2@v2
+        # TODO: set msys2/setup-msys2@v2 once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
+      - uses: msys2/setup-msys2@v2.22.0
         if: ${{ matrix.os == 'windows-latest' }}
         with:
-          update: true
+          # TODO: set true once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
+          update: false
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
