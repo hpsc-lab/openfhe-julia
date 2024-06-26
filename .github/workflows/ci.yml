@@ -88,7 +88,6 @@ jobs:
           path: openfhe-development/
           key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
       - name: Install OpenFHE
-        if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
           rm -rf openfhe-development
           mkdir -p openfhe-development
