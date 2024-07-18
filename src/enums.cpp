@@ -32,7 +32,6 @@ void wrap_ProxyReEncryptionMode(jlcxx::Module& mod) {
   mod.set_const("INDCPA", lbcrypto::INDCPA);
   mod.set_const("FIXED_NOISE_HRA", lbcrypto::FIXED_NOISE_HRA);
   mod.set_const("NOISE_FLOODING_HRA", lbcrypto::NOISE_FLOODING_HRA);
-  mod.set_const("DIVIDE_AND_ROUND_HRA", lbcrypto::DIVIDE_AND_ROUND_HRA);
 }
 
 void wrap_MultipartyMode(jlcxx::Module& mod) {
@@ -91,7 +90,7 @@ void wrap_LargeScalingFactorConstants(jlcxx::Module& mod) {
 }
 
 void wrap_NOISE_FLOODING(jlcxx::Module& mod) {
-  mod.add_bits<lbcrypto::NOISE_FLOODING>("NOISE_FLOODING", jlcxx::julia_type("CppEnum"));
+  mod.add_bits<lbcrypto::NoiseFlooding>("NoiseFlooding", jlcxx::julia_type("CppEnum"));
   mod.set_const("MP_SD", lbcrypto::MP_SD);
   mod.set_const("PRE_SD", lbcrypto::PRE_SD);
   mod.set_const("NUM_MODULI_MULTIPARTY", lbcrypto::NUM_MODULI_MULTIPARTY);
