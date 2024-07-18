@@ -10,6 +10,7 @@
 #include "openfhe_julia/cryptocontextbfvrns.h"
 #include "openfhe_julia/cryptocontextbgvrns.h"
 #include "openfhe_julia/cryptocontextckksrns.h"
+#include "openfhe_julia/cryptocontextfactory.h"
 #include "openfhe_julia/fheckksrns.h"
 #include "openfhe_julia/params.h"
 #include "openfhe_julia/ccparams.h"
@@ -55,6 +56,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_CryptoContextBFVRNS(mod);
   wrap_CryptoContextBGVRNS(mod);
   wrap_CryptoContextCKKSRNS(mod);
+  wrap_CryptoContextFactory(mod);
   wrap_FHECKKSRNS(mod);
   wrap_Params(mod);
   wrap_CCParams(mod);
