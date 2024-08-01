@@ -64,7 +64,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         # TODO: set msys2/setup-msys2@v2 once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
-      - uses: msys2/setup-msys2@v2.22.0
+      - uses: msys2/setup-msys2@v2.24.0
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           # TODO: set true once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
