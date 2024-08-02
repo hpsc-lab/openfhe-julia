@@ -124,19 +124,19 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
 
         wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
-	      // static_cast is not applicable to static functions, so wrap overloaded static function
-	      // using lambda expressions
+        // static_cast is not applicable to static functions, so wrap overloaded static function
+        // using lambda expressions
         wrapped.method("ClearEvalMultKeys", [](){
-	          return WrappedT::ClearEvalMultKeys();
-	        });
-	      wrapped.method("ClearEvalMultKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
-	          return WrappedT::ClearEvalMultKeys(cc);
-	        });
-	      wrapped.method("ClearEvalMultKeys", [](const std::string& id){
-	          return WrappedT::ClearEvalMultKeys(id);
-	        });
+            return WrappedT::ClearEvalMultKeys();
+          });
+        wrapped.method("ClearEvalMultKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
+            return WrappedT::ClearEvalMultKeys(cc);
+          });
+        wrapped.method("ClearEvalMultKeys", [](const std::string& id){
+            return WrappedT::ClearEvalMultKeys(id);
+          });
 
-	      // EvalMult
+        // EvalMult
         // ConstCiphertext * ConstCiphertext
         wrapped.method("EvalMult",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
@@ -184,7 +184,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("EvalDivide", &WrappedT::EvalDivide);
 
         wrapped.method("EvalSumKeyGen", &WrappedT::EvalSumKeyGen);
-	      // static_cast is not applicable to static functions, so wrap overloaded static function
+        // static_cast is not applicable to static functions, so wrap overloaded static function
         // using lambda expressions
         wrapped.method("ClearEvalSumKeys", [](){
             return WrappedT::ClearEvalSumKeys();
