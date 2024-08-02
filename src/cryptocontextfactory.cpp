@@ -14,6 +14,6 @@ void wrap_CryptoContextFactory(jlcxx::Module& mod) {
     wrapped.module().method("GetContextCount", &WrappedT::GetContextCount);
     //wrapped.module().method("GetContext", &WrappedT::GetContext);
     wrapped.module().method("GetFullContextByDeserializedContext", &WrappedT::GetFullContextByDeserializedContext);    
-    wrapped.module().method("GetAllContexts", &WrappedT::GetAllContexts);
+    //wrapped.module().method("GetAllContexts", &WrappedT::GetAllContexts);
   });
 }
