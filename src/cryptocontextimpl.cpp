@@ -129,7 +129,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("ClearEvalMultKeys", [](){
 	          return WrappedT::ClearEvalMultKeys();
 	        });
-	      wrapped.method("ClearEvalMultKeys", [](const std::shared_ptr<WrappedT> cc){
+	      wrapped.method("ClearEvalMultKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
 	          return WrappedT::ClearEvalMultKeys(cc);
 	        });
 	      wrapped.method("ClearEvalMultKeys", [](const std::string& id){
@@ -189,7 +189,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("ClearEvalSumKeys", [](){
             return WrappedT::ClearEvalSumKeys();
           });
-        wrapped.method("ClearEvalSumKeys", [](const std::shared_ptr<WrappedT> cc){
+        wrapped.method("ClearEvalSumKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
             return WrappedT::ClearEvalSumKeys(cc);
           });
         wrapped.method("ClearEvalSumKeys", [](const std::string& id){
@@ -204,7 +204,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("ClearEvalAutomorphismKeys", [](){
             return WrappedT::ClearEvalAutomorphismKeys();
           });
-        wrapped.method("ClearEvalAutomorphismKeys", [](const std::shared_ptr<WrappedT> cc){
+        wrapped.method("ClearEvalAutomorphismKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
             return WrappedT::ClearEvalAutomorphismKeys(cc);
           });
         wrapped.method("ClearEvalAutomorphismKeys", [](const std::string& id){
