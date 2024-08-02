@@ -77,6 +77,7 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbfvrns.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextbgvrns.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextckksrns.cpp
+  ${CMAKE_SOURCE_DIR}/src/cryptocontextfactory.cpp
   ${CMAKE_SOURCE_DIR}/src/fheckksrns.cpp
   ${CMAKE_SOURCE_DIR}/src/params.cpp
   ${CMAKE_SOURCE_DIR}/src/ccparams.cpp
