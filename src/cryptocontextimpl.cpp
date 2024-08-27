@@ -124,7 +124,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
 
         wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
-	
+
         // EvalMult
         // ConstCiphertext * ConstCiphertext
         wrapped.method("EvalMult",
