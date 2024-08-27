@@ -124,18 +124,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
                                       lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>) const>(&WrappedT::EvalSub));
 
         wrapped.method("EvalMultKeyGen", &WrappedT::EvalMultKeyGen);
-        // static_cast is not applicable to static functions, so wrap overloaded static function
-        // using lambda expressions
-        wrapped.method("ClearEvalMultKeys", [](){
-            return WrappedT::ClearEvalMultKeys();
-          });
-        wrapped.method("ClearEvalMultKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
-            return WrappedT::ClearEvalMultKeys(cc);
-          });
-        wrapped.method("ClearEvalMultKeys", [](const std::string& id){
-            return WrappedT::ClearEvalMultKeys(id);
-          });
-
+	
         // EvalMult
         // ConstCiphertext * ConstCiphertext
         wrapped.method("EvalMult",
@@ -184,34 +173,27 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("EvalDivide", &WrappedT::EvalDivide);
 
         wrapped.method("EvalSumKeyGen", &WrappedT::EvalSumKeyGen);
-        // static_cast is not applicable to static functions, so wrap overloaded static function
-        // using lambda expressions
-        wrapped.method("ClearEvalSumKeys", [](){
-            return WrappedT::ClearEvalSumKeys();
-          });
-        wrapped.method("ClearEvalSumKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
-            return WrappedT::ClearEvalSumKeys(cc);
-          });
-        wrapped.method("ClearEvalSumKeys", [](const std::string& id){
-            return WrappedT::ClearEvalSumKeys(id);
-          });
         wrapped.method("EvalSum", &WrappedT::EvalSum);
 
         wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
         wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
-        // static_cast is not applicable to static functions, so wrap overloaded static function
-        // using lambda expressions
-        wrapped.method("ClearEvalAutomorphismKeys", [](){
-            return WrappedT::ClearEvalAutomorphismKeys();
-          });
-        wrapped.method("ClearEvalAutomorphismKeys", [](const lbcrypto::CryptoContext<lbcrypto::DCRTPoly> cc){
-            return WrappedT::ClearEvalAutomorphismKeys(cc);
-          });
-        wrapped.method("ClearEvalAutomorphismKeys", [](const std::string& id){
-            return WrappedT::ClearEvalAutomorphismKeys(id);
-          });
         wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
       });
+
+      // clear evaluation keys
+      typedef lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly> WrappedT;    
+      mod.method("ClearEvalMultKeys", static_cast<void (*)()>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalMultKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalMultKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalSumKeys", static_cast<void (*)()>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalSumKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalSumKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalAutomorphismKeys", static_cast<void (*)()>(&WrappedT::ClearEvalAutomorphismKeys));
+      mod.method("ClearEvalAutomorphismKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalAutomorphismKeys));
+      mod.method("ClearEvalAutomorphismKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalAutomorphismKeys));
 }
 
 void wrap_GenCryptoContext(jlcxx::Module& mod) {
