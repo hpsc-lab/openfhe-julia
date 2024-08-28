@@ -179,6 +179,21 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
         wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
       });
+
+      // clear evaluation keys
+      typedef lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly> WrappedT;    
+      mod.method("ClearEvalMultKeys", static_cast<void (*)()>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalMultKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalMultKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalMultKeys));
+      mod.method("ClearEvalSumKeys", static_cast<void (*)()>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalSumKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalSumKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalSumKeys));
+      mod.method("ClearEvalAutomorphismKeys", static_cast<void (*)()>(&WrappedT::ClearEvalAutomorphismKeys));
+      mod.method("ClearEvalAutomorphismKeys",
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalAutomorphismKeys));
+      mod.method("ClearEvalAutomorphismKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalAutomorphismKeys));
 }
 
 void wrap_GenCryptoContext(jlcxx::Module& mod) {

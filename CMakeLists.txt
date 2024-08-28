@@ -91,10 +91,11 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/decryptresult.cpp
   ${CMAKE_SOURCE_DIR}/src/ildcrtparams.cpp
   ${CMAKE_SOURCE_DIR}/src/cryptocontextimpl.cpp
+  ${CMAKE_SOURCE_DIR}/src/cryptocontextfactory.cpp
   ${CMAKE_SOURCE_DIR}/src/encodingparamsimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/auxiliary.cpp
 )
-target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia)
+target_link_libraries(openfhe_julia JlCxx::cxxwrap_julia JlCxx::cxxwrap_julia_stl)
 target_include_directories(openfhe_julia PRIVATE ${CMAKE_SOURCE_DIR}/include)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION
