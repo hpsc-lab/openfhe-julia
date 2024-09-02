@@ -1,6 +1,6 @@
 # OpenFHE-julia
 
-[![Build Status](https://github.com/hpsc-lab/openfhe-julia/workflows/CI/badge.svg)](https://github.com/hpsc-lab/openfhe-julia/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/hpsc-lab/openfhe-julia/actions/workflows/ci.yml/badge.svg)](https://github.com/hpsc-lab/openfhe-julia/actions?query=workflow%3ACI)
 [![License: BSD 2-Clause](https://img.shields.io/badge/License-BSD_2--Clause-success.svg)](https://opensource.org/license/bsd-2-clause/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10456858.svg)](https://doi.org/10.5281/zenodo.10456858)
 
