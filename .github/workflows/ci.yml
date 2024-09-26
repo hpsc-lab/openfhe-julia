@@ -25,7 +25,7 @@ on:
 env:
   # Modify these variables for upstream package versions - do NOT hardcode the version
   # anywhere else!
-  OPENFHE_VERSION: '1.2.0'
+  OPENFHE_VERSION: '1.2.1'
   LIBCXXWRAP_JULIA_VERSION: '0.13.0'
   FORCE_CXXWRAP_JL_VERSION: '0.16' # Use only briefly during transition (default: '')
 
@@ -63,12 +63,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        # TODO: set msys2/setup-msys2@v2 once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
-      - uses: msys2/setup-msys2@v2.22.0
+      - uses: msys2/setup-msys2@v2
         if: ${{ matrix.os == 'windows-latest' }}
         with:
-          # TODO: set true once openfhe-development 1.2.1 is available and fixes issue with GCC v14.1
-          update: false
+          update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
