@@ -71,9 +71,8 @@ jobs:
       - name: Install GCC
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          gcc --version
-          CC = gcc-14
-          CXX = g++-14
+          CC=gcc-12
+          CXX=g++-12
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
