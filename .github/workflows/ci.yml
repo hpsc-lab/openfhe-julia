@@ -104,7 +104,7 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
             -DNATIVE_SIZE=128 \
-            -DCMAKE_CXX_FLAGS="-frtti"
+            -DCMAKE_CXX_FLAGS="-frtti -std=gnu++17"
           make -j 8
           make install
       - uses: actions/cache@v4
@@ -128,7 +128,8 @@ jobs:
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
-            -DJLCXX_BUILD_TESTS=OFF
+            -DJLCXX_BUILD_TESTS=OFF \
+            -DCMAKE_CXX_FLAGS="-frtti -std=gnu++17"
           make -j 8
           make install
         env:
@@ -142,8 +143,9 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
-            -G "Unix Makefiles"
-          make -j 2
+            -G "Unix Makefiles" \
+            -DCMAKE_CXX_FLAGS="-frtti -std=gnu++17"
+          make -j 8
           make install
           libopenfhe_julia_path="$(dirname $(pwd))/install/lib/libopenfhe_julia.so"
           echo "LIBOPENFHE_JULIA_PATH=$libopenfhe_julia_path" >> "$GITHUB_ENV"
