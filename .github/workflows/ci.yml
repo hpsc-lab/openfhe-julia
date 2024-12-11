@@ -74,6 +74,7 @@ jobs:
           brew install llvm
       -name: Test Clang
         run: |
+          clang++ --version
           clang++ ./test/test_clang.cpp -stdlib=libc++ -std=gnu++17 -frtti
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
