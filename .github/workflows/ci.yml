@@ -68,6 +68,12 @@ jobs:
         with:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - name: Install GCC
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          brew install gcc
+          CC = gcc
+          CXX = g++
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
