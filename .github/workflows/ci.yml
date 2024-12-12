@@ -75,7 +75,7 @@ jobs:
       - name: Test Clang
         run: |
           clang++ --version
-          clang++ ./test/test_clang.cpp -stdlib=libc++ -std=gnu++17 -frtti
+          clang++ ./test/test_clang.cpp -lc++abi
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
