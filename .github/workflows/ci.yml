@@ -155,7 +155,6 @@ jobs:
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
-            -DCMAKE_CXX_FLAGS="-lc++abi"\
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
           make -j 8
