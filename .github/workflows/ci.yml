@@ -112,6 +112,7 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
             -DNATIVE_SIZE=128 \
+            -DCMAKE_CXX_FLAGS="-lc++abi" \
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
           make -j 8
@@ -138,7 +139,6 @@ jobs:
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
             -DJLCXX_BUILD_TESTS=OFF \
-            -DCMAKE_CXX_FLAGS="-lc++abi" \
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++
           make -j 8
