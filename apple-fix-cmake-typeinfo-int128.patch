@@ -1,4 +1,13 @@
-37c37
-< set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
----
-> set( CMAKE_CXX_FLAGS "${OpenFHE_CXX_FLAGS} -lc++abi" )
+﻿diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c88f9dc..00f466e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,7 +34,7 @@ else()
+     message(FATAL_ERROR "PACKAGE OpenFHE NOT FOUND")
+ endif ()
+ 
+-set( CMAKE_CXX_FLAGS ${OpenFHE_CXX_FLAGS} )
++set( CMAKE_CXX_FLAGS "${OpenFHE_CXX_FLAGS} -lc++abi" )
+ 
+ include_directories( ${OPENMP_INCLUDES} )
+ include_directories( ${OpenFHE_INCLUDE} )
