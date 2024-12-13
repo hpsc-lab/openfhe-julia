@@ -44,6 +44,7 @@ jobs:
           - os: macos-latest
             shell: bash
             julia_version: '1.9'
+            platform: x86_64
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.9'
@@ -68,6 +69,14 @@ jobs:
         with:
           update: true
           install: git base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - name: Install Clang
+        if: ${{ matrix.os == 'macos-13' || matrix.os == 'macos-latest' }}
+        run: |
+          brew install llvm@18
+      - name: Test Clang
+        run: |
+          clang++ --version
+          clang++ ./test/test_clang.cpp -lc++abi
       - name: Install OpenMP
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
@@ -86,7 +95,7 @@ jobs:
         id: cache-openfhe
         with:
           path: openfhe-development/
-          key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}
+          key: ${{ matrix.os }}-openfhe-v${{ env.OPENFHE_VERSION }}-1
       - name: Install OpenFHE
         if: steps.cache-openfhe.outputs.cache-hit != 'true'
         run: |
@@ -102,14 +111,17 @@ jobs:
             -DWITH_BE2=ON \
             -DWITH_BE4=ON \
             -DBUILD_BENCHMARKS=OFF \
-            -DBUILD_UNITTESTS=OFF
-          make -j 2
+            -DBUILD_UNITTESTS=OFF \
+            -DNATIVE_SIZE=128 \
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
+          make -j 8
           make install
       - uses: actions/cache@v4
         id: cache-libcxxwrap-julia
         with:
           path: libcxxwrap-julia/
-          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ matrix.julia_version }}
+          key: ${{ matrix.os }}-libcxxwrap-julia-v${{ env.LIBCXXWRAP_JULIA_VERSION }}-julia-v${{ matrix.julia_version }}-1
       - name: Install libcxxwrap-julia
         if: steps.cache-libcxxwrap-julia.outputs.cache-hit != 'true'
         run: |
@@ -126,13 +138,16 @@ jobs:
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
-            -DJLCXX_BUILD_TESTS=OFF
-          make -j 2
+            -DJLCXX_BUILD_TESTS=OFF \
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
+          make -j 8
           make install
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       - name: Build openfhe-julia
         run: |
+          export LDFLAGS="-lc++abi"
           mkdir build && cd build
           JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
           OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
@@ -140,8 +155,10 @@ jobs:
             -DCMAKE_INSTALL_PREFIX=../install \
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
-            -G "Unix Makefiles"
-          make -j 2
+            -G "Unix Makefiles" \
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
+          make -j 8
           make install
           libopenfhe_julia_path="$(dirname $(pwd))/install/lib/libopenfhe_julia.so"
           echo "LIBOPENFHE_JULIA_PATH=$libopenfhe_julia_path" >> "$GITHUB_ENV"
@@ -196,6 +213,6 @@ jobs:
           LD_LIBRARY_PATH: ${{ github.workspace }}/openfhe-development/install/lib
       # Enable tmate debugging of manually-triggered workflows if the input option was provided
       - name: Setup tmate session for debugging
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled && always() }}
+        if: ${{ always() }}
         uses: mxschmitt/action-tmate@v3
         timeout-minutes: 15
