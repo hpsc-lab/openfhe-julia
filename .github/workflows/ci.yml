@@ -113,8 +113,8 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
             -DNATIVE_SIZE=128 \
-            -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
-            -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
           make -j 8
           make install
       - uses: actions/cache@v4
@@ -139,8 +139,8 @@ jobs:
             -G "Unix Makefiles" \
             -DJLCXX_BUILD_EXAMPLES=OFF \
             -DJLCXX_BUILD_TESTS=OFF \
-            -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
-            -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
           make -j 8
           make install
         env:
@@ -156,8 +156,8 @@ jobs:
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
-            -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
-            -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
+            -DCMAKE_C_COMPILER=/usr/local/Cellar/llvm@18/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/local/Cellar/llvm@18/bin/clang++
           make -j 8
           make install
           libopenfhe_julia_path="$(dirname $(pwd))/install/lib/libopenfhe_julia.so"
