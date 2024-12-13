@@ -44,6 +44,7 @@ jobs:
           - os: macos-latest
             shell: bash
             julia_version: '1.9'
+            platform: x86_64
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.9'
@@ -53,6 +54,7 @@ jobs:
           - os: macos-latest
             shell: bash
             julia_version: '1.10'
+            platform: x86_64
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.10'
