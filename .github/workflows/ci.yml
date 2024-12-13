@@ -146,6 +146,7 @@ jobs:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       - name: Build openfhe-julia
         run: |
+          export LDFLAGS="-lc++abi"
           mkdir build && cd build
           JlCxx_DIR="$GITHUB_WORKSPACE/libcxxwrap-julia/install/"
           OpenFHE_DIR="$GITHUB_WORKSPACE/openfhe-development/install/"
@@ -154,7 +155,6 @@ jobs:
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
-            -LDFLAGS="-lc++abi" \
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
           make -j 8
