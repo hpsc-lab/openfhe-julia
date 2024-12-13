@@ -51,10 +51,9 @@ jobs:
           - os: ubuntu-latest
             shell: bash
             julia_version: '1.10'
-          - os: macos-latest
+          - os: macos-13
             shell: bash
             julia_version: '1.10'
-            platform: x86_64
           - os: windows-latest
             shell: 'msys2 {0}'
             julia_version: '1.10'
