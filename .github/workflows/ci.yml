@@ -112,7 +112,6 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
             -DNATIVE_SIZE=128 \
-            -DCMAKE_CXX_FLAGS="-lc++abi" \
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
           make -j 8
@@ -155,6 +154,7 @@ jobs:
             -DCMAKE_PREFIX_PATH="$JlCxx_DIR;$OpenFHE_DIR" \
             -DJulia_PREFIX="$(dirname $JULIA_BINDIR)" \
             -G "Unix Makefiles" \
+            -LDFLAGS="-lc++abi" \
             -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
             -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
           make -j 8
