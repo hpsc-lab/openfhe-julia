@@ -29,7 +29,10 @@
 #include "openfhe_julia/cryptocontextfactory.h"
 #include "openfhe_julia/auxiliary.h"
 
-
+// Until https://github.com/JuliaInterop/CxxWrap.jl/issues/455 is not solved
+#ifdef __APPLE__
+    #undef JLCXX_HAS_RANGES
+#endif
 
 JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   // Enums
