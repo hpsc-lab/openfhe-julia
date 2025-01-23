@@ -1,4 +1,4 @@
-#include "openfhe_julia/jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 #include "openfhe.h"
 
 // BEGIN: <openfhe>/src/pke/include/constants.h

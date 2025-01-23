@@ -1,4 +1,4 @@
-#include "openfhe_julia/jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 #include "jlcxx/stl.hpp"
 #include "openfhe.h"
 
