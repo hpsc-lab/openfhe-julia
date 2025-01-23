@@ -148,10 +148,12 @@ jobs:
         env:
           JULIA_BINDIR: ${{ steps.setup-julia.outputs.julia-bindir }}
       - name: Initialize basic Julia tests
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cd test
           julia --color=yes init.jl $LIBOPENFHE_JULIA_PATH
       - name: Run basic Julia tests
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           julia --color=yes --project=test test/test.jl
         # The following env setting is required until
@@ -166,7 +168,6 @@ jobs:
           repository: hpsc-lab/OpenFHE.jl
           path: test/OpenFHE.jl
       - name: Initialize downstream Julia tests
-        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cp test/LocalPreferences.toml test/OpenFHE.jl/LocalPreferences.toml
           sed -i "s/MyOpenFHE/OpenFHE/" test/OpenFHE.jl/LocalPreferences.toml
@@ -177,7 +178,6 @@ jobs:
             sed -i "s/const libopenfhe_julia_path = @load_preference(\"libopenfhe_julia\", libopenfhe_julia)/const libopenfhe_julia_path = @load_preference(\"libopenfhe_julia\")#, libopenfhe_julia)/" test/OpenFHE.jl/src/OpenFHE.jl
           fi
       - name: Run downstream Julia tests
-        if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: julia --color=yes --project=test/OpenFHE.jl {0}
         run: |
           using Pkg
