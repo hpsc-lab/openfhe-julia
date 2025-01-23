@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_CRYPTOCONTEXTPROXY_H_
 #define OPENFHE_JULIA_CRYPTOCONTEXTPROXY_H_
 
-#include "jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 
 namespace openfhe_julia {
   // Note: Due to limitations of CxxWrap.jl, it is currently not possible to wrap template

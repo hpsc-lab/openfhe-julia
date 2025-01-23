@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_KEYPAIR_H_
 #define OPENFHE_JULIA_KEYPAIR_H_
 
-#include "jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 
 void wrap_KeyPair(jlcxx::Module& mod);
 

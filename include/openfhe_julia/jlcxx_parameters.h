@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_JLCXX_PARAMETERS_H_
 #define OPENFHE_JULIA_JLCXX_PARAMETERS_H_
 
-#include "jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 
 namespace jlcxx
 {

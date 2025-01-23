@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_CIPHERTEXTIMPL_H_
 #define OPENFHE_JULIA_CIPHERTEXTIMPL_H_
 
-#include "jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 
 void wrap_CiphertextImpl(jlcxx::Module& mod);
 

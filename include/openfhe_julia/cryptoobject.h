@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_CRYPTOOBJECT_H_
 #define OPENFHE_JULIA_CRYPTOOBJECT_H_
 
-#include "jlcxx_modified.h"
+#include "jlcxx/jlcxx.hpp"
 
 void wrap_CryptoObject(jlcxx::Module& mod);
 
