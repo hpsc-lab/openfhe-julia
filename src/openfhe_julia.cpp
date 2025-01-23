@@ -1,6 +1,6 @@
 #include <string>
 
-#include "jlcxx/jlcxx.hpp"
+#include "openfhe_julia/jlcxx_modified.h"
 #include "openfhe.h"
 
 #include "openfhe_julia/jlcxx_parameters.h"
