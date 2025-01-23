@@ -1,5 +1,5 @@
 #include "openfhe_julia/jlcxx_modified.h"
-#include "openfhe_julia/stl_modified.h"
+#include "jlcxx/stl.hpp"
 #include "openfhe.h"
 
 #include "openfhe_julia/jlcxx_parameters.h"
