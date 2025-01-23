@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_CRYPTOCONTEXTFACTORY_H_
 #define OPENFHE_JULIA_CRYPTOCONTEXTFACTORY_H_
 
-#include "jlcxx/jlcxx.hpp"
+#include "jlcxx_modified.h"
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod);
 

@@ -1,7 +1,7 @@
 #ifndef OPENFHE_JULIA_FHECKKSRNS_H_
 #define OPENFHE_JULIA_FHECKKSRNS_H_
 
-#include "jlcxx/jlcxx.hpp"
+#include "jlcxx_modified.h"
 
 void wrap_FHECKKSRNS(jlcxx::Module& mod);
 
