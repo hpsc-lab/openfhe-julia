@@ -8,4 +8,7 @@ void wrap_auxiliary(jlcxx::Module& mod) {
       pt->PrintValue(stream);
       return stream.str();
     });
+  mod.method("get_native_int", []() {
+      return NATIVEINT;
+    });
 }
