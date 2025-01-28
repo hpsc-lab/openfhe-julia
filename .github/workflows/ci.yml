@@ -40,22 +40,22 @@ jobs:
         include:
           - os: ubuntu-latest
             shell: bash
-            julia_version: '1.9'
+            julia_version: '1.10'
           - os: macos-latest
             shell: bash
-            julia_version: '1.9'
+            julia_version: '1.10'
           - os: windows-latest
             shell: 'msys2 {0}'
-            julia_version: '1.9'
+            julia_version: '1.10'
           - os: ubuntu-latest
             shell: bash
-            julia_version: '1.10'
+            julia_version: '1.11'
           - os: macos-latest
             shell: bash
-            julia_version: '1.10'
+            julia_version: '1.11'
           - os: windows-latest
             shell: 'msys2 {0}'
-            julia_version: '1.10'
+            julia_version: '1.11'
     # Set default shell as suggested here: https://github.community/t/setting-default-shell-or-other-step-metadata-conditionally-in-workflows/154055
     defaults:
       run:
