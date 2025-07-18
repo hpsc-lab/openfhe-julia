@@ -103,7 +103,7 @@ jobs:
             -DWITH_BE4=ON \
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
-            -DCMAKE_CXX_FLAGS="-include cstdint"
+            -DCMAKE_CXX_FLAGS="-include cstdint" # required for Windows builds
           make -j 2
           make install
       - uses: actions/cache@v4
@@ -152,6 +152,9 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cd test
+          if [ -n "$FORCE_CXXWRAP_JL_VERSION" ]; then
+            echo "CxxWrap = \"=$FORCE_CXXWRAP_JL_VERSION\"" >> MyOpenFHE.jl/Project.toml
+          fi
           julia --color=yes init.jl $LIBOPENFHE_JULIA_PATH
         # The following env setting is required until
         # https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071
