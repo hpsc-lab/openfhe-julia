@@ -102,7 +102,8 @@ jobs:
             -DWITH_BE2=ON \
             -DWITH_BE4=ON \
             -DBUILD_BENCHMARKS=OFF \
-            -DBUILD_UNITTESTS=OFF
+            -DBUILD_UNITTESTS=OFF \
+            -DCMAKE_CXX_FLAGS="-include cstdint"
           make -j 2
           make install
       - uses: actions/cache@v4
