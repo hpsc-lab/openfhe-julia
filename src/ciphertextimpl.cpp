@@ -46,6 +46,5 @@ void wrap_CiphertextImpl(jlcxx::Module& mod) {
         wrapped.module().method("CiphertextImpl__SerializedVersion", &WrappedT::SerializedVersion);
         wrapped.method("operator==", &WrappedT::operator==);
         wrapped.method("operator!=", &WrappedT::operator!=);
-      
       });
 }
