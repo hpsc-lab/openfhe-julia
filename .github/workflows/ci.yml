@@ -153,6 +153,11 @@ jobs:
         run: |
           cd test
           julia --color=yes init.jl $LIBOPENFHE_JULIA_PATH
+        # The following env setting is required until
+        # https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071
+        # is fixed
+        env:
+          LD_LIBRARY_PATH: ${{ github.workspace }}/openfhe-development/install/lib
       - name: Run basic Julia tests
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
