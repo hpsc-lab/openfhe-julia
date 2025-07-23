@@ -75,6 +75,6 @@ using Test
     # remaining for HE computation.
     ciphertext_after = MyOpenFHE.Compress(cc[], ciphertext, 1)
 
-    println("Number of levels remaining after bootstrapping: ", depth - MyOpenFHE.GetLevel(ciphertext_after[]))
+    println("Number of levels remaining: ", depth - MyOpenFHE.GetLevel(ciphertext_after[]))
     println()
 end
