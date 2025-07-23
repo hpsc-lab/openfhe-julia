@@ -55,6 +55,8 @@ using Test
     pubkey = MyOpenFHE.public_key(key_pair)
     privkey = MyOpenFHE.private_key(key_pair)
     MyOpenFHE.EvalMultKeyGen(cc[], privkey);
+    ring_dimension = MyOpenFHE.GetRingDimension(cc)
+    num_slots = div(ring_dimension,  2)
     MyOpenFHE.EvalBootstrapKeyGen(cc[], privkey, num_slots);
 
     x = [0.25, 0.5, 0.75, 1.0, 2.0, 3.0, 4.0, 5.0]
