@@ -182,7 +182,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("Compress",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
                         (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
-                        int) const>(&WrappedT::Compress));
+                        unsigned int) const>(&WrappedT::Compress));
       });
 
       // clear evaluation keys
