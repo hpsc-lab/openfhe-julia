@@ -24,7 +24,7 @@ using Test
     parameters = MyOpenFHE.CCParams{MyOpenFHE.CryptoContextCKKSRNS}()
 
     secret_key_distribution = MyOpenFHE.UNIFORM_TERNARY
-    SetSecretKeyDist(parameters, secret_key_distribution)
+    MyOpenFHE.SetSecretKeyDist(parameters, secret_key_distribution)
 
     MyOpenFHE.SetSecurityLevel(parameters, MyOpenFHE.HEStd_NotSet)
     MyOpenFHE.SetRingDim(parameters, 1 << 12)
