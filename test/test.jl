@@ -60,7 +60,9 @@ using Test
     encoded_length = length(x)
 
     # We start with a depleted ciphertext that has used up all of its levels.
-    ptxt = MyOpenFHE.MakeCKKSPackedPlaintext(cc[], MyOpenFHE.CxxWrap.StdVector(x), 1, 1)
+    ptxt = MyOpenFHE.MakeCKKSPackedPlaintext(cc[], MyOpenFHE.CxxWrap.StdVector(x), 1, 1,
+           MyOpenFHE.CxxWrap.StdLib.SharedPtr{MyOpenFHE.ILDCRTParams{MyOpenFHE.ubint{UInt64}}}(),
+           0)
 
     MyOpenFHE.SetLength(ptxt[], encoded_length)
     println("Input: ", ptxt)
