@@ -1,4 +1,4 @@
-using MyOpenFHE, CxxWrap
+using MyOpenFHE
 using Test
 
 @testset "MyOpenFHE" begin
@@ -40,7 +40,7 @@ using Test
     level_budget = [4, 4]
 
     levels_available_after_bootstrap = 10
-    depth = levels_available_after_bootstrap + MyOpenFHE.GetBootstrapDepth(CxxWrap.StdVector(UInt32.(level_budget)), secret_key_distribution)
+    depth = levels_available_after_bootstrap + MyOpenFHE.GetBootstrapDepth(MyOpenFHE.CxxWrap.StdVector(UInt32.(level_budget)), secret_key_distribution)
     MyOpenFHE.SetMultiplicativeDepth(parameters, depth)
 
     cc = MyOpenFHE.GenCryptoContext(parameters)
@@ -61,7 +61,7 @@ using Test
     encoded_length = length(x)
 
     # We start with a depleted ciphertext that has used up all of its levels.
-    ptxt = MyOpenFHE.MakeCKKSPackedPlaintext(cc[], CxxWrap.StdVector(x), 1, 1)
+    ptxt = MyOpenFHE.MakeCKKSPackedPlaintext(cc[], MyOpenFHE.CxxWrap.StdVector(x), 1, 1)
 
     MyOpenFHE.SetLength(ptxt[], encoded_length)
     println("Input: ", ptxt)
