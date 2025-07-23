@@ -24,12 +24,12 @@ using Test
     parameters = MyOpenFHE.CCParams{MyOpenFHE.CryptoContextCKKSRNS}()
 
     secret_key_distribution = MyOpenFHE.UNIFORM_TERNARY
-    SetSecretKeyDist(MyOpenFHE.parameters, MyOpenFHE.secret_key_distribution)
+    SetSecretKeyDist(parameters, secret_key_distribution)
 
     MyOpenFHE.SetSecurityLevel(parameters, MyOpenFHE.HEStd_NotSet)
     MyOpenFHE.SetRingDim(parameters, 1 << 12)
 
-    rescale_technique = FLEXIBLEAUTO
+    rescale_technique = MyOpenFHE.FLEXIBLEAUTO
     dcrt_bits = 59;
     first_modulus = 60;
 
