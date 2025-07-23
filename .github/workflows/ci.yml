@@ -104,7 +104,7 @@ jobs:
             -DBUILD_BENCHMARKS=OFF \
             -DBUILD_UNITTESTS=OFF \
             -DCMAKE_CXX_FLAGS="-include cstdint" # required for Windows builds
-          make -j 2
+          make -j 1
           make install
       - uses: actions/cache@v4
         id: cache-libcxxwrap-julia
