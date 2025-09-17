@@ -10,10 +10,15 @@
 
 #include "openfhe_julia/jlcxx_parameters.h"
 
+using lbcrypto::DCRTPoly;
+using lbcrypto::CryptoContext;
+
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
-  jlcxx::stl::apply_stl<lbcrypto::CryptoContext<lbcrypto::DCRTPoly>>(mod);
+  // TODO (GM): No idea which stl we actually need
+  jlcxx::stl::apply_vector<CryptoContext<DCRTPoly> >(mod);
+  jlcxx::stl::apply_set<CryptoContext<DCRTPoly> >(mod);
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextFactory")
-    .apply<lbcrypto::CryptoContextFactory<lbcrypto::DCRTPoly>>([](auto wrapped) {
+    .apply<lbcrypto::CryptoContextFactory<DCRTPoly>>([](auto wrapped) {
     typedef typename decltype(wrapped)::type WrappedT;
 
     wrapped.module().method("ReleaseAllContexts", &WrappedT::ReleaseAllContexts);
