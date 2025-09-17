@@ -189,7 +189,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
       typedef lbcrypto::CryptoContextImpl<lbcrypto::DCRTPoly> WrappedT;    
       mod.method("ClearEvalMultKeys", static_cast<void (*)()>(&WrappedT::ClearEvalMultKeys));
       mod.method("ClearEvalMultKeys",
-                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>)>(&WrappedT::ClearEvalMultKeys));
+                 static_cast<void (*)(const lbcrypto::CryptoContext<lbcrypto::DCRTPoly>&)>(&WrappedT::ClearEvalMultKeys));
       mod.method("ClearEvalMultKeys", static_cast<void (*)(const std::string&)>(&WrappedT::ClearEvalMultKeys));
       mod.method("ClearEvalSumKeys", static_cast<void (*)()>(&WrappedT::ClearEvalSumKeys));
       mod.method("ClearEvalSumKeys",
