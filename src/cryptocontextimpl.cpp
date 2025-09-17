@@ -39,31 +39,31 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         // Encrypt
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
-                        (WrappedT::*)(const lbcrypto::Plaintext&,
-                                      const lbcrypto::PublicKey<lbcrypto::DCRTPoly>) const>(&WrappedT::Encrypt));
+                        (WrappedT::*)(lbcrypto::ConstPlaintext&,
+                                      const lbcrypto::PublicKey<lbcrypto::DCRTPoly>&) const>(&WrappedT::Encrypt));
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
-                        (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>,
-                                      lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
+                        (WrappedT::*)(const lbcrypto::PublicKey<lbcrypto::DCRTPoly>&,
+                                      lbcrypto::ConstPlaintext&) const>(&WrappedT::Encrypt));
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
-                        (WrappedT::*)(const lbcrypto::Plaintext&,
-                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>) const>(&WrappedT::Encrypt));
+                        (WrappedT::*)(lbcrypto::ConstPlaintext&,
+                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>&) const>(&WrappedT::Encrypt));
         wrapped.method("Encrypt",
             static_cast<lbcrypto::Ciphertext<lbcrypto::DCRTPoly>
-                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
-                                      lbcrypto::Plaintext) const>(&WrappedT::Encrypt));
+                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>&,
+                                      lbcrypto::ConstPlaintext&) const>(&WrappedT::Encrypt));
 
         // Decrypt
         wrapped.method("Decrypt",
             static_cast<lbcrypto::DecryptResult
-                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
-                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
+                        (WrappedT::*)(lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>&,
+                                      const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>&,
                                       lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
         wrapped.method("Decrypt",
             static_cast<lbcrypto::DecryptResult
-                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>,
-                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>,
+                        (WrappedT::*)(const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>&,
+                                      lbcrypto::ConstCiphertext<lbcrypto::DCRTPoly>&,
                                       lbcrypto::Plaintext*)>(&WrappedT::Decrypt));
 
         // EvalNegate
