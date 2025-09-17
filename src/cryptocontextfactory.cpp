@@ -15,17 +15,24 @@ using lbcrypto::DCRTPoly;
 using lbcrypto::CryptoContext;
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
-  // TODO (GM): No idea which stl we actually need - commented out both because it does not work yet :(
-  // jlcxx::stl::apply_vector<CryptoContext<DCRTPoly> >(mod);
-  // jlcxx::stl::apply_set<CryptoContext<DCRTPoly> >(mod);
-  mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextFactory")
-    .apply<lbcrypto::CryptoContextFactory<DCRTPoly>>([](auto wrapped) {
-    typedef typename decltype(wrapped)::type WrappedT;
+    // TODO (GM): No idea which stl we actually need - commented out both because it does not work yet :(
+    // jlcxx::stl::apply_vector<CryptoContext<DCRTPoly> >(mod);
+    // jlcxx::stl::apply_set<CryptoContext<DCRTPoly> >(mod);
 
-    wrapped.module().method("ReleaseAllContexts", &WrappedT::ReleaseAllContexts);
-    wrapped.module().method("GetContextCount", &WrappedT::GetContextCount);
-    //wrapped.module().method("GetContext", &WrappedT::GetContext);
-    wrapped.module().method("GetFullContextByDeserializedContext", &WrappedT::GetFullContextByDeserializedContext);    
-    wrapped.module().method("GetAllContexts", &WrappedT::GetAllContexts);
-  });
+    using ContextVector = std::vector<CryptoContext<DCRTPoly>>;
+    jlcxx::stl::apply_vector<CryptoContext<DCRTPoly>>(mod);
+
+    mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextFactory")
+        .apply<lbcrypto::CryptoContextFactory<DCRTPoly>>([](auto wrapped) {
+                typedef typename decltype(wrapped)::type WrappedT;
+
+                wrapped.module().method("ReleaseAllContexts", &WrappedT::ReleaseAllContexts);
+                wrapped.module().method("GetContextCount", &WrappedT::GetContextCount);
+                //wrapped.module().method("GetContext", &WrappedT::GetContext);
+                wrapped.module().method("GetFullContextByDeserializedContext", &WrappedT::GetFullContextByDeserializedContext);
+
+                wrapped.module().method("GetAllContexts", [](WrappedT& factory) {
+                        return factory.GetAllContexts();
+                });
+        });
 }
