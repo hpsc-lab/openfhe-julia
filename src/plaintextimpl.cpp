@@ -16,8 +16,8 @@ void wrap_PlaintextImpl(jlcxx::Module& mod) {
     .method("IsEncoded", &lbcrypto::PlaintextImpl::IsEncoded)
     .method("GetEncodingParams", &lbcrypto::PlaintextImpl::GetEncodingParams)
     .method("Encode", &lbcrypto::PlaintextImpl::Encode)
-    // TODO (GM): Comment this back in!
-    // .method("Decode", &lbcrypto::PlaintextImpl::Decode)
+    .method("Decode",
+            static_cast<bool (lbcrypto::PlaintextImpl::*)()>(&lbcrypto::PlaintextImpl::Decode))
     .method("LowBound", &lbcrypto::PlaintextImpl::LowBound)
     .method("HighBound", &lbcrypto::PlaintextImpl::HighBound)
     // .method("SetFormat", &lbcrypto::PlaintextImpl::SetFormat)
