@@ -41,8 +41,6 @@ void wrap_PlaintextImpl(jlcxx::Module& mod) {
     .method("GetRealPackedValue", &lbcrypto::PlaintextImpl::GetRealPackedValue)
     // .method("SetStringValue", &lbcrypto::PlaintextImpl::SetStringValue)
     // .method("SetIntVectorValue", &lbcrypto::PlaintextImpl::SetIntVectorValue)
-    // CompareTo is protected within openfhe-development
-    // .method("CompareTo", &lbcrypto::PlaintextImpl::CompareTo)
     .method("operator==", &lbcrypto::PlaintextImpl::operator==)
     .method("operator!=", &lbcrypto::PlaintextImpl::operator!=);
     // .method("PrintValue", &lbcrypto::PlaintextImpl::PrintValue);
