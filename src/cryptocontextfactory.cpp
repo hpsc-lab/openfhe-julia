@@ -15,10 +15,6 @@ using lbcrypto::DCRTPoly;
 using lbcrypto::CryptoContext;
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
-    // TODO (GM): No idea which stl we actually need - commented out both because it does not work yet :(
-    // jlcxx::stl::apply_vector<CryptoContext<DCRTPoly> >(mod);
-    // jlcxx::stl::apply_set<CryptoContext<DCRTPoly> >(mod);
-
     using ContextVector = std::vector<CryptoContext<DCRTPoly>>;
     jlcxx::stl::apply_vector<CryptoContext<DCRTPoly>>(mod);
 
