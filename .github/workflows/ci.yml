@@ -26,8 +26,9 @@ env:
   # Modify these variables for upstream package versions - do NOT hardcode the version
   # anywhere else!
   OPENFHE_VERSION: '1.4.0'
-  LIBCXXWRAP_JULIA_VERSION: '0.13.0'
-  FORCE_CXXWRAP_JL_VERSION: '0.16' # Use only briefly during transition (default: '')
+  # 0.14.4  libcxxwrap is the version matching with 0.17.3 cxxwrap.jl
+  LIBCXXWRAP_JULIA_VERSION: '0.14.4'
+  FORCE_CXXWRAP_JL_VERSION: '0.17.3'  # Use only briefly during transition (default: '')
 
 jobs:
   test:
