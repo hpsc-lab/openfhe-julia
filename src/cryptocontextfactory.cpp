@@ -11,7 +11,6 @@
 #include "openfhe_julia/jlcxx_parameters.h"
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
-  jlcxx::stl::apply_stl<lbcrypto::CryptoContext<lbcrypto::DCRTPoly>>(mod);
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextFactory")
     .apply<lbcrypto::CryptoContextFactory<lbcrypto::DCRTPoly>>([](auto wrapped) {
     typedef typename decltype(wrapped)::type WrappedT;
