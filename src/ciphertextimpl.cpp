@@ -39,8 +39,6 @@ void wrap_CiphertextImpl(jlcxx::Module& mod) {
         // wrapped.method("GetMetadataByKey", &WrappedT::GetMetadataByKey);
         // wrapped.method("SetMetadataByKey", &WrappedT::SetMetadataByKey);
         wrapped.method("Clone", &WrappedT::Clone);
-        // TODO (GM): Is it wise to replace CloneZero with CloneEmpty?
-        // wrapped.method("CloneZero", &WrappedT::CloneZero);
         wrapped.method("CloneEmpty", &WrappedT::CloneEmpty);
         // wrapped.method("save", &WrappedT::save);
         // wrapped.method("load", &WrappedT::load);
