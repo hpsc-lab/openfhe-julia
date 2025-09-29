@@ -5,8 +5,8 @@
 #undef JLCXX_HAS_RANGES
 
 #include "jlcxx/stl.hpp"
-
 #include "openfhe.h"
+
 #include "openfhe_julia/jlcxx_parameters.h"
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
