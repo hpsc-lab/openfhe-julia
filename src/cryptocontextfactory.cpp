@@ -1,9 +1,8 @@
 #include "jlcxx/jlcxx.hpp"
 
-// Required until https://github.com/JuliaInterop/CxxWrap.jl/issues/455 has been solved
-#ifdef __APPLE__
-    #undef JLCXX_HAS_RANGES
-#endif
+// Workaround: disable ranges usage in jlcxx until libstdc++ ambiguity is resolved
+//  Not disabling this will result in an error when loading "jlcxx/stl.hpp"
+#undef JLCXX_HAS_RANGES
 
 #include "jlcxx/stl.hpp"
 #include "openfhe.h"
@@ -11,7 +10,6 @@
 #include "openfhe_julia/jlcxx_parameters.h"
 
 void wrap_CryptoContextFactory(jlcxx::Module& mod) {
-  jlcxx::stl::apply_stl<lbcrypto::CryptoContext<lbcrypto::DCRTPoly>>(mod);
   mod.add_type<jlcxx::Parametric<jlcxx::TypeVar<1>>>("CryptoContextFactory")
     .apply<lbcrypto::CryptoContextFactory<lbcrypto::DCRTPoly>>([](auto wrapped) {
     typedef typename decltype(wrapped)::type WrappedT;
