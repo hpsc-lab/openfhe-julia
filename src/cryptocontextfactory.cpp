@@ -1,7 +1,8 @@
 #include "jlcxx/jlcxx.hpp"
 
-// Workaround: disable ranges usage in jlcxx until libstdc++ ambiguity is resolved
-//  Not disabling this will result in an error when loading "jlcxx/stl.hpp"
+// Workaround: disabled ranges usage in jlcxx because of an ambiguity with libstdc++.
+// Not disabling will result in an error when loading "jlcxx/stl.hpp",
+// the issue: https://github.com/hpsc-lab/openfhe-julia/pull/101#discussion_r2414278271
 #undef JLCXX_HAS_RANGES
 
 #include "jlcxx/stl.hpp"
