@@ -16,7 +16,8 @@ void wrap_PlaintextImpl(jlcxx::Module& mod) {
     .method("IsEncoded", &lbcrypto::PlaintextImpl::IsEncoded)
     .method("GetEncodingParams", &lbcrypto::PlaintextImpl::GetEncodingParams)
     .method("Encode", &lbcrypto::PlaintextImpl::Encode)
-    .method("Decode", &lbcrypto::PlaintextImpl::Decode)
+    .method("Decode",
+            static_cast<bool (lbcrypto::PlaintextImpl::*)()>(&lbcrypto::PlaintextImpl::Decode))
     .method("LowBound", &lbcrypto::PlaintextImpl::LowBound)
     .method("HighBound", &lbcrypto::PlaintextImpl::HighBound)
     // .method("SetFormat", &lbcrypto::PlaintextImpl::SetFormat)
@@ -40,7 +41,6 @@ void wrap_PlaintextImpl(jlcxx::Module& mod) {
     .method("GetRealPackedValue", &lbcrypto::PlaintextImpl::GetRealPackedValue)
     // .method("SetStringValue", &lbcrypto::PlaintextImpl::SetStringValue)
     // .method("SetIntVectorValue", &lbcrypto::PlaintextImpl::SetIntVectorValue)
-    .method("CompareTo", &lbcrypto::PlaintextImpl::CompareTo)
     .method("operator==", &lbcrypto::PlaintextImpl::operator==)
     .method("operator!=", &lbcrypto::PlaintextImpl::operator!=);
     // .method("PrintValue", &lbcrypto::PlaintextImpl::PrintValue);
