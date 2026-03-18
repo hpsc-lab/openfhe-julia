@@ -98,7 +98,7 @@ void wrap_NOISE_FLOODING(jlcxx::Module& mod) {
 }
 
 void wrap_COMPRESSION_LEVEL(jlcxx::Module& mod) {
-  mod.add_bits<lbcrypto::COMPRESSION_LEVEL>("COMPRESSION_LEVEL", jlcxx::julia_type("CppEnum"));
+  mod.add_bits<lbcrypto::CompressionLevel>("COMPRESSION_LEVEL", jlcxx::julia_type("CppEnum"));
   mod.set_const("COMPACT", lbcrypto::COMPACT);
   mod.set_const("SLACK", lbcrypto::SLACK);
 }
