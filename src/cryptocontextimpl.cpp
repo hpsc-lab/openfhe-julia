@@ -186,7 +186,11 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("EvalLogistic", &WrappedT::EvalSin);
         wrapped.method("EvalDivide", &WrappedT::EvalDivide);
 
-        wrapped.method("EvalSumKeyGen", &WrappedT::EvalSumKeyGen);
+        wrapped.method("EvalSumKeyGen", [](WrappedT& self,
+                const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>& privateKey,
+                [[maybe_unused]] const lbcrypto::PublicKey<lbcrypto::DCRTPoly>& publicKey){
+                self.EvalSumKeyGen(privateKey);
+        });
         wrapped.method("EvalSum", &WrappedT::EvalSum);
 
         wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
