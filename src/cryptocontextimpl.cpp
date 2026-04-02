@@ -194,6 +194,15 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("EvalSum", &WrappedT::EvalSum);
 
         wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
+        // Backward-compatible overload without BTSlotsEncoding (defaults to false)
+        wrapped.method("EvalBootstrapSetup", [](WrappedT& self,
+                std::vector<uint32_t> levelBudget,
+                std::vector<uint32_t> dim1,
+                uint32_t slots,
+                uint32_t correctionFactor,
+                bool precompute) {
+            self.EvalBootstrapSetup(levelBudget, dim1, slots, correctionFactor, precompute, false);
+        });
         wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
         wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
 
