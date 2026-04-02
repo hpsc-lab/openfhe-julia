@@ -159,15 +159,8 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
         wrapped.method("RelinearizeInPlace", &WrappedT::RelinearizeInPlace);
 
         wrapped.method("EvalRotate", &WrappedT::EvalRotate);
-
-        // 2-argument version (new API)
-        wrapped.method("EvalRotateKeyGen", [](WrappedT& self,
-                const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>& privateKey,
-                const std::vector<int32_t>& indexList) {
-                self.EvalRotateKeyGen(privateKey, indexList);
-            });
-
-        // 3-argument version (backward-compatible)
+        wrapped.method("EvalRotateKeyGen", &WrappedT::EvalRotateKeyGen);
+        // Backward-compatible overload with publicKey
         wrapped.method("EvalRotateKeyGen", [](WrappedT& self,
                 const lbcrypto::PrivateKey<lbcrypto::DCRTPoly>& privateKey,
                 const std::vector<int32_t>& indexList,
