@@ -16,12 +16,11 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
 1. Locally build and install [OpenFHE](https://github.com/openfheorg/openfhe-development).
    For example on Linux:
    ```shell
-   git clone git@github.com:openfheorg/openfhe-development.git
+   git clone https://github.com/openfheorg/openfhe-development.git
    cd openfhe-development
    mkdir build && cd build
    cmake .. -DCMAKE_INSTALL_PREFIX=../install \
-       -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF \
-       -DLIBINSTALL="$(dirname $(pwd))/install/lib"
+       -DBUILD_BENCHMARKS=OFF -DBUILD_UNITTESTS=OFF
    make -j 4
    make install
    ```
@@ -30,14 +29,11 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
    include the benchmarks and/or unit tests, you can enable them again by removing the
    respective flag that disables them.
 
-   Note: The argument `-DLIBINSTALL=...` may be removed once
-   [this issue](https://openfhe.discourse.group/t/bug-in-rpath-runpath-specification-in-cmakelists-txt/1071)
-   has been resolved upstream.
 2. Locally build and install
    [`libcxxwrap-julia`](https://github.com/JuliaInterop/libcxxwrap-julia). For example on
    Linux:
    ```shell
-   git clone git@github.com:JuliaInterop/libcxxwrap-julia.git
+   git clone https://github.com/JuliaInterop/libcxxwrap-julia.git
    cd libcxxwrap-julia
    git checkout v0.11.2
    mkdir build && cd build
@@ -52,7 +48,7 @@ Julia. If you just want to use OpenFHE in Julia, please have a look at
    for further information).
 3. Clone this repository:
    ```shell
-   git clone git@github.com:hpsc-lab/openfhe-julia.git
+   git clone https://github.com/hpsc-lab/openfhe-julia.git
    ```
 4. Create a build directory and switch to it. Then call CMake with the `CMAKE_PREFIX_PATH`
    set to a colon-separated list of install prefixes for the dependencies, e.g.:
