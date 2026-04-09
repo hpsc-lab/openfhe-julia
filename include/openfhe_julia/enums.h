@@ -27,7 +27,7 @@ void wrap_LargeScalingFactorConstants(jlcxx::Module& mod);
 
 void wrap_NOISE_FLOODING(jlcxx::Module& mod);
 
-void wrap_COMPRESSION_LEVEL(jlcxx::Module& mod);
+void wrap_CompressionLevel(jlcxx::Module& mod);
 
 void wrap_SecretKeyDist(jlcxx::Module& mod);
 

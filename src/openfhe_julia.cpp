@@ -43,7 +43,7 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_PlaintextEncodings(mod);
   wrap_LargeScalingFactorConstants(mod);
   wrap_NOISE_FLOODING(mod);
-  wrap_COMPRESSION_LEVEL(mod);
+  wrap_CompressionLevel(mod);
   wrap_SecretKeyDist(mod);
   wrap_DistributionType(mod);
   wrap_SecurityLevel(mod);
