@@ -79,6 +79,7 @@ add_library(openfhe_julia SHARED
   ${CMAKE_SOURCE_DIR}/src/params.cpp
   ${CMAKE_SOURCE_DIR}/src/ccparams.cpp
   ${CMAKE_SOURCE_DIR}/src/serializable.cpp
+  ${CMAKE_SOURCE_DIR}/src/serial.cpp
   ${CMAKE_SOURCE_DIR}/src/dcrtpoly.cpp
   ${CMAKE_SOURCE_DIR}/src/privatekeyimpl.cpp
   ${CMAKE_SOURCE_DIR}/src/publickeyimpl.cpp
