@@ -65,6 +65,7 @@ OpenFHE-julia, you should also update the corresponding build recipe in the
      obtained (e.g.,
      [here](https://github.com/JuliaPackaging/Yggdrasil/blob/414237372f5bac40fc3cd8045727def18388a1d7/O/openfhe_julia/build_tarballs.jl#L16)
      the hash was `f6d693d3c01a11eea6524e16022a017ed1ff6faa`)
+   * If the new OpenFHE-julia release coincides with a new release of OpenFHE-development (i.e. OpenFHE-development had breaking changes / introduced new features we adopted), update the compatibility bounds. See [OpenFHE compatibility](#openfhe-compatibility).
 3) Commit and push the changes to your fork.
 4) Create a pull request from your fork's branch to Yggdrasil's `master` branch and name it
    appropriately (e.g., `[openfhe_julia] update to version v0.2.5`)
@@ -77,3 +78,15 @@ OpenFHE-julia, you should also update the corresponding build recipe in the
    [openfhe\_julia\_jll.jl package repository](https://github.com/JuliaBinaryWrappers/openfhe_julia_jll.jl)
    and create a PR to Julia's general registry with the new version. Once all checks pass
    there and a grace period of 15 minutes has passed, the new release will be available.
+
+
+## OpenFHE compatibility
+We cannot rule out that OpenFHE-development introduces breaking changes even in patch releases. Thus, we have to set specific upper and lower bounds in the compatibility with [Hyphen Specifiers](https://pkgdocs.julialang.org/v1/compatibility/#Hyphen-specifiers).
+   * If a new OpenFHE-development release **did not** introduce any breaking changes, i.e. it is compatible with the current version of OpenFHE-julia, set the new upper bound to the version number of the new release and leave the lower bound as is.
+   * If a new OpenFHE-development release **did** introduce breaking changes, set the lower and upper bound both to the version number of the new release.
+
+The Julia General registry does not allow updating compatibility bounds without changing the version number[^julia-registry-bounds]. Thus we also have to bump the version of OpenFHE-julia with each OpenFHE-development release. We release a new patch version if the OpenFHE-development release did not introduce breaking changes. If it did, we release a new minor version of OpenFHE-julia, including necessary code changes for compatibility with the new version of OpenFHE-development.
+
+For the original discussion on this topic see https://github.com/hpsc-lab/SecureArithmetic.jl/issues/102.
+
+[^julia-registry-bounds]: See https://github.com/JuliaPackaging/Yggdrasil/blob/master/CONTRIBUTING.md#changing-compat-bounds-of-a-package
