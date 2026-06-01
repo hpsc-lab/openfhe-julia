@@ -11,6 +11,23 @@ void wrap_SerType(jlcxx::Module& mod) {
 
 void wrap_Serial(jlcxx::Module& mod) {
   // Source: <OpenFHE>/src/core/include/utils/serial.h
+  //
+  // The serialization functions are function templates, so we use lambdas to force instantiation
+  // (the call in the lambda body deduces T). An alternative is explicit
+  // template arguments, as done for GenCryptoContext in cryptocontextimpl.cpp:
+  //
+  //   mod.method("SerializeToFile", &lbcrypto::Serial::SerializeToFile<CT>);
+  //
+  // However, SerializeToFile is overloaded on the SerType parameter (SERBINARY
+  // vs SERJSON), so the above is ambiguous — you'd also need a static_cast to
+  // pick the right overload. The full working alternative would be:
+  //
+  //   mod.method("SerializeToFile",
+  //       static_cast<bool (*)(const std::string&, const CT&,
+  //                            const lbcrypto::SerType::SERBINARY&)>(
+  //           &lbcrypto::Serial::SerializeToFile<CT>));
+  //
+  // The lambda avoids both problems at once and is less obscure.
   using DCRTPoly    = lbcrypto::DCRTPoly;
   using CC          = lbcrypto::CryptoContext<DCRTPoly>;
   using CT          = lbcrypto::Ciphertext<DCRTPoly>;
