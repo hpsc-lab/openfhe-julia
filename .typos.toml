@@ -1,0 +1,4 @@
+[default.extend-words]
+SERJSON = "SERJSON"
+SERBINARY = "SERBINARY"
+SerBin = "SerBin"
