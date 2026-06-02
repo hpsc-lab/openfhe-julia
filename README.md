@@ -92,7 +92,6 @@ Further contributions to OpenFHE-julia have been made by the following people:
 * [Tom Finke](https://www.github.com/Tom-Finke) (University of Augsburg, Germany)
 
 
-
 ## License and contributing
 OpenFHE-julia is available under the BSD 2-Clause license (see [LICENSE.md](LICENSE.md)).
 [OpenFHE](https://github.com/openfheorg/openfhe-development) itself is also available under
