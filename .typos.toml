@@ -1,4 +1,6 @@
 [default.extend-words]
-SERJSON = "SERJSON"
 SERBINARY = "SERBINARY"
+SERJSON = "SERJSON"
 SerBin = "SerBin"
+SerJSON = "SerJSON"
+SerType = "SerType"
