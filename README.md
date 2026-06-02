@@ -89,6 +89,7 @@ OpenFHE-julia was initiated by [Michael Schlottke-Lakemper](https://www.uni-augs
 Further contributions to OpenFHE-julia have been made by the following people:
 * [Arseniy Kholod](https://www.github.com/ArseniyKholod) (RWTH Aachen University, Germany)
 * [Max Grübmeyer](https://www.github.com/MaxGruebmeyer) (University of Augsburg, Germany)
+* [Tom Finke](https://www.github.com/Tom-Finke) (University of Augsburg, Germany)
 
 
 ## License and contributing
