@@ -14,6 +14,7 @@
 #include "openfhe_julia/params.h"
 #include "openfhe_julia/ccparams.h"
 #include "openfhe_julia/serializable.h"
+#include "openfhe_julia/serial.h"
 #include "openfhe_julia/dcrtpoly.h"
 #include "openfhe_julia/privatekeyimpl.h"
 #include "openfhe_julia/publickeyimpl.h"
@@ -71,6 +72,8 @@ JLCXX_MODULE define_julia_module(jlcxx::Module& mod) {
   wrap_DecryptResult(mod);
   wrap_ILDCRTParams(mod);
   wrap_CryptoContextImpl(mod);
+  wrap_SerType(mod);
+  wrap_Serial(mod);
   wrap_CryptoContextFactory(mod);
   wrap_CryptoContextProxy_methods(CryptoContextProxy_type);
 

@@ -2,12 +2,15 @@
 #define OPENFHE_JULIA_JLCXX_PARAMETERS_H_
 
 #include "jlcxx/jlcxx.hpp"
+#include "utils/sertype.h"
 
 namespace jlcxx
 {
   template<> struct IsMirroredType<lbcrypto::CryptoContextBFVRNS> : std::false_type { };
   template<> struct IsMirroredType<lbcrypto::CryptoContextBGVRNS> : std::false_type { };
   template<> struct IsMirroredType<lbcrypto::CryptoContextCKKSRNS> : std::false_type { };
+  template<> struct IsMirroredType<lbcrypto::SerType::SERJSON> : std::false_type { };
+  template<> struct IsMirroredType<lbcrypto::SerType::SERBINARY> : std::false_type { };
   template<> struct SuperType<lbcrypto::CCParams<lbcrypto::CryptoContextBFVRNS>> { typedef lbcrypto::Params type; };
   template<> struct SuperType<lbcrypto::CCParams<lbcrypto::CryptoContextBGVRNS>> { typedef lbcrypto::Params type; };
   template<> struct SuperType<lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS>> { typedef lbcrypto::Params type; };
