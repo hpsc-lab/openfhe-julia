@@ -75,7 +75,6 @@ void wrap_Serial(jlcxx::Module& mod) {
   // stored in static maps inside CryptoContextImpl, separate from the
   // CryptoContext itself.  SerializeToString/DeserializeFromString do not
   // cover them — they need their own serialize/deserialize path.
-
   mod.method("SerializeEvalMultKeyToString", [](const CC& cc) -> std::string {
     std::ostringstream oss;
     if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, SerBin{}, cc)){
