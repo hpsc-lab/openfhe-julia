@@ -78,9 +78,11 @@ void wrap_Serial(jlcxx::Module& mod) {
 
   mod.method("SerializeEvalMultKeyToString", [](const CC& cc) -> std::string {
     std::ostringstream oss;
-    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, SerBin{}, cc))
+    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, SerBin{}, cc)){
       return "";
-    return oss.str();
+    } else {
+      return oss.str();
+    }
   });
 
   // We reimplement DeserializeEvalMultKey rather than calling
@@ -96,17 +98,20 @@ void wrap_Serial(jlcxx::Module& mod) {
     lbcrypto::Serial::Deserialize(omap, iss, SerBin{});
     const auto& existing = lbcrypto::CryptoContextImpl<DCRTPoly>::GetAllEvalMultKeys();
     for (auto& [tag, vec] : omap) {
-      if (existing.find(tag) == existing.end()) // tag not present 
+      if (existing.find(tag) == existing.end()){  // tag not present 
         lbcrypto::CryptoContextImpl<DCRTPoly>::InsertEvalMultKey(vec, tag);
+      }
     }
     return true;
   });
 
   mod.method("SerializeEvalAutomorphismKeyToString", [](const CC& cc) -> std::string {
     std::ostringstream oss;
-    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, SerBin{}, cc))
+    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, SerBin{}, cc)){
       return "";
-    return oss.str();
+    } else {
+      return oss.str();
+    }
   });
 
   // Same idempotent approach as DeserializeEvalMultKeyFromString above —
@@ -117,8 +122,9 @@ void wrap_Serial(jlcxx::Module& mod) {
     lbcrypto::Serial::Deserialize(keyMap, iss, SerBin{});
     const auto& existing = lbcrypto::CryptoContextImpl<DCRTPoly>::GetAllEvalAutomorphismKeys();
     for (auto& [tag, mapPtr] : keyMap) {
-      if (existing.find(tag) == existing.end())
+      if (existing.find(tag) == existing.end()){
         lbcrypto::CryptoContextImpl<DCRTPoly>::InsertEvalAutomorphismKey(mapPtr, tag);
+      }
     }
     return true;
   });
