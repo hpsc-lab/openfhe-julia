@@ -1,6 +1,11 @@
 #include "jlcxx/jlcxx.hpp"
 #include "openfhe.h"
+#include "ciphertext-ser.h"
 #include "cryptocontext-ser.h"
+#include "key/key-ser.h"
+#include "scheme/bfvrns/bfvrns-ser.h"
+#include "scheme/bgvrns/bgvrns-ser.h"
+#include "scheme/ckksrns/ckksrns-ser.h"
 
 #include "openfhe_julia/jlcxx_parameters.h"
 
@@ -62,6 +67,65 @@ void wrap_Serial(jlcxx::Module& mod) {
   });
   mod.method("DeserializeFromString", [](SK& obj, const std::string& json) {
     lbcrypto::Serial::DeserializeFromString(obj, json);
+  });
+
+  // ── EvalKey serialization (eval mult + automorphism keys) ─────────────────
+  //
+  // Eval keys (multiplication/relinearization and automorphism/rotation) are
+  // stored in static maps inside CryptoContextImpl, separate from the
+  // CryptoContext itself.  SerializeToString/DeserializeFromString do not
+  // cover them — they need their own serialize/deserialize path.
+  mod.method("SerializeEvalMultKeyToString", [](const CC& cc) -> std::string {
+    std::ostringstream oss;
+    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalMultKey(oss, SerBin{}, cc)){
+      return "";
+    } else {
+      return oss.str();
+    }
+  });
+
+  // We reimplement DeserializeEvalMultKey rather than calling
+  // CryptoContextImpl::DeserializeEvalMultKey directly because the upstream
+  // InsertEvalMultKey throws when keys for a given tag already exist.
+  // In downstream SecureArithmetic, the same SecureContext is serialized redundantly. 
+  // Once standalone and once embedded in every SecureArray, PublicKey, etc.  
+  // So the same eval keys are deserialized multiple times in one session.
+  // We skip tags that are already present to make deserialization idempotent.
+  mod.method("DeserializeEvalMultKeyFromString", [](const std::string& data) -> bool {
+    std::istringstream iss(data);
+    std::map<std::string, std::vector<lbcrypto::EvalKey<DCRTPoly>>> omap;
+    lbcrypto::Serial::Deserialize(omap, iss, SerBin{});
+    const auto& existing = lbcrypto::CryptoContextImpl<DCRTPoly>::GetAllEvalMultKeys();
+    for (auto& [tag, vec] : omap) {
+      if (existing.find(tag) == existing.end()){  // tag not present 
+        lbcrypto::CryptoContextImpl<DCRTPoly>::InsertEvalMultKey(vec, tag);
+      }
+    }
+    return true;
+  });
+
+  mod.method("SerializeEvalAutomorphismKeyToString", [](const CC& cc) -> std::string {
+    std::ostringstream oss;
+    if (!lbcrypto::CryptoContextImpl<DCRTPoly>::SerializeEvalAutomorphismKey(oss, SerBin{}, cc)){
+      return "";
+    } else {
+      return oss.str();
+    }
+  });
+
+  // Same idempotent approach as DeserializeEvalMultKeyFromString above —
+  // skip tags that already have entries in the global automorphism key map.
+  mod.method("DeserializeEvalAutomorphismKeyFromString", [](const std::string& data) -> bool {
+    std::istringstream iss(data);
+    std::map<std::string, std::shared_ptr<std::map<uint32_t, lbcrypto::EvalKey<DCRTPoly>>>> keyMap;
+    lbcrypto::Serial::Deserialize(keyMap, iss, SerBin{});
+    const auto& existing = lbcrypto::CryptoContextImpl<DCRTPoly>::GetAllEvalAutomorphismKeys();
+    for (auto& [tag, mapPtr] : keyMap) {
+      if (existing.find(tag) == existing.end()){
+        lbcrypto::CryptoContextImpl<DCRTPoly>::InsertEvalAutomorphismKey(mapPtr, tag);
+      }
+    }
+    return true;
   });
 
   // ── SerializeToFile / DeserializeFromFile (BINARY) ────────────────────────

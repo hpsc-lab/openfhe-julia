@@ -177,6 +177,7 @@ void wrap_CryptoContextImpl(jlcxx::Module& mod) {
 
         wrapped.method("EvalBootstrapSetup", &WrappedT::EvalBootstrapSetup);
         wrapped.method("EvalBootstrapKeyGen", &WrappedT::EvalBootstrapKeyGen);
+        wrapped.method("EvalBootstrapPrecompute", &WrappedT::EvalBootstrapPrecompute);
         wrapped.method("EvalBootstrap", &WrappedT::EvalBootstrap);
 
         wrapped.method("Compress",
